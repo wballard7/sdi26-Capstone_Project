@@ -6,11 +6,16 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev.sqlite3'
-    }
+    client: 'pg',
+    connection:'postgres://postgres:docker@localhost:5432/unit_tracker_db',
+    port: 5432,
+    migrations: {
+      directory: './migrations',
+      },
+    seeds: {
+      directory: './seeds',
   },
+},
 
   staging: {
     client: 'postgresql',
