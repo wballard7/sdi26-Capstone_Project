@@ -1,41 +1,52 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react';
 
 const UserContext = createContext({
   id: '',
   username: '',
   first_name: '',
   last_name: '',
+  supervisor_id: '',
   parent_unit_id: '',
-  avaiable: false,
+  available: false,
   admin: false,
   supervisor: false,
   loggedIn: false,
+  org: {
+    org_id: '',
+    org_name: '',
+    reports_to: '',
+  },
   setUser: () => {},
-
-})
-
+  setOrg: () => {},
+});
 
 const UserProvider = ({ children }) => {
-  const [ user, setUser] = useState({
+  const [user, setUser] = useState({
     id: '',
     username: '',
     first_name: '',
     last_name: '',
+    supervisor_id: '',
     parent_unit_id: '',
-    avaiable: false,
+    available: false,
     admin: false,
     supervisor: false,
-  })
+    loggedIn: false,
+    org: {
+      org_id: '',
+      org_name: '',
+      higher_unit_id: '',
+    },
+  });
 
-  return (
-    <UserContext.Provider value={{ ...user, setUser }}>
-      { children }
-    </UserContext.Provider>
-  )
+  const setOrg = (orgDetails) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      org: { ...prevUser.org, ...orgDetails },
+    }));
+  };
 
-}
+  return <UserContext.Provider value={{ ...user, setUser, setOrg }}>{children}</UserContext.Provider>;
+};
 
-
-
-export {UserProvider}
-export {UserContext}
+export { UserProvider, UserContext };
