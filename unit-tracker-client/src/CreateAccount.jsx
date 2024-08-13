@@ -1,89 +1,97 @@
-import React, { useState } from 'react'
-import { postFetch } from './utils/Fetches'
+import React, { useState } from 'react';
+import { postFetch } from './utils/Fetches';
 import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { Toast } from 'primereact/toast';
-
 
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
   const [userDetails, setUserDetails] = useState({
     username: '',
+    password: '',
     first_name: '',
     last_name: '',
     parent_unit_id: '',
-  })
+  });
   const [orgDetails, setOrgDetails] = useState({
-    username: '',
-    first_name: '',
-    last_name: '',
-    parent_unit_id: '',
-  })
+    name: '',
+    levels: 1,
+  });
 
-  const handleCreateAccount = async (userdetails) => {
-    await postFetch(`https://users/ `, userdetails)
-    return
-  }
+  const handleCreateAccount = async () => {
+    await postFetch(`https://users/`, userDetails);
+  };
 
-  const handleAcctChange =(e) => {
+  const handleCreateOrg = async () => {
+    await postFetch(`https://org/`, orgDetails);
+  };
+
+  const handleChange = (e, setter) => {
     const { name, value } = e.target;
-    setUserDetails({
-      ...userDetails,
+    setter((prev) => ({
+      ...prev,
       [name]: value,
-    })
-  }
-
-  const handleCreateOrg = async (orgDetails) => {
-    await postFetch(`https://org/ `, orgDetails)
-    return
-  }
-
-  const handleOrgChange =(e) => {
-    const { name, value } = e.target;
-    setUserDetails({
-      ...orgDetails,
-      [name]: value,
-    })
-  }
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await handleCreateAccount(userDetails)
-    await handleCreateOrg(orgDetails)
-  }
+    e.preventDefault();
+    await handleCreateAccount();
+    if (newOrg) {
+      await handleCreateOrg();
+    }
+  };
 
-
+  const toggleNewOrg = () => {
+    setNewOrg((prev) => !prev);
+  };
 
   return (
-
-
     <>
-      {newOrg === true ? (
-        <>
-        <h1>Account Information</h1>
-        <InputText type="text" name="username" value={userDetails.username} onChange={handleAcctChange} placeholder="username" />
-        <Password  name="password" value={userDetails.password} onChange={handleAcctChange} placeholder="password" />
-        <InputText type="text" name="first_name" value={userDetails.first_name} onChange={handleAcctChange} placeholder="First Name" />
-        <InputText type="text" name="last_name" value={userDetails.last_name} onChange={handleAcctChange} placeholder="last Name" />
-        <h1>New Organization Information</h1>
+      <h1>Account Information</h1>
+      <InputText
+        type="text"
+        name="username"
+        value={userDetails.username}
+        onChange={(e) => handleChange(e, setUserDetails)}
+        placeholder="Username"
+      />
+      <Password
+        name="password"
+        value={userDetails.password}
+        onChange={(e) => handleChange(e, setUserDetails)}
+        placeholder="Password"
+      />
+      <InputText
+        type="text"
+        name="first_name"
+        value={userDetails.first_name}
+        onChange={(e) => handleChange(e, setUserDetails)}
+        placeholder="First Name"
+      />
+      <InputText
+        type="text"
+        name="last_name"
+        value={userDetails.last_name}
+        onChange={(e) => handleChange(e, setUserDetails)}
+        placeholder="Last Name"
+      />
 
-        <Button type="submit" onClick={handleSubmit}/>
-        </>
-      ) : (
+      {newOrg && (
         <>
-        <h1>Account Information</h1>
-        <InputText type="text" name="username" value={orgDetails.username} onChange={handleAcctChange} placeholder="username" />
-        <Password  name="password" value={orgDetails.password} onChange={handleAcctChange} placeholder="password" />
-        <InputText type="text" name="first_name" value={orgDetails.first_name} onChange={handleAcctChange} placeholder="First Name" />
-        <InputText type="text" name="last_name" value={orgDetails.last_name} onChange={handleAcctChange} placeholder="last Name" />
-        <Button label="Create Account and Organization" onclick={() =>setNewOrg(true)}/>
-        <Button type="submit" onClick={handleSubmit} label="submit"/>
+          <h2>New Organization Information</h2>
+          <p>
+            {`The number of levels you want your organization to have, e.g., parent org (your level) -> child org ->
+            grandchild org = 3 levels`}
+          </p>
         </>
       )}
 
+      <Button
+        label={newOrg ? 'Submit Admin Account Creation and Organization' : 'Create Account'}
+        onClick={handleSubmit}
+      />
+      <Button label={newOrg ? 'Back to Account Creation' : 'Create New Organization'} onClick={toggleNewOrg} />
     </>
-  )
-}
-
+  );
+};
