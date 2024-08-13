@@ -32,12 +32,12 @@ async function update(id, data) {
   return updatadItem;
 }
 
-module.exports = {
-  all,
-  get,
-  getByUserId,
+// module.exports = {
+//   all,
+//   get,
+//   getByUserId,
 
-  create,
-  remove,
-  update,
-};
+//   create,
+//   remove,
+//   update,
+// };
