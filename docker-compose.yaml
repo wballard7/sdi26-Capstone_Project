@@ -1,0 +1,69 @@
+services:
+  db:
+    container_name: pg-docker
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=unit_tracker_db
+      - DOCKER_ENV=true #testing this
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - management_network
+
+  api:
+    build: ./api-server
+    container_name: api
+    ports:
+      - "8080:8080"
+    networks:
+      - inventory_network
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    volumes:
+      - type: bind
+        source: ./api-server
+        target: /src
+    command: npm run dev
+
+  client:
+    build:
+      context: ./unit-tracker-client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - "3000:3000"
+    networks:
+      - management_network
+    depends_on:
+      - api
+    volumes:
+      - type: bind
+        source: ./unit-tracker-client
+        target: ${CLIENT_DIR}
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CLIENT_DIR=${CLIENT_DIR}
+
+# networks:
+#   inventory_network:
+#     driver: bridge
+networks:
+  management_network:
+    driver: bridge
+    external: false
+
+volumes:
+  db_data:

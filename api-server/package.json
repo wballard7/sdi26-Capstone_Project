@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": " knex migrate:rollback --all && knex migrate:latest && knex seed:run && nodemon --watch ./ ./index.js && nodemon ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
