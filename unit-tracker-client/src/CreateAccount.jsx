@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { postFetch } from './utils/Fetches';
+import React, { useState, useEffect } from 'react';
+import { postFetch, getFetch } from './utils/Fetches';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
+import { Dropdown } from 'primereact/dropdown';
+import Tree from 'react-d3-tree';
 
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
@@ -13,17 +15,29 @@ export const CreateAccount = () => {
     last_name: '',
     parent_unit_id: '',
   });
-  const [orgDetails, setOrgDetails] = useState({
-    name: '',
-    levels: 1,
+  const [units, setUnits] = useState([]);
+  const [newUnit, setNewUnit] = useState({
+    unit_level: '',
+    unit_name: '',
+    higher_unit_id: '',
   });
 
+  useEffect(() => {
+    const fetchUnits = async () => {
+      const fetchedUnits = await getFetch('units');
+      setUnits(fetchedUnits);
+    };
+
+    fetchUnits();
+  }, []);
+
   const handleCreateAccount = async () => {
-    await postFetch(`https://users/`, userDetails);
+    await postFetch(`users`, userDetails);
   };
 
-  const handleCreateOrg = async () => {
-    await postFetch(`https://org/`, orgDetails);
+  const handleAddUnit = async () => {
+    const addedUnit = await postFetch('units', newUnit);
+    setUnits((prevUnits) => [...prevUnits, addedUnit]);
   };
 
   const handleChange = (e, setter) => {
@@ -38,12 +52,24 @@ export const CreateAccount = () => {
     e.preventDefault();
     await handleCreateAccount();
     if (newOrg) {
-      await handleCreateOrg();
+      await handleAddUnit();
     }
   };
 
   const toggleNewOrg = () => {
     setNewOrg((prev) => !prev);
+  };
+
+  const transformUnitsToTree = (units) => {
+    const rootUnits = units.filter((unit) => unit.higher_unit_id === 0);
+    const buildTree = (unit) => {
+      const children = units.filter((child) => child.higher_unit_id === unit.id);
+      return {
+        name: unit.unit_name,
+        children: children.map(buildTree),
+      };
+    };
+    return rootUnits.map(buildTree);
   };
 
   return (
@@ -80,10 +106,39 @@ export const CreateAccount = () => {
       {newOrg && (
         <>
           <h2>New Organization Information</h2>
-          <p>
-            {`The number of levels you want your organization to have, e.g., parent org (your level) -> child org ->
-            grandchild org = 3 levels`}
-          </p>
+          <Dropdown
+            value={userDetails.parent_unit_id}
+            onChange={(e) => handleChange(e, setUserDetails)}
+            options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
+            placeholder="Select Higher Unit"
+          />
+
+          <h3>Units Tree</h3>
+          <Tree data={transformUnitsToTree(units)} />
+
+          <h3>Add New Unit</h3>
+          <InputText
+            type="text"
+            name="unit_name"
+            value={newUnit.unit_name}
+            onChange={(e) => handleChange(e, setNewUnit)}
+            placeholder="Unit Name"
+          />
+          <InputText
+            type="number"
+            name="unit_level"
+            value={newUnit.unit_level}
+            onChange={(e) => handleChange(e, setNewUnit)}
+            placeholder="Unit Level"
+          />
+
+          <Dropdown
+            value={newUnit.higher_unit_id}
+            onChange={(e) => handleChange(e, setNewUnit)}
+            options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
+            placeholder="Select Higher Unit"
+          />
+          <Button label="Add Unit" onClick={handleAddUnit} />
         </>
       )}
 
