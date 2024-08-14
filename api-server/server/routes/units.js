@@ -1,4 +1,3 @@
-
 //get all units from sent id and down
 app.get('/units/related/:id', async (req, res) => {
   const { id } = req.params;
@@ -17,6 +16,9 @@ app.get('/units/related/:id', async (req, res) => {
                 FROM units u
                 INNER JOIN UnitHierarchy uh ON u.parent = uh.id
             )
+
+
+
             SELECT *
             FROM UnitHierarchy
             ORDER BY level DESC;
