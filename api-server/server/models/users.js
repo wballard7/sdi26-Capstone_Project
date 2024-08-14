@@ -1,12 +1,10 @@
 const knex = require('../db');
-// const bcrypt = require('bcryptjs');
-// const createUser = require('../../server/models/createUser');
 
 async function all() {
-  return knex('users');
+  return knex('users').select('*');
 }
 
-async function getUserById(id) {
+async function getById(id) {
   const results = await knex('users').where({ id });
   return results[0];
 }
@@ -30,11 +28,17 @@ async function create(data) {
   return results[0];
 }
 
+async function update(data) {
+  const results = await knex('users').insert(data).returning('*');
+  return results[0];
+}
+
 module.exports = {
   all,
+  update,
   create,
   remove,
   getByUsername,
   getByUsernameAndPassword,
-  getUserById,
+  getById,
 };

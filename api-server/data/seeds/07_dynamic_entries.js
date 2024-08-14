@@ -5,11 +5,13 @@
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('dynamic_entries').del();
+  const input_id = await knex('static_entries').select('id');
+  const audience_id = await knex('join_audience').select('id');
   await knex('dynamic_entries').insert([
     {
       name: 'medical-deployment task for Unit 11',
-      input_id: 9,
-      audience_id: 9,
+      input_id: input_id[0].id,
+      audience_id: audience_id[0].id,
       start_date: 20240814,
       end_date: 20240815,
       recurrence: 'none',
@@ -18,8 +20,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'Motorpool task for Unit 11',
-      input_id: 10,
-      audience_id: 10,
+      input_id: input_id[1].id,
+      audience_id: audience_id[1].id,
       start_date: 20240814,
       end_date: 20240815,
       recurrence: 'monthly',
@@ -28,8 +30,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'Weapons Qual',
-      input_id: 11,
-      audience_id: 11,
+      input_id: input_id[2].id,
+      audience_id: audience_id[2].id,
       start_date: 20240814,
       end_date: 20240815,
       recurrence: 'yearly',
@@ -38,8 +40,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'JQS',
-      input_id: 12,
-      audience_id: 12,
+      input_id: input_id[3].id,
+      audience_id: audience_id[3].id,
       start_date: 20241001,
       end_date: 20250401,
       recurrence: 'daily',
@@ -50,8 +52,8 @@ exports.seed = async function (knex) {
 
     {
       name: 'LMTV Road Test',
-      input_id: 13,
-      audience_id: 13,
+      input_id: input_id[4].id,
+      audience_id: audience_id[4].id,
       start_date: 20241001,
       end_date: 20241007,
       recurrence: 'bi-annual',
@@ -61,8 +63,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'Static Line Airborne Jump',
-      input_id: 14,
-      audience_id: 14,
+      input_id: input_id[5].id,
+      audience_id: audience_id[5].id,
       start_date: 20240924,
       end_date: 20240924,
       recurrence: 'once',
@@ -72,8 +74,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'Unit Server check',
-      input_id: 15,
-      audience_id: 15,
+      input_id: input_id[6].id,
+      audience_id: audience_id[6].id,
       start_date: 20240814,
       end_date: 20240821,
       recurrence: 'monthly',
@@ -83,8 +85,8 @@ exports.seed = async function (knex) {
     },
     {
       name: 'Post Deployment Health assessment',
-      input_id: 16,
-      audience_id: 16,
+      input_id: input_id[7].id,
+      audience_id: audience_id[7].id,
       start_date: 20240814,
       end_date: 20241030,
       recurrence: 'none',

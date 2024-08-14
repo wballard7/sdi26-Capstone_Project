@@ -13,9 +13,8 @@ app.get('/', (req, res) => {
 
 const userRoutes = require('./routes/users');
 const unitRoutes = require('./routes/units');
-const staticRoutes = require('./routes/static-entries')
-const dynamicRoutes = require('./routes/dynamic-entries')
-
+// const staticRoutes = require('./routes/static-entries')
+// const dynamicRoutes = require('./routes/dynamic-entries')
 
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/:id', userRoutes.getUserById);
@@ -23,23 +22,18 @@ app.get('/users/:username', userRoutes.getUserByUsername);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
 
-
-
-
-
 // ${apiURL}/units/${userData.parent_unit_id}
 // getFetch('units')
 // postFetch('units', newUnit)
 app.get('/units/', unitRoutes.getAllUnits);
 app.get('/units/:id', unitRoutes.getUnitsId);
-app.post('/units', userRoutes.createUnit);
-app.patch('/units/', userRoutes.updateUnit);
+app.post('/units', unitRoutes.createUnit);
+app.patch('/units/', unitRoutes.updateUnit);
 
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
 // getFetch('static_entries')
-
 
 //get tags
 

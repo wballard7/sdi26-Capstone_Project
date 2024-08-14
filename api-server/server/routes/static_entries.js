@@ -1,7 +1,7 @@
-const static_entrie = require('../models/static_entries');
+const User = require('../models/static_entries');
 
 
-async function getEntryById(req, res) {
+async function getById(req, res) {
   const Id = req.params.user_id;
   const user = await User.getById(Id);
   return res.send(user);
