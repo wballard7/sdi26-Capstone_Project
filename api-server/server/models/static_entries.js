@@ -23,6 +23,11 @@ const results = await knex('static_entries').where(input_owner_id);
 return results[0];
 }
 
+async function getByUnit(unit_id) {
+  const results = await knex('static_entries').where(unit_id);
+  return results[0];
+}
+
 async function getByTags(tag_id) {
 const results = await knex('static_entries').where(tag_id);
 return results[0];
@@ -49,8 +54,9 @@ module.exports = {
     remove,
     update,
     getById,
-    getByName,
+    getByTitle,
     getByCategory,
     getByOwner,
+    getByUnit,
     getByTags
   };

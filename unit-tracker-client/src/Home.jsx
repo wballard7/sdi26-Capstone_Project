@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { getFetch } from './utils/Fetches';
 import { Card } from 'primereact/card';
 
+const apiURL = 'http://localhost:8080';
+
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState({
     title: '',
@@ -38,7 +40,7 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchStaticEntries = async () => {
-      const fetchedStaticEntries = await getFetch('staticentries');
+      const fetchedStaticEntries = await getFetch(`${apiURL}/staticentries`);
       setStaticEntries(fetchedStaticEntries);
     };
 
