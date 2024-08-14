@@ -23,7 +23,11 @@ const createUnit = async (req, res) => {
     res.status(500).json({ error: 'Failed to create new unit' });
   }
 };
+<<<<<<< HEAD
+
+=======
 /
+>>>>>>> main
 const updateUnit = async (req, res) => {
   const { id } = req.params.id;
 

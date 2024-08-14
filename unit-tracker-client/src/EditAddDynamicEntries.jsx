@@ -116,6 +116,8 @@ export const EditAddDynamicEntries = () => {
             onChange={(e) => handleEntryChange('eventOwner', e.target.value)}
           />
           <MultiSelect
+
+          
             placeholder="Attach to Static Entries"
             value={entryDetails.attachedStaticEntries}
             options={[]} //fetch static

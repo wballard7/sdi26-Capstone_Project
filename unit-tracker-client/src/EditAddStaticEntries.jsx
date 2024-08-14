@@ -17,6 +17,11 @@ export const EditAddStaticEntries = () => {
     notes: '',
     tag_id: 0,
     audience_id: 0,
+
+
+
+
+
   });
 
   const handleAddEntry = async () => {
@@ -27,6 +32,10 @@ export const EditAddStaticEntries = () => {
       console.error('Error adding entry:', error);
     }
   };
+
+
+
+
 
   const handleChange = (e, field) => {
     const { value } = e.target;
