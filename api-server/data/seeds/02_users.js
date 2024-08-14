@@ -19,8 +19,6 @@ exports.seed = async function (knex) {
       supervisor: true,
     },
 
-
-
     {
       id: 'd0cd71e2-3034-43f8-a324-b9bffc4edd4d',
       first_name: 'Son',
@@ -28,8 +26,6 @@ exports.seed = async function (knex) {
       username: 'kakarot',
       password: 'password2',
       my_unit_id: 15,
-
-
 
       // supervisor_id: 2,
       availability: true,
