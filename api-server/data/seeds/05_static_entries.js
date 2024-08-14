@@ -6,11 +6,57 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('static_entries').del();
   await knex('static_entries').insert([
-    /*maint*/ { title: 'oil change', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'humvy 1' },
-    /*maint*/ { title: 'oil change', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'humvy 1' },
-    /*maint*/ { title: 'oil change', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'humvy 1' },
-    /*maint*/ { title: 'oil change', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'humvy 1' },
-    /*maint*/ { title: 'oil change', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'humvy 1' },
+    /*medic*/ {
+      title: 'Med-deployment status',
+      unit_id: 3,
+      category_id: 1,
+      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      tag_id: 1,
+      misc_notes: 'hmmwv 1',
+    },
+    /*maint*/ {
+      title: 'HMMWV PMCS',
+      unit_id: 3,
+      category_id: 1,
+      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      tag_id: 4,
+      misc_notes: 'weekly, every Monday. ',
+    },
+    /*medic*/ {
+      title: 'M',
+      unit_id: 4,
+      category_id: 3,
+      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      tag_id: 1,
+      misc_notes: 'hmmwv 1',
+    },
+    /*medic*/ {
+      title: 'PHA/MHA',
+      unit_id: 4,
+      category_id: 3,
+      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      tag_id: 1,
+      misc_notes: 'hmmwv 1',
+    },
+
+    /*train*/ {
+      title: 'cyber awareness',
+      unit_id: 3,
+      category_id: 3,
+      input_owner_id: 1,
+      tag_id: 1,
+      misc_notes: 'hmmwv 1',
+    },
+    /*qualif*/ { title: '5 level', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'hmmwv 1' },
+    /*cert*/ {
+      title: 'security plus',
+      unit_id: 3,
+      category_id: 3,
+      input_owner_id: 1,
+      tag_id: 1,
+      misc_notes: 'hmmwv 1',
+    },
+    /*admin*/ { title: 'memorandum', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'hmmwv 1' },
   ]);
 };
 

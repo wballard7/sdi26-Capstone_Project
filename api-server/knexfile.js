@@ -13,6 +13,10 @@ const PORT = process.env.PORT || '5432';
 module.exports = {
   development: {
     client: 'pg',
+<<<<<<< HEAD
+    connection: DB_CONNECTION_STRING || 'postgres://postgres:docker@localhost:5432/unit_tracker_db',
+    port: 5432,
+=======
     client: 'postgresql',
     connection: {
       host: HOST,
@@ -21,6 +25,7 @@ module.exports = {
       port: PORT,
       database: DATABASE,
     },
+>>>>>>> main
     migrations: {
       directory: './data/migrations',
     },

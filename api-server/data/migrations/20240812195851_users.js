@@ -12,12 +12,12 @@ exports.up = async function (knex) {
     table.string('username').notNullable().unique();
     table.string('password').notNullable();
     table.uuid('supervisor_id').nullable();
-    table.integer('higher_unit_id').notNullable();
+    table.integer('my_unit_id').notNullable();
     table.boolean('availability').notNullable();
     table.boolean('admin').notNullable();
     table.boolean('supervisor').notNullable();
 
-    table.foreign('higher_unit_id').references('id').inTable('units');
+    table.foreign('my_unit_id').references('id').inTable('units');
     table.foreign('supervisor_id').references('id').inTable('users');
   });
 };
