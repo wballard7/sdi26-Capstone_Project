@@ -15,8 +15,13 @@ export const StaticEntries = () => {
 
   useEffect(() => {
     const fetchStaticEntries = async () => {
-      const fetchedStaticEntries = await getFetch('static_entries');
-      setStaticEntries(fetchedStaticEntries);
+      try {
+        const fetchedStaticEntries = await getFetch('static_entries');
+        console.log(fetchedStaticEntries);
+        setStaticEntries(fetchedStaticEntries);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchStaticEntries();
@@ -28,6 +33,24 @@ export const StaticEntries = () => {
       <Link to="/EditAddStaticEntries">
         <Button label="Edit/Add Entries" />
       </Link>
+      <div>
+        {staticEntries.length > 0 ? (
+          <div>
+            {staticEntries.map((entry, index) => (
+              <div key={index}>
+                <h2>{entry.title}</h2>
+                <p>Unit ID: {entry.unit_id}</p>
+                <p>Category ID: {entry.category_id}</p>
+                <p>Input Owner ID: {entry.input_owner_id}</p>
+                <p>Tag ID: {entry.tag_id}</p>
+                <p>Notes: {entry.notes}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No static entries found.</p>
+        )}
+      </div>
     </>
   );
 };
