@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../dao/users');
+const User = require('../models/users');
 
 async function getAllUsers(req, res) {
   const all = await User.all();
@@ -51,7 +51,7 @@ async function loginUser(req, res) {
 
 module.exports = {
   getAllUsers,
-  getUser,
+  putUsers,
   createUser,
   loginUser,
   getUserById,

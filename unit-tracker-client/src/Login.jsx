@@ -26,16 +26,16 @@ export const Login = () => {
         },
         body: JSON.stringify({ usernameInput, passwordInput }),
       });
-      const data = await response.json();
+      const user = await response.json();
       if (response.ok) {
-        console.log(data);
-        fetchUserData(data.id);
+        console.log(user);
+        fetchUserData(user.id);
         loggedIn(true);
-        fetchPersonnel(data.id);
-        fetchSupervisor(data.supervisor_id);
+        fetchPersonnel(user.id);
+        fetchSupervisor(user.supervisor_id);
       } else {
-        console.error('Login Failed', data);
-        alert('Login Failed', data);
+        console.error(user.message);
+        alert(user.message);
       }
     } catch (err) {
       console.error(err);
@@ -56,7 +56,7 @@ export const Login = () => {
   };
 
   const fetchPersonnel = async (userId) => {
-    const personnelResponse = await getFetch(`users/${userId}`);
+    const personnelResponse = await getFetch(`users/personnel/${userId}`);
     setPersonnel({
       id: personnelResponse.id,
       first_name: personnelResponse.first_name,
@@ -87,9 +87,7 @@ export const Login = () => {
         });
 
         // Fetch organization (unit) details using the parent_unit_id
-        const orgResponse = await fetch(
-          `${apiURL}/units/${userData.parent_unit_id}`,
-        );
+        const orgResponse = await fetch(`${apiURL}/units/${userData.parent_unit_id}`);
         const orgData = await orgResponse.json();
 
         if (orgResponse.ok) {
@@ -100,9 +98,7 @@ export const Login = () => {
             higher_unit_id: orgData.higher_unit_id,
           });
 
-          console.log(
-            `User and organization data set for user ID: ${userData.id}`,
-          );
+          console.log(`User and organization data set for user ID: ${userData.id}`);
         } else {
           console.error('Failed to fetch organization data', orgData);
           alert('Failed to fetch organization data', orgData);
@@ -120,11 +116,7 @@ export const Login = () => {
   return (
     <div>
       <h1>Login or Create an Account</h1>
-      <InputText
-        placeholder="Username"
-        value={usernameInput}
-        onChange={(e) => setUsernameInput(e.target.value)}
-      />
+      <InputText placeholder="Username" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
       <Password
         placeholder="Password"
         value={passwordInput}

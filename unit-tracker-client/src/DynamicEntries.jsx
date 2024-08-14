@@ -12,9 +12,9 @@ export const DynamicEntries = () => {
     start_date: '',
     end_date: '',
     completed_on_date: '',
-    compeleted_by_id: 0,
+    compeleted_by_id: '',
     reccurence: '',
-    event_owner_id: 0,
+    event_owner_id: '',
     tag_id: {},
     notes: '',
   });

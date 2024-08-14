@@ -13,14 +13,14 @@ export const EditAddDynamicEntries = () => {
   const [entryDetails, setEntryDetails] = useState({
     name: '',
     input_id: 0,
-    audicence_id: {},
+    audicence_id: 0,
     start_date: '',
     end_date: '',
     completed_on_date: '',
-    compeleted_by_id: 0,
+    compeleted_by_id: '',
     reccurence: '',
-    event_owner_id: 0,
-    tag_id: {},
+    event_owner_id: '',
+    tag_id: 0,
     notes: '',
   });
   const [tags, setTags] = useState([]);
@@ -116,6 +116,8 @@ export const EditAddDynamicEntries = () => {
             onChange={(e) => handleEntryChange('eventOwner', e.target.value)}
           />
           <MultiSelect
+
+          
             placeholder="Attach to Static Entries"
             value={entryDetails.attachedStaticEntries}
             options={[]} //fetch static
