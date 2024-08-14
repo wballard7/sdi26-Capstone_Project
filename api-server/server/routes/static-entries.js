@@ -1,4 +1,4 @@
-const static_entrie = require('../models/static_entries');
+const static_entry = require('../models/static_entries');
 
 
 async function getEntryById(req, res) {

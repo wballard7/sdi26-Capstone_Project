@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
 
 const userRoutes = require('./routes/users');
 const unitRoutes = require('./routes/units');
-// const staticRoutes = require('./routes/static-entries')
-// const dynamicRoutes = require('./routes/dynamic-entries')
+// const staticRoutes = require('./routes/static_entries');
+// const dynamicRoutes = require('./routes/dynamic_entries')
 
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/:id', userRoutes.getUserById);

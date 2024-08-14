@@ -1,28 +1,36 @@
-const User = require('../models/static_entries');
+const Static_entry = require('../models/static_entries');
 
 
-async function getById(req, res) {
+async function getEntryById(req, res) {
   const Id = req.params.user_id;
-  const user = await User.getById(Id);
-  return res.send(user);
+  const entry = await Static_entry.getById(Id);
+  return res.send(entry);
 }
-async function getByTitle(req, res) {
+async function getEntryByTitle(req, res) {
   const Id = req.params.user_id;
-  const user = await User.getById(Id);
-  return res.send(user);
+  const entry = await Static_entry.getById(Id);
+  return res.send(entry);
 }
-async function getByCategory(req, res) {
+async function getEntryByCategory(req, res) {
   const Id = req.params.user_id;
-  const user = await User.getById(Id);
-  return res.send(user);
+  const entry = await Static_entry.getById(Id);
+  return res.send(entry);
 }
-async function getByOwner(req, res) {
+async function getEntryByOwner(req, res) {
   const Id = req.params.user_id;
-  const user = await User.getById(Id);
-  return res.send(user);
+  const entry = await Static_entry.getById(Id);
+  return res.send(entry);
 }
-async function getByTags(req, res) {
+async function getEntryByTags(req, res) {
   const Id = req.params.user_id;
-  const user = await User.getById(Id);
-  return res.send(user);
+  const entry = await Static_entry.getById(Id);
+  return res.send(entry);
 }
+
+
+
+// getById,
+// getByTitle,
+// getByCategory,
+// getByOwner,
+// getByTags
