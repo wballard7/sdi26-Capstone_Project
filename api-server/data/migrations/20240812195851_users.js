@@ -29,7 +29,7 @@ exports.up = async function (knex) {
 exports.down = function (knex) {
   return knex.schema
     .alterTable('users', (table) => {
-      table.dropForeign('higher_unit_id');
+      table.dropForeign('my_unit_id');
       table.dropForeign('supervisor_id');
     })
     .then(function () {
