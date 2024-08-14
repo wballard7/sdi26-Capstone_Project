@@ -35,12 +35,12 @@ services:
       - POSTGRES_PORT=5432
       - DATABASE_HOST=db
       - NODE_ENV=development
-    env_file:
-      - ./.env
+    # env_file:
+    #   - ./.env
     volumes:
       - type: bind
         source: ./api-server
-        target: /src
+        target: /app/src
     command: npm run start:dev
     networks:
       - management_network

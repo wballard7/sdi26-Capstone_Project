@@ -1,13 +1,11 @@
 FROM node:alpine
 
-WORKDIR /src
+WORKDIR /app
 
-COPY package*.json ./
+COPY . /app
 
 RUN npm install -g nodemon && \
     npm install
-
-COPY . .
 
 EXPOSE 8080
 

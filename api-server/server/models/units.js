@@ -1,7 +1,7 @@
 const knex = require('../db');
 
 async function all() {
-  return knex('units');
+  return knex('units').select('*');
 }
 
 async function getUnitsById(id) {
@@ -50,7 +50,7 @@ async function getAllUnderUnit(id) {
       [id],
     );
 
-    res.json(units.rows);
+    return units.rows;
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch related units' });
