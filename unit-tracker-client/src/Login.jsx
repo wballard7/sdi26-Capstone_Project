@@ -8,7 +8,7 @@ import { UserContext } from './context/UserContext';
 import { PersonnelContext } from './context/PersonnelContext';
 import { SupervisorContext } from './context/SupervisorContext';
 
-const apiURL = 'http://localhost:3000';
+const apiURL = 'http://localhost:8080';
 
 export const Login = () => {
   const [usernameInput, setUsernameInput] = useState('');
@@ -44,7 +44,7 @@ export const Login = () => {
   };
 
   const fetchSupervisor = async (sup_Id) => {
-    const SupervisorResponse = await getFetch(`users/supervisor/${sup_Id}`);
+    const SupervisorResponse = await getFetch(`users/${sup_Id}`);
     setSupervisor({
       id: personnelResponse.id,
       first_name: personnelResponse.first_name,
@@ -56,7 +56,7 @@ export const Login = () => {
   };
 
   const fetchPersonnel = async (userId) => {
-    const personnelResponse = await getFetch(`users/supervised/${userId}`);
+    const personnelResponse = await getFetch(`users/${userId}`);
     setPersonnel({
       id: personnelResponse.id,
       first_name: personnelResponse.first_name,

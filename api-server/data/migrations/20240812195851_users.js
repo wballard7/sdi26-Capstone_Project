@@ -1,5 +1,3 @@
-const { AdUnitsOutlined } = require('@mui/icons-material');
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
