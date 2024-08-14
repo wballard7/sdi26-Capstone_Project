@@ -6,7 +6,7 @@ async function all() {
   return knex('users');
 }
 
-async function get(id) {
+async function getUserById(id) {
   const results = await knex('users').where({ id });
   return results[0];
 }
@@ -30,12 +30,13 @@ async function create(data) {
   return results[0];
 }
 
-// module.exports = {
-//   all,
+module.exports = {
+  all,
 
-//   get,
-//   create,
-//   remove,
-//   getByUsername,
-//   getByUsernameAndPassword,
-// };
+  get,
+  create,
+  remove,
+  getByUsername,
+  getByUsernameAndPassword,
+  getUserById
+};

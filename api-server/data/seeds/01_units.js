@@ -32,29 +32,29 @@ exports.seed = async function (knex) {
   ]);
 };
 
-//id  level unit_name higherunit
-//1   1     a         2
-//2   2     b         0(means no higher)
+//id unit_name higherunit
+//1    a         2
+//2    b         0(means no higher)
 
 //add a new one lower
-//id  level unit_name higherunit
-//1   1     a         2
-//2   2     b         3
-//3   3     c         0
+//id unit_name higherunit
+//1     a         2
+//2     b         3
+//3     c         0
 
 //add a new one higher
 //id  level unit_name higherunit
-//1   2     a         2
-//2   3     b         3
-//3   4     c         0
-//4   1     1         1
+//1     a         2
+//2     b         3
+//3     c         0
+//4     1         1
 
 //another higher
-//1   3     a         2
-//2   4     b         3
-//3   5     c         0
-//4   2     1         1
-//5   1     bru       4
+//1     a         2
+//2     b         3
+//3     c         0
+//4     1         1
+//5     bru       4
 
 //same level added
-//6   3     aaa       2
+//6     aaa       2

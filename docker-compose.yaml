@@ -25,18 +25,30 @@ services:
     container_name: api
     ports:
       - '8080:8080'
+<<<<<<< HEAD
     networks:
       - management_network
+=======
+>>>>>>> main
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=unit_tracker_db
+      - POSTGRES_PORT=5432
+      - DATABASE_HOST=db
+      - NODE_ENV=development
     env_file:
       - ./.env
     volumes:
       - type: bind
         source: ./api-server
         target: /src
-    command: npm run dev
+    command: npm run start:dev
+    networks:
+      - management_network
 
   client:
     build:
@@ -57,9 +69,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - CLIENT_DIR=${CLIENT_DIR}
 
-# networks:
-#   inventory_network:
-#     driver: bridge
 networks:
   management_network:
     driver: bridge
