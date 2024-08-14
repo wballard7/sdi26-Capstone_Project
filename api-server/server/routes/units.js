@@ -1,34 +1,41 @@
-//get all units from sent id and down
-app.get('/units/related/:id', async (req, res) => {
+const User = require('../models/users');
+const Unit = require('../models/units');
+
+const getAllInAUnit = async (req, res) => {
   const { id } = req.params;
+  const results = await getAllUnderUnit(id);
+  return results;
+};
+
+//POST
+const createUnit = async (req, res) => {
+  const { unit_name, higher_unit = null } = req.body;
 
   try {
-    const units = await knex.raw(
-      `
-            WITH RECURSIVE UnitHierarchy AS (
-                SELECT id, unit_name, higher_unit
-                FROM units
-                WHERE id = ?
+    const unit = await Unit.getByUnitsName(unit_name);
+    if (!unit) {
+      const unit = await Unit.create(req);
 
-                UNION ALL
-
-                SELECT u.id, u.unit_name, u.higher_unit
-                FROM units u
-                INNER JOIN UnitHierarchy uh ON u.parent = uh.id
-            )
-
-
-
-            SELECT *
-            FROM UnitHierarchy
-            ORDER BY level DESC;
-        `,
-      [id],
-    );
-
-    res.json(units.rows);
+      res.status(201).json({ message: 'New unit created', id, unit_name, higher_unit });
+    }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch related units' });
+    console.log(error);
+    res.status(500).json({ error: 'Failed to create new unit' });
   }
-});
+};
+/
+const updateUnit = async (req, res) => {
+  const { id } = req.params.id;
+
+  try {
+    const userUpdated = await Unit.update(id, req.body);
+
+    if (userUpdated === 0) return res.status(404).json({ error: 'User not found' });
+  } catch (err) {}
+};
+
+module.exports = {
+  getAllInAUnit,
+  createUnit,
+  updateUnit,
+};

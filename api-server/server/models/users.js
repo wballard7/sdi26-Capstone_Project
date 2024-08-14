@@ -38,5 +38,5 @@ module.exports = {
   remove,
   getByUsername,
   getByUsernameAndPassword,
-  getUserById
+  getUserById,
 };
