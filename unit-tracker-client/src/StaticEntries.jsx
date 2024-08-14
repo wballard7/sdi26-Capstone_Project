@@ -8,15 +8,14 @@ export const StaticEntries = () => {
     title: '',
     unit_id: 0,
     category_id: 0,
-    supp_id: 0,
-    input_owner_id: 0,
+    input_owner_id: '',
     tag_id: 0,
     notes: '',
   });
 
   useEffect(() => {
     const fetchStaticEntries = async () => {
-      const fetchedStaticEntries = await getFetch('staticentries');
+      const fetchedStaticEntries = await getFetch('static_entries');
       setStaticEntries(fetchedStaticEntries);
     };
 

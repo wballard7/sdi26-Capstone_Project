@@ -31,13 +31,20 @@ app.post('/users/login', userRoutes.loginUser);
 // getFetch('units')
 // postFetch('units', newUnit)
 app.get('/units/', unitRoutes.getAllUnits);
-app.get('/units/:id', unitRoutes.getAllUnits);
+app.get('/units/:id', unitRoutes.getUnitsId);
 app.post('/units', userRoutes.createUnit);
-app.put('/units/', userRoutes.updateUnit);
+app.patch('/units/', userRoutes.updateUnit);
 
-
-// getFetch('dynamicentries');
+// postFetch(''dynamic_entries', newStaticEntry);
+// getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
-// getFetch('staticentries')
+// getFetch('static_entries')
+
+
+//get tags
+
+//get audience
+
+//get categories
 
 module.exports = app;

@@ -11,13 +11,12 @@ export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({
     title: '',
-    suppid: 0,
-    unitid: 0,
-    ownerid: 0,
-    category: {},
+    unit_id: 0,
+    owner_id: '',
+    category_id: 0,
     notes: '',
-    tags: [],
-    audience: [],
+    tag_id: 0,
+    audience_id: 0,
   });
 
   const handleAddEntry = async () => {
@@ -32,13 +31,7 @@ export const EditAddStaticEntries = () => {
   const handleChange = (e, field) => {
     const { value } = e.target;
     setNewStaticEntry((prev) => {
-      if (field === 'category') {
-        return { ...prev, [field]: value || {} };
-      }
-      if (field === 'tags' || field === 'audience') {
-        return { ...prev, [field]: Array.isArray(value) ? value : [] };
-      }
-      if (field === 'suppid' || field === 'unitid') {
+      if (field === 'audience_id' ||field === 'tag_id' || field === 'unitid' || field === 'category') {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
       return { ...prev, [field]: value };
@@ -78,20 +71,9 @@ export const EditAddStaticEntries = () => {
       </>
 
       <div className="p-field">
-        <label htmlFor="suppid">Supplemental ID</label>
+        <label htmlFor="unit_id">Unit ID</label>
         <InputText
-          id="suppid"
-          type="number"
-          value={newStaticEntry.suppid}
-          onChange={(e) => handleChange(e, 'suppid')}
-          placeholder="Supplemental ID"
-        />
-      </div>
-
-      <div className="p-field">
-        <label htmlFor="unitid">Unit ID</label>
-        <InputText
-          id="unitid"
+          id="unit_id"
           type="number"
           value={newStaticEntry.unitid}
           onChange={(e) => handleChange(e, 'unitid')}
@@ -102,9 +84,9 @@ export const EditAddStaticEntries = () => {
       <div className="p-field">
         <label>Owner</label>
         <Dropdown
-          id="owner"
+          id="owner_id"
           value={newStaticEntry.ownerid} /*fetch for existing users*/
-          onChange={(e) => handleChange(e, 'ownerid')}
+          onChange={(e) => handleChange(e, 'owner_id')}
           placeholder="Owner"
         />
       </div>
@@ -112,10 +94,10 @@ export const EditAddStaticEntries = () => {
       <div className="p-field">
         <label htmlFor="category">Category</label>
         <Dropdown
-          id="category"
+          id="category_id"
           value={newStaticEntry.category}
           options={[]} // Add category fetch here
-          onChange={(e) => handleChange(e, 'category')}
+          onChange={(e) => handleChange(e, 'category_id')}
           placeholder="Select a category"
         />
       </div>
@@ -132,12 +114,12 @@ export const EditAddStaticEntries = () => {
       </div>
 
       <div className="p-field">
-        <label htmlFor="tags">Tags</label>
+        <label htmlFor="tag_id">Tags</label>
         <MultiSelect
-          id="tags"
+          id="tag_id"
           value={newStaticEntry.tags}
           options={[]} // Add tags fetch here
-          onChange={(e) => handleChange(e, 'tags')}
+          onChange={(e) => handleChange(e, 'tag_id')}
           placeholder="Select tags"
         />
       </div>
@@ -145,10 +127,10 @@ export const EditAddStaticEntries = () => {
       <div className="p-field">
         <label htmlFor="audience">Audience</label>
         <MultiSelect
-          id="audience"
+          id="audience_id"
           value={newStaticEntry.audience}
           options={[]} // Add audience fetch here
-          onChange={(e) => handleChange(e, 'audience')}
+          onChange={(e) => handleChange(e, 'audience_id')}
           placeholder="Select audience"
         />
       </div>
