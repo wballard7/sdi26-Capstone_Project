@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 const userRoutes = require('./routes/users');
 const unitRoutes = require('./routes/units');
 const staticRoutes = require('./routes/static_entries');
-const dynamicRoutes = require('./routes/dynamic_entries')
+// const dynamicRoutes = require('./routes/dynamic_entries');
 
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/:id', userRoutes.getUserById);
@@ -33,7 +33,7 @@ app.patch('/units/', unitRoutes.updateUnit);
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
-app.get('/staticentries', staticRoutes.getAllEntries );
+app.get('/static_entries/', staticRoutes.getAllEntries);
 
 //get tags
 

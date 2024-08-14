@@ -29,7 +29,7 @@ async function getEntryByOwner(req, res) {
   return res.send(entry);
 }
 
-async function getEntryByUnit(unit_id) {
+async function getEntryByUnit(req, res) {
   const unit_id = req.params.unit_id;
   const entry = await Static_entry.getByUnit(unit_id);
   return res.send(entry);
@@ -57,15 +57,14 @@ async function removeEntry(req, res) {
 }
 
 module.exports = {
-getAllEntries,
-removeEntry,
-updateEntry,
-createEntry,
-getEntryById,
-getEntryByTitle,
-getEntryByCategory,
-getEntryByOwner,
-getEntryByUnit,
-getEntryByTags
-
-}
+  getAllEntries,
+  removeEntry,
+  updateEntry,
+  createEntry,
+  getEntryById,
+  getEntryByTitle,
+  getEntryByCategory,
+  getEntryByOwner,
+  getEntryByUnit,
+  getEntryByTags,
+};
