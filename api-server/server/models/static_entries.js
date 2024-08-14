@@ -1,7 +1,7 @@
 const knex = require('../db');
 
 async function all() {
-  return knex('static_entries');
+  return knex('static_entries').select('*');
 }
 
 async function getById(id) {
@@ -14,13 +14,13 @@ async function getByTitle(title) {
 }
 
 async function getByCategory(category_id) {
-    const results = await knex('static_entries').where(category_id);
-    return results[0];
+  const results = await knex('static_entries').where(category_id);
+  return results[0];
 }
 
 async function getByOwner(input_owner_id) {
-const results = await knex('static_entries').where(input_owner_id);
-return results[0];
+  const results = await knex('static_entries').where(input_owner_id);
+  return results[0];
 }
 
 async function getByUnit(unit_id) {
@@ -29,8 +29,8 @@ async function getByUnit(unit_id) {
 }
 
 async function getByTags(tag_id) {
-const results = await knex('static_entries').where(tag_id);
-return results[0];
+  const results = await knex('static_entries').where(tag_id);
+  return results[0];
 }
 
 async function remove(id) {
@@ -49,14 +49,14 @@ async function update(id, data) {
 }
 
 module.exports = {
-    all,
-    create,
-    remove,
-    update,
-    getById,
-    getByTitle,
-    getByCategory,
-    getByOwner,
-    getByUnit,
-    getByTags
-  };
+  all,
+  create,
+  remove,
+  update,
+  getById,
+  getByTitle,
+  getByCategory,
+  getByOwner,
+  getByUnit,
+  getByTags,
+};
