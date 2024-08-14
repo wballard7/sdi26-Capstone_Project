@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": " knex migrate:rollback --all && knex migrate:latest && knex seed:run && nodemon --watch ./ ./index.js && nodemon ./app.js",
+    "start:dev": "export NODE_ENV=development && knex migrate:rollback --all && knex migrate:latest && knex seed:run && nodemon --watch ./ ./src/server/index.js && nodemon ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,9 +11,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "knex": "^3.1.0",
-    "pg": "^8.12.0"
+    "pg": "^8.12.0",
+    "uuid": "^10.0.0"
   }
 }
