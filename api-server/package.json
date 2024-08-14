@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": " knex migrate:rollback --all && knex migrate:latest && knex seed:run && nodemon --watch ./ ./index.js && nodemon ./app.js",
+    "start:dev": "export NODE_ENV=development && knex migrate:rollback --all && knex migrate:latest && knex seed:run && nodemon --watch ./ ./src/server/index.js && nodemon ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

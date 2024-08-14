@@ -6,7 +6,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: 'postgres://postgres:docker@localhost:5432/unit_tracker_db',
+    connection: DB_CONNECTION_STRING || 'postgres://postgres:docker@localhost:5432/unit_tracker_db',
     port: 5432,
     migrations: {
       directory: './data/migrations',
