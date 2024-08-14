@@ -6,57 +6,70 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('static_entries').del();
   await knex('static_entries').insert([
-    /*medic*/ {
+    {
       title: 'Med-deployment status',
-      unit_id: 3,
+      unit_id: 11,
       category_id: 1,
-      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
-      tag_id: 1,
-      misc_notes: 'hmmwv 1',
-    },
-    /*maint*/ {
-      title: 'HMMWV PMCS',
-      unit_id: 3,
-      category_id: 1,
-      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 4,
-      misc_notes: 'weekly, every Monday. ',
+      misc_notes: 'Priority immunizations and PHA',
     },
-    /*medic*/ {
-      title: 'M',
-      unit_id: 4,
+    {
+      title: 'Motorpool Maintenance',
+      unit_id: 11,
       category_id: 3,
-      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 1,
-      misc_notes: 'hmmwv 1',
+      misc_notes: 'need to pmcs HMMWVs A1, A2, C3',
     },
-    /*medic*/ {
-      title: 'PHA/MHA',
-      unit_id: 4,
-      category_id: 3,
-      input_owner_id: '215d445d-c170-4fda-8aef-f09e42411bbf',
-      tag_id: 1,
-      misc_notes: 'hmmwv 1',
+    {
+      title: 'Weapons Qual',
+      unit_id: 11,
+      category_id: 4,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      misc_notes: 'M4, range 37',
+    },
+    {
+      title: 'JQS',
+      unit_id: 11,
+      category_id: 2,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      tag_id: 2,
+      misc_notes: 'Training starts 01OCT24',
     },
 
-    /*train*/ {
-      title: 'cyber awareness',
-      unit_id: 3,
-      category_id: 3,
-      input_owner_id: 1,
+    {
+      title: 'PFC Snuffy',
+      unit_id: 12,
+      category_id: 7,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 1,
-      misc_notes: 'hmmwv 1',
+      misc_notes: 'Needs to road test the LMTV',
     },
-    /*qualif*/ { title: '5 level', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'hmmwv 1' },
-    /*cert*/ {
-      title: 'security plus',
-      unit_id: 3,
-      category_id: 3,
-      input_owner_id: 1,
-      tag_id: 1,
-      misc_notes: 'hmmwv 1',
+    {
+      title: 'SGT Slaughter',
+      unit_id: 12,
+      category_id: 7,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+      tag_id: 2,
+      misc_notes: 'Static line airborne jump on 24 SEP 24',
     },
-    /*admin*/ { title: 'memorandum', unit_id: 3, category_id: 3, input_owner_id: 1, tag_id: 1, misc_notes: 'hmmwv 1' },
+    {
+      title: 'A1C Damp',
+      unit_id: 12,
+      category_id: 7,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+      tag_id: 3,
+      misc_notes: 'needs to work on sec+ approved networks',
+    },
+    {
+      title: 'SSG Rambo',
+      unit_id: 12,
+      category_id: 7,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+      tag_id: 4,
+      misc_notes: 'needs to do his post-deployment assessment',
+    },
   ]);
 };
 

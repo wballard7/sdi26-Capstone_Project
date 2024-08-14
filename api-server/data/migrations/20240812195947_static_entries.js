@@ -8,7 +8,6 @@ exports.up = function (knex) {
     table.string('title').notNullable();
     table.integer('unit_id').notNullable();
     table.integer('category_id').notNullable();
-    table.string('supp_id');
     table.uuid('input_owner_id').notNullable();
     table.integer('tag_id');
     table.string('misc_notes');

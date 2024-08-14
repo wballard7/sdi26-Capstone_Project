@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('join_audience', (table) => {
     table.increments('id').primary();
-    table.uuid('user_id').notNullable();
+    table.uuid('user_id');
     table.integer('static_id').notNullable();
 
     table.foreign('user_id').references('id').inTable('users');

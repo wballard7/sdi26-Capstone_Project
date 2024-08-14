@@ -12,6 +12,7 @@ exports.seed = async function (knex) {
     { category_name: 'qualifications' },
     { category_name: 'certifications' },
     { category_name: 'administrative' },
+    { category_name: 'personnel' },
   ]);
 };
 
