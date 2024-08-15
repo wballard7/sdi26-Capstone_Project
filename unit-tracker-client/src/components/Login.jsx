@@ -1,12 +1,12 @@
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
 import React, { useState, useContext } from 'react';
-import { getFetch } from './utils/Fetches';
+import { getFetch } from '../utils/Fetches';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import { UserContext } from './context/UserContext';
-import { PersonnelContext } from './context/PersonnelContext';
-import { SupervisorContext } from './context/SupervisorContext';
+import { UserContext } from '../context/UserContext';
+import { PersonnelContext } from '../context/PersonnelContext';
+import { SupervisorContext } from '../context/SupervisorContext';
 
 const apiURL = 'http://localhost:8080';
 

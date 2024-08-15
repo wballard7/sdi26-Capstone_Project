@@ -25,11 +25,7 @@ const SupervisorProvider = ({ children }) => {
     supervisor: false,
   });
 
-  return (
-    <SupervisorContext.Provider value={{ ...supervisor, setSupervisor }}>
-      {children}
-    </SupervisorContext.Provider>
-  );
+  return <SupervisorContext.Provider value={{ ...supervisor, setSupervisor }}>{children}</SupervisorContext.Provider>;
 };
 
 export { SupervisorProvider, SupervisorContext };

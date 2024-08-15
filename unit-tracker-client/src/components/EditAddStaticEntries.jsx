@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { postFetch } from './utils/Fetches';
+import { postFetch } from '../utils/Fetches';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
@@ -17,11 +17,6 @@ export const EditAddStaticEntries = () => {
     notes: '',
     tag_id: 0,
     audience_id: 0,
-
-
-
-
-
   });
 
   const handleAddEntry = async () => {
@@ -33,14 +28,10 @@ export const EditAddStaticEntries = () => {
     }
   };
 
-
-
-
-
   const handleChange = (e, field) => {
     const { value } = e.target;
     setNewStaticEntry((prev) => {
-      if (field === 'audience_id' ||field === 'tag_id' || field === 'unitid' || field === 'category') {
+      if (field === 'audience_id' || field === 'tag_id' || field === 'unitid' || field === 'category') {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
       return { ...prev, [field]: value };

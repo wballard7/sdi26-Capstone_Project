@@ -49,10 +49,7 @@ export const EditAddDynamicEntries = () => {
   return (
     <div>
       <div>
-        <TabView
-          activeIndex={activeIndex}
-          onTabChange={(e) => setActiveIndex(e.index)}
-        >
+        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel header="Edit Entries" />
           <TabPanel header="Add New Entry" />
         </TabView>
@@ -65,17 +62,13 @@ export const EditAddDynamicEntries = () => {
               <Calendar
                 placeholder="completed on"
                 value={entryDetails.completed_on_date}
-                onChange={(e) =>
-                  handleEntryChange('completed_on_date', e.value)
-                }
+                onChange={(e) => handleEntryChange('completed_on_date', e.value)}
               />
 
               <InputText
                 placeholder="completed by"
                 value={entryDetails.compeleted_by_id}
-                onChange={(e) =>
-                  handleEntryChange('compeleted_by_id', e.target.value)
-                }
+                onChange={(e) => handleEntryChange('compeleted_by_id', e.target.value)}
               />
             </>
           ) : (
@@ -116,14 +109,10 @@ export const EditAddDynamicEntries = () => {
             onChange={(e) => handleEntryChange('eventOwner', e.target.value)}
           />
           <MultiSelect
-
-          
             placeholder="Attach to Static Entries"
             value={entryDetails.attachedStaticEntries}
             options={[]} //fetch static
-            onChange={(e) =>
-              handleEntryChange('attachedStaticEntries', e.value)
-            }
+            onChange={(e) => handleEntryChange('attachedStaticEntries', e.value)}
           />
         </div>
 
@@ -136,11 +125,7 @@ export const EditAddDynamicEntries = () => {
               ))}
             </div>
             <div>
-              <InputText
-                placeholder="New Tag"
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-              />
+              <InputText placeholder="New Tag" value={newTag} onChange={(e) => setNewTag(e.target.value)} />
               <Button label="Add Tag" onClick={addTag} />
             </div>
           </div>
