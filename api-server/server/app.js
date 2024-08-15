@@ -55,6 +55,7 @@ app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/', dynamicRoutes.removeEntry);
 
+
 //get tags
 
 //get audience
