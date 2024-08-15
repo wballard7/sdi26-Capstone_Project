@@ -5,7 +5,7 @@ const SupervisorContext = createContext({
   first_name: '',
   last_name: '',
   supervisor_id: '',
-  parent_unit_id: '',
+  my_unit_id: '',
   available: false,
   admin: false,
   supervisor: false,
@@ -19,13 +19,17 @@ const SupervisorProvider = ({ children }) => {
     first_name: '',
     last_name: '',
     supervisor_id: '',
-    parent_unit_id: '',
+    my_unit_id: '',
     available: false,
     admin: false,
     supervisor: false,
   });
 
-  return <SupervisorContext.Provider value={{ ...supervisor, setSupervisor }}>{children}</SupervisorContext.Provider>;
+  return (
+    <SupervisorContext.Provider value={{ ...supervisor, setSupervisor }}>
+      {children}
+    </SupervisorContext.Provider>
+  );
 };
 
 export { SupervisorProvider, SupervisorContext };

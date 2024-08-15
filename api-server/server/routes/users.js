@@ -48,10 +48,19 @@ async function loginUser(req, res) {
   return res.status(200).json({ message: 'User logged in', user });
 }
 
+async function getAllUnitSupervisors(req, res) {
+  const unitId = req.params.my_unit_id;
+  const allSupervisors = await User.getBySupervisorTrue();
+  const unitSupervisors = allSupervisors.filter((user) => user.unitId === unitId);
+
+  return res.send(unitSupervisors);
+}
+
 module.exports = {
   getAllUsers,
   getUserById,
   getUserByUsername,
   createUser,
   loginUser,
+  getAllUnitSupervisors,
 };

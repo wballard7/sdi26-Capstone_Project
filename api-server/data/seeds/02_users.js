@@ -11,6 +11,18 @@ exports.seed = async function (knex) {
   await knex('users').del();
   await knex('users').insert([
     {
+      id: '0c49ad8f-a23e-4379-a920-96af872449b8',
+      first_name: 'a',
+      last_name: 'a',
+      username: 'a',
+      password: password1,
+      my_unit_id: 8,
+      // supervisor_id: 1,
+      availability: true,
+      admin: true,
+      supervisor: true,
+    },
+    {
       id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       first_name: 'John',
       last_name: 'Wick',

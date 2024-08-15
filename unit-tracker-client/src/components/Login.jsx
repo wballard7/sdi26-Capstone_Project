@@ -8,28 +8,26 @@ import { SupervisorContext } from '../context/SupervisorContext';
 const apiURL = 'http://localhost:8080';
 
 export const Login = () => {
-  const [usernameInput, setUsernameInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
+  const [userDetails, setUserDetails] = useState({
+    username: '',
+    password: '',
+  });
   const { setUser, setOrg, loggedIn } = useContext(UserContext);
   const { setPersonnel } = useContext(PersonnelContext);
   const { setSupervisor } = useContext(SupervisorContext);
 
   const submitLogin = async () => {
     console.log(`Login submitted`);
-    console.log(JSON.stringify({ username: usernameInput, password: passwordInput }));
+    console.log(JSON.stringify(userDetails)); // Logging the userDetails object
     try {
-      const response = await postFetch(`users/login`, {
-        usernameInput,
-        passwordInput,
-      });
-      const user = await response.json();
+      const response = await postFetch(`users/login`, userDetails);
       if (response.ok) {
-        console.log(user);
-        fetchUserData(user.username);
+        console.log(response);
+        fetchUserData(userDetails.username);
         loggedIn(true);
       } else {
-        console.error(user.message);
-        alert(user.message);
+        console.error(response.message);
+        alert(response.message);
       }
     } catch (err) {
       console.error(err);
@@ -44,7 +42,7 @@ export const Login = () => {
       first_name: supervisorResponse.first_name,
       last_name: supervisorResponse.last_name,
       supervisor_id: supervisorResponse.supervisor_id,
-      parent_unit_id: supervisorResponse.parent_unit_id,
+      my_unit_id: supervisorResponse.my_unit_id,
       supervisor: supervisorResponse.supervisor,
     });
   };
@@ -56,7 +54,7 @@ export const Login = () => {
       first_name: personnelResponse.first_name,
       last_name: personnelResponse.last_name,
       supervisor_id: personnelResponse.supervisor_id,
-      parent_unit_id: personnelResponse.parent_unit_id,
+      my_unit_id: personnelResponse.my_unit_id,
       supervisor: personnelResponse.supervisor,
     });
   };
@@ -75,13 +73,13 @@ export const Login = () => {
           first_name: userData.first_name,
           last_name: userData.last_name,
           supervisor_id: userData.supervisor_id,
-          parent_unit_id: userData.parent_unit_id,
+          my_unit_id: userData.my_unit_id,
           available: userData.available,
           admin: userData.admin,
           supervisor: userData.supervisor,
         });
 
-        const orgResponse = await fetch(`${apiURL}/units/${userData.parent_unit_id}/`);
+        const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}/`);
         const orgData = await orgResponse.json();
 
         if (orgResponse.ok) {
@@ -106,6 +104,14 @@ export const Login = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserDetails({
+      ...userDetails,
+      [name]: value,
+    });
+  };
+
   return (
     <Box maxW="sm" mx="auto" mt="10" padding="6" boxShadow="lg" borderRadius="lg">
       <Heading as="h1" size="lg" mb="6">
@@ -113,15 +119,17 @@ export const Login = () => {
       </Heading>
       <Input
         placeholder="Username"
-        value={usernameInput}
-        onChange={(e) => setUsernameInput(e.target.value)}
+        name="username"
+        value={userDetails.username}
+        onChange={handleChange}
         mb="4"
       />
       <Input
         placeholder="Password"
+        name="password"
         type="password"
-        value={passwordInput}
-        onChange={(e) => setPasswordInput(e.target.value)}
+        value={userDetails.password}
+        onChange={handleChange}
         mb="4"
       />
       <Button colorScheme="blue" width="full" onClick={submitLogin} mb="4">

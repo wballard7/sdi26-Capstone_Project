@@ -20,6 +20,11 @@ async function getByUsernameAndPassword(data) {
   return results[0];
 }
 
+async function getBySupervisorTrue() {
+  const results = await knex('users').where({ supervisor: true });
+  return results;
+}
+
 async function remove(id) {
   const results = await knex('users').where({ id }).del().returning('*');
   return results[0];
@@ -43,4 +48,5 @@ module.exports = {
   getByUsername,
   getByUsernameAndPassword,
   getById,
+  getBySupervisorTrue,
 };
