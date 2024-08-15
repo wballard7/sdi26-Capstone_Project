@@ -25,10 +25,10 @@ app.post('/users/login', userRoutes.loginUser);
 // ${apiURL}/units/${userData.parent_unit_id}
 // getFetch('units')
 // postFetch('units', newUnit)
-app.get('/units/', unitRoutes.getAllUnits);
+app.get('/units', unitRoutes.getAllUnits);
 app.get('/units/:id', unitRoutes.getUnitsId);
 app.post('/units', unitRoutes.createUnit);
-app.patch('/units/', unitRoutes.updateUnit);
+app.patch('/units', unitRoutes.updateUnit);
 
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');

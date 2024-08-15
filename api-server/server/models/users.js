@@ -9,9 +9,11 @@ async function getById(id) {
   return results[0];
 }
 async function getByUsername(username) {
+  console.log(username);
   const results = await knex('users').where({ username });
   return results[0];
 }
+
 async function getByUsernameAndPassword(data) {
   console.log(data.username);
   const results = await login(data);
