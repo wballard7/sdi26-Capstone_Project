@@ -12,11 +12,7 @@ const PersonnelProvider = ({ children }) => {
     setPersonnelList((prevList) => [...prevList, newPersonnel]);
   };
 
-  return (
-    <PersonnelContext.Provider value={{ personnelList, setPersonnel }}>
-      {children}
-    </PersonnelContext.Provider>
-  );
+  return <PersonnelContext.Provider value={{ personnelList, setPersonnel }}>{children}</PersonnelContext.Provider>;
 };
 
 export { PersonnelProvider, PersonnelContext };

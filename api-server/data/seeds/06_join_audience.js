@@ -5,14 +5,16 @@
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('join_audience').del();
+  const static_id = await knex('static_entries').select('id');
+
   await knex('join_audience').insert([
-    { static_id: 9 },
-    { static_id: 10 },
-    { static_id: 11 },
-    { static_id: 12 },
-    { static_id: 13 },
-    { static_id: 14 },
-    { static_id: 15 },
-    { static_id: 16 },
+    { static_id: static_id[0].id },
+    { static_id: static_id[1].id },
+    { static_id: static_id[2].id },
+    { static_id: static_id[3].id },
+    { static_id: static_id[4].id },
+    { static_id: static_id[5].id },
+    { static_id: static_id[6].id },
+    { static_id: static_id[7].id },
   ]);
 };

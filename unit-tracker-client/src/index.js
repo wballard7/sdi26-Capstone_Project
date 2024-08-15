@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './styles/index.css';
 import App from './App';
 import { UserProvider } from './context/UserContext';
 import { PersonnelProvider } from './context/PersonnelContext';
 import { DynamicProvider } from './context/DynamicContext';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './styles/theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +14,9 @@ root.render(
     <UserProvider>
       <PersonnelProvider>
         <DynamicProvider>
-          <App />
+          <ChakraProvider theme={theme}>
+            <App />
+          </ChakraProvider>
         </DynamicProvider>
       </PersonnelProvider>
     </UserProvider>

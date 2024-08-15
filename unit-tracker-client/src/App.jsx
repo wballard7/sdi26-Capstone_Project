@@ -1,23 +1,22 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from './Home';
-import { Login } from './Login';
-import { UserProfile } from './UserProfile';
-import { Admin } from './Admin';
-import { CreateAccount } from './CreateAccount';
-import { DynamicEntries } from './DynamicEntries';
-import { EditAddDynamicEntries } from './EditAddDynamicEntries';
-import { EditAddStaticEntries } from './EditAddStaticEntries';
-import { StaticEntries } from './StaticEntries';
-import { ReportGeneration } from './ReportGeneration';
-import './App.css';
-import { Layout } from './Layout';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primereact/resources/themes/md-dark-indigo/theme.css';
+import { Home } from './components/layout/Home';
+import { Login } from './components/Login';
+import { UserProfile } from './components/UserProfile';
+import { Admin } from './components/Admin';
+import { CreateAccount } from './components/CreateAccount';
+import { DynamicEntries } from './components/DynamicEntries';
+import { EditAddDynamicEntries } from './components/EditAddDynamicEntries';
+import { EditAddStaticEntries } from './components/EditAddStaticEntries';
+import { StaticEntries } from './components/StaticEntries';
+import { ReportGeneration } from './components/ReportGeneration';
+import './styles/App.css';
+import { Layout } from './components/layout/Layout';
+import { Box } from '@chakra-ui/react';
+import { MyCalendar } from './utils/Calendar';
 
 function App() {
   return (
-    <div>
+    <Box>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -27,6 +26,14 @@ function App() {
             element={
               <Layout>
                 <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/Calendar"
+            element={
+              <Layout>
+                <MyCalendar />
               </Layout>
             }
           />
@@ -96,7 +103,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Box>
   );
 }
 

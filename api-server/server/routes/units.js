@@ -1,32 +1,29 @@
+const Unit = require('../models/units');
 
-//get all units from sent id and down
-app.get('/units/related/:id', async (req, res) => {
-  const { id } = req.params;
+async function getAllUnits(req, res) {
+  const all = await Unit.all();
+  return res.json(all);
+}
 
-  try {
-    const units = await knex.raw(
-      `
-            WITH RECURSIVE UnitHierarchy AS (
-                SELECT id, unit_name, higher_unit
-                FROM units
-                WHERE id = ?
+async function getUnitsId(req, res) {
+  const Id = req.params.id;
+  const unit = await Unit.getById(Id);
+  return res.send(unit);
+}
 
-                UNION ALL
+async function createUnit(req, res) {
+  const created = await Unit.create(req.body);
+  return res.json(created);
+}
 
-                SELECT u.id, u.unit_name, u.higher_unit
-                FROM units u
-                INNER JOIN UnitHierarchy uh ON u.parent = uh.id
-            )
-            SELECT *
-            FROM UnitHierarchy
-            ORDER BY level DESC;
-        `,
-      [id],
-    );
+async function updateUnit(req, res) {
+  const updated = await Unit.update(req.body);
+  return res.json(updated);
+}
 
-    res.json(units.rows);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch related units' });
-  }
-});
+module.exports = {
+  getAllUnits,
+  getUnitsId,
+  createUnit,
+  updateUnit,
+};

@@ -7,7 +7,7 @@ exports.seed = async function (knex) {
   await knex('users').del();
   await knex('users').insert([
     {
-      id: '0c49ad8f-a23e-4379-a926-96af872449b8'
+      id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       first_name: 'John',
       last_name: 'Wick',
       username: 'Baba_Yaga',
@@ -18,6 +18,7 @@ exports.seed = async function (knex) {
       admin: false,
       supervisor: true,
     },
+
     {
       id: 'd0cd71e2-3034-43f8-a324-b9bffc4edd4d',
       first_name: 'Son',
@@ -25,8 +26,10 @@ exports.seed = async function (knex) {
       username: 'kakarot',
       password: 'password2',
       my_unit_id: 15,
-      // supervisor_id: 2,
+
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
+
       admin: true,
       supervisor: true,
     },

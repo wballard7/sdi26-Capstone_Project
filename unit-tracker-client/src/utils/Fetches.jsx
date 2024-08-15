@@ -1,6 +1,6 @@
 const getFetch = async (arg1) => {
   try {
-    const res = await fetch(`http://localhost:3000/${arg1}/`);
+    const res = await fetch(`http://localhost:8080/${arg1}/`);
     const data = await res.json();
     console.log(`Your GET request for ${arg1} returned`, data);
     return data;
@@ -11,7 +11,7 @@ const getFetch = async (arg1) => {
 
 const postFetch = async (arg1, arg2) => {
   try {
-    const res = await fetch(`http://localhost:3000/${arg1}/`, {
+    const res = await fetch(`http://localhost:8080/${arg1}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const postFetch = async (arg1, arg2) => {
 
 const deleteFetch = async (arg1) => {
   try {
-    const res = await fetch(`http://localhost:3000/${arg1}/`, {
+    const res = await fetch(`http://localhost:8080/${arg1}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const deleteFetch = async (arg1) => {
 
 const putFetch = async (arg1, arg2) => {
   try {
-    const res = await fetch(`http://localhost:3000/${arg1}/`, {
+    const res = await fetch(`http://localhost:8080/${arg1}/`, {
       method: 'PUT', // Corrected: should be PUT, not POST
       headers: {
         'Content-Type': 'application/json',
