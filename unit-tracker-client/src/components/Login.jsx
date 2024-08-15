@@ -44,14 +44,14 @@ export const Login = () => {
   };
 
   const fetchSupervisor = async (sup_Id) => {
-    const SupervisorResponse = await getFetch(`users/${sup_Id}`);
+    const supervisorResponse = await getFetch(`users/${sup_Id}`);
     setSupervisor({
-      id: personnelResponse.id,
-      first_name: personnelResponse.first_name,
-      last_name: personnelResponse.last_name,
-      supervisor_id: personnelResponse.supervisor_id,
-      parent_unit_id: personnelResponse.parent_unit_id,
-      supervisor: personnelResponse.supervisor,
+      id: supervisorResponse.id,
+      first_name: supervisorResponse.first_name,
+      last_name: supervisorResponse.last_name,
+      supervisor_id: supervisorResponse.supervisor_id,
+      parent_unit_id: supervisorResponse.parent_unit_id,
+      supervisor: supervisorResponse.supervisor,
     });
   };
 
@@ -116,7 +116,11 @@ export const Login = () => {
   return (
     <div>
       <h1>Login or Create an Account</h1>
-      <InputText placeholder="Username" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
+      <InputText
+        placeholder="Username"
+        value={usernameInput}
+        onChange={(e) => setUsernameInput(e.target.value)}
+      />
       <Password
         placeholder="Password"
         value={passwordInput}

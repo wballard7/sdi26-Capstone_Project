@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { getFetch } from './utils/Fetches';
+import { getFetch } from '../../utils/Fetches';
 import { Card } from 'primereact/card';
 
 const apiURL = 'http://localhost:8080';

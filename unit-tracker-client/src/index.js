@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
-import App from './styles/App';
+import App from './App';
 import { UserProvider } from './context/UserContext';
 import { PersonnelProvider } from './context/PersonnelContext';
 import { DynamicProvider } from './context/DynamicContext';
