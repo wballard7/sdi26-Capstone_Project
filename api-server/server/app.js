@@ -19,10 +19,11 @@ const dynamicRoutes = require('./routes/dynamic_entries');
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/:id', userRoutes.getUserById);
 app.get('/users/:username', userRoutes.getUserByUsername);
+app.get('/users/unit_supervisors', userRoutes.getAllUnitSupervisors);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
 
-// ${apiURL}/units/${userData.parent_unit_id}
+// ${apiURL}/units/${userData.my_unit_id}
 // getFetch('units')
 // postFetch('units', newUnit)
 app.get('/units', unitRoutes.getAllUnits);
@@ -54,7 +55,6 @@ app.get('/dynamic_entries/', dynamicRoutes.getEntryByTags);
 app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/', dynamicRoutes.removeEntry);
-
 
 //get tags
 

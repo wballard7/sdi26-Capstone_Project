@@ -5,18 +5,19 @@ import Tree from 'react-d3-tree';
 
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
+  const [listOfSups, setListOfSups] = useState([]);
   const [userDetails, setUserDetails] = useState({
     username: '',
     password: '',
     first_name: '',
     last_name: '',
-    parent_unit_id: '',
+    my_unit_id: '',
+    supervisor_id: '',
   });
   const [units, setUnits] = useState([]);
   const [newUnit, setNewUnit] = useState({
-    unit_level: '',
     unit_name: '',
-    reports: '',
+    reports_to: '',
   });
 
   useEffect(() => {
@@ -69,6 +70,15 @@ export const CreateAccount = () => {
     return rootUnits.map(buildTree);
   };
 
+  const fetchUnitSupervisors = async (id) => {
+    const unitSupervisors = await getFetch(`users/supervisor/${id}`);
+    setListOfSups({
+      id: unitSupervisors.id,
+      first_name: unitSupervisors.first_name,
+      last_name: unitSupervisors.last_name,
+    });
+  };
+
   return (
     <Box>
       <h1>Account Information</h1>
@@ -104,15 +114,14 @@ export const CreateAccount = () => {
         <>
           <h2>New Organization Information</h2>
           <Select
-            value={userDetails.parent_unit_id}
+            value={userDetails.my_unit_id}
             onChange={(e) => handleChange(e, setUserDetails)}
             options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
-            placeholder="Select Higher Unit"
+            placeholder="Select Your Unit"
           />
-
+          some function to fetchUnitSupervisors based on unit selected
           <h3>Units Tree</h3>
           <Tree data={transformUnitsToTree(units)} />
-
           <h3>Add New Unit</h3>
           <Input
             type="text"
@@ -121,32 +130,29 @@ export const CreateAccount = () => {
             onChange={(e) => handleChange(e, setNewUnit)}
             placeholder="Unit Name"
           />
-          <Input
-            type="number"
-            name="unit_level"
-            value={newUnit.unit_level}
-            onChange={(e) => handleChange(e, setNewUnit)}
-            placeholder="Unit Level"
-          />
-
           <Select
-            value={newUnit.reports_to_id}
+            value={newUnit.reports_to}
             onChange={(e) => handleChange(e, setNewUnit)}
             options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
-            placeholder="Select Higher Unit"
+            placeholder="Your Unit"
           />
           <Button label="Add Unit" onClick={handleAddUnit} />
         </>
       )}
 
       <Button
-        label={newOrg ? 'Submit Admin Account Creation and Organization' : 'Create Account'}
+        label={newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
         onClick={handleSubmit}
-      />
+      >
+        {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
+      </Button>
       <Button
         label={newOrg ? 'Back to Account Creation' : 'Create New Organization'}
         onClick={toggleNewOrg}
-      />
+      >
+        {' '}
+        {newOrg ? 'Back to Account Creation' : 'Create New Organization'}
+      </Button>
     </Box>
   );
 };
