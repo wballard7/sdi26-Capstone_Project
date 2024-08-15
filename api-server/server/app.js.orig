@@ -33,6 +33,9 @@ app.patch('/units', unitRoutes.updateUnit);
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
+<<<<<<< HEAD
+app.get('/static_entries', staticRoutes.getAllEntries);
+=======
 app.get('/static_entries/', staticRoutes.getAllEntries);
 app.get('/static_entries', staticRoutes.getEntryById);
 app.get('/static_entries', staticRoutes.getEntryByTitle);
@@ -54,6 +57,8 @@ app.get('/dynamic_entries/', dynamicRoutes.getEntryByTags);
 app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/', dynamicRoutes.removeEntry);
+
+>>>>>>> 625162a4b99df9df8752059b7ed7692270c85389
 
 //get tags
 
