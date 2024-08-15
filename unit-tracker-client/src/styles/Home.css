@@ -1,0 +1,17 @@
+body {
+  column-count: 2;
+}
+
+.staticGroup {
+  background-color: rgb(196, 196, 196);
+}
+.staticEntry {
+  background-color: rgb(124, 124, 124);
+  padding: 10px;
+}
+
+.gridaLayout {
+  display: grid;
+  padding: 10px;
+  cursor: pointer;
+}
