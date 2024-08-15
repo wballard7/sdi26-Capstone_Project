@@ -28,8 +28,8 @@ export const Login = () => {
         console.log(user);
         fetchUserData(user.id);
         loggedIn(true);
-        fetchPersonnel(user.id);
-        fetchSupervisor(user.supervisor_id);
+        // fetchPersonnel(user.id);
+        // fetchSupervisor(user.supervisor_id);
       } else {
         console.error(user.message);
         alert(user.message);
@@ -40,29 +40,29 @@ export const Login = () => {
     }
   };
 
-  const fetchSupervisor = async (sup_Id) => {
-    const supervisorResponse = await getFetch(`users/${sup_Id}`);
-    setSupervisor({
-      id: supervisorResponse.id,
-      first_name: supervisorResponse.first_name,
-      last_name: supervisorResponse.last_name,
-      supervisor_id: supervisorResponse.supervisor_id,
-      parent_unit_id: supervisorResponse.parent_unit_id,
-      supervisor: supervisorResponse.supervisor,
-    });
-  };
+  // const fetchSupervisor = async (sup_Id) => {
+  //   const supervisorResponse = await getFetch(`users/${sup_Id}`);
+  //   setSupervisor({
+  //     id: supervisorResponse.id,
+  //     first_name: supervisorResponse.first_name,
+  //     last_name: supervisorResponse.last_name,
+  //     supervisor_id: supervisorResponse.supervisor_id,
+  //     parent_unit_id: supervisorResponse.parent_unit_id,
+  //     supervisor: supervisorResponse.supervisor,
+  //   });
+  // };
 
-  const fetchPersonnel = async (userId) => {
-    const personnelResponse = await getFetch(`users/personnel/${userId}`);
-    setPersonnel({
-      id: personnelResponse.id,
-      first_name: personnelResponse.first_name,
-      last_name: personnelResponse.last_name,
-      supervisor_id: personnelResponse.supervisor_id,
-      parent_unit_id: personnelResponse.parent_unit_id,
-      supervisor: personnelResponse.supervisor,
-    });
-  };
+  // const fetchPersonnel = async (userId) => {
+  //   const personnelResponse = await getFetch(`users/personnel/${userId}`);
+  //   setPersonnel({
+  //     id: personnelResponse.id,
+  //     first_name: personnelResponse.first_name,
+  //     last_name: personnelResponse.last_name,
+  //     supervisor_id: personnelResponse.supervisor_id,
+  //     parent_unit_id: personnelResponse.parent_unit_id,
+  //     supervisor: personnelResponse.supervisor,
+  //   });
+  // };
 
   const fetchUserData = async (userId) => {
     try {

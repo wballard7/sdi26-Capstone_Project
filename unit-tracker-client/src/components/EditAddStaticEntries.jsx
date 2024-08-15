@@ -31,7 +31,7 @@ export const EditAddStaticEntries = () => {
       if (
         field === 'audience_id' ||
         field === 'tag_id' ||
-        field === 'unitid' ||
+        field === 'unit_id' ||
         field === 'category'
       ) {
         return { ...prev, [field]: parseInt(value) || 0 };
@@ -78,13 +78,13 @@ export const EditAddStaticEntries = () => {
           id="unit_id"
           type="number"
           value={newStaticEntry.unitid}
-          onChange={(e) => handleChange(e, 'unitid')}
+          onChange={(e) => handleChange(e, 'unit_id')}
           placeholder="Unit ID"
         />
       </div>
 
       <div className="p-field">
-        <label>Owner</label>
+        <label htmlFor="owner">Owner</label>
         <Select
           id="owner_id"
           value={newStaticEntry.ownerid} /*fetch for existing users*/
