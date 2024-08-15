@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { getFetch } from '../../utils/Fetches';
 import { Card } from 'primereact/card';
+import { MyCalendar } from '../../utils/Calendar';
 
 const apiURL = 'http://localhost:8080';
 
@@ -55,6 +56,7 @@ export const Home = () => {
       <Link to="/DynamicEntries">
         <Button label="Tasks" />
       </Link>
+      <MyCalendar />
     </>
   );
 };

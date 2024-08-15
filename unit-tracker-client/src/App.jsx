@@ -30,6 +30,7 @@ function App() {
               </Layout>
             }
           />
+          <Route path="/Calendar" />
           <Route
             path="/UserProfile"
             element={
