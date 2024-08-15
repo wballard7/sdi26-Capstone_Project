@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { getFetch } from './utils/Fetches';
+import { getFetch } from '../utils/Fetches';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { PersonnelContext } from './context/PersonnelContext';
-import { DynamicContext } from './context/DynamicContext';
+import { PersonnelContext } from '../context/PersonnelContext';
+import { DynamicContext } from '../context/DynamicContext';
 
 const ReportGeneration = () => {
   const [reports, setReports] = useState([]);
@@ -35,15 +35,11 @@ const ReportGeneration = () => {
       let filtered = reports;
 
       if (filter.completed !== '') {
-        filtered = filtered.filter(
-          (report) => report.completed === (filter.completed === 'true'),
-        );
+        filtered = filtered.filter((report) => report.completed === (filter.completed === 'true'));
       }
 
       if (filter.name !== '') {
-        filtered = filtered.filter((report) =>
-          report.name.toLowerCase().includes(filter.name.toLowerCase()),
-        );
+        filtered = filtered.filter((report) => report.name.toLowerCase().includes(filter.name.toLowerCase()));
       }
 
       if (filter.personnel !== '') {
@@ -71,12 +67,7 @@ const ReportGeneration = () => {
   return (
     <div>
       <h1>Report Generation</h1>
-      <InputText
-        placeholder="Filter by Report Name"
-        name="name"
-        value={filter.name}
-        onChange={handleFilterChange}
-      />
+      <InputText placeholder="Filter by Report Name" name="name" value={filter.name} onChange={handleFilterChange} />
       <InputText
         placeholder="Filter by Personnel Name"
         name="personnel"
@@ -106,8 +97,7 @@ const ReportGeneration = () => {
             <p>End Date: {report.end_date}</p>
             <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
             <p>
-              Personnel: {report.event_owner_first_name}{' '}
-              {report.event_owner_last_name}
+              Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
             </p>
             <p>Tag: {report.tag_name}</p>
           </div>

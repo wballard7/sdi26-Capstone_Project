@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import React, { useState, useEffect } from 'react';
-import { getFetch } from './utils/Fetches';
+import { getFetch } from '../utils/Fetches';
 import { Card } from 'primereact/card';
 
 export const DynamicEntries = () => {

@@ -1,5 +1,5 @@
 module.exports = {
-  printWidth: 120, // Limit lines to 80 characters
+  printWidth: 100, // Limit lines to 80 characters
   tabWidth: 2, // Set the number of spaces per indentation level
   useTabs: false, // Use spaces instead of tabs
   semi: true, // Add a semicolon at the end of statements

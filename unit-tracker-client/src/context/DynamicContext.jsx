@@ -12,11 +12,7 @@ const DynamicProvider = ({ children }) => {
     setDynamicList((prevList) => [...dynamicList]);
   };
 
-  return (
-    <DynamicContext.Provider value={{ dynamicList, setDynamicList }}>
-      {children}
-    </DynamicContext.Provider>
-  );
+  return <DynamicContext.Provider value={{ dynamicList, setDynamicList }}>{children}</DynamicContext.Provider>;
 };
 
 export { DynamicProvider, DynamicContext };
