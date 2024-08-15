@@ -16,7 +16,7 @@ export const CreateAccount = () => {
   const [newUnit, setNewUnit] = useState({
     unit_level: '',
     unit_name: '',
-    higher_unit_id: '',
+    reports: '',
   });
 
   useEffect(() => {
@@ -58,9 +58,9 @@ export const CreateAccount = () => {
   };
 
   const transformUnitsToTree = (units) => {
-    const rootUnits = units.filter((unit) => unit.higher_unit_id === 0);
+    const rootUnits = units.filter((unit) => unit.reports_to_id === 0);
     const buildTree = (unit) => {
-      const children = units.filter((child) => child.higher_unit_id === unit.id);
+      const children = units.filter((child) => child.reports_to_id === unit.id);
       return {
         name: unit.unit_name,
         children: children.map(buildTree),
@@ -130,7 +130,7 @@ export const CreateAccount = () => {
           />
 
           <Select
-            value={newUnit.higher_unit_id}
+            value={newUnit.reports_to_id}
             onChange={(e) => handleChange(e, setNewUnit)}
             options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
             placeholder="Select Higher Unit"

@@ -1,6 +1,6 @@
 import { Button, Link, Input, Box, Heading } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { getFetch } from '../utils/Fetches';
+import { getFetch, postFetch } from '../utils/Fetches';
 import { UserContext } from '../context/UserContext';
 import { PersonnelContext } from '../context/PersonnelContext';
 import { SupervisorContext } from '../context/SupervisorContext';
@@ -15,21 +15,18 @@ export const Login = () => {
   const { setSupervisor } = useContext(SupervisorContext);
 
   const submitLogin = async () => {
+    console.log(`Login submitted`);
+    console.log(JSON.stringify({ username: usernameInput, password: passwordInput }));
     try {
-      const response = await fetch(`${apiURL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ usernameInput, passwordInput }),
+      const response = await postFetch(`users/login`, {
+        usernameInput,
+        passwordInput,
       });
       const user = await response.json();
       if (response.ok) {
         console.log(user);
-        fetchUserData(user.id);
+        fetchUserData(user.username);
         loggedIn(true);
-        fetchPersonnel(user.id);
-        fetchSupervisor(user.supervisor_id);
       } else {
         console.error(user.message);
         alert(user.message);
@@ -64,12 +61,14 @@ export const Login = () => {
     });
   };
 
-  const fetchUserData = async (userId) => {
+  const fetchUserData = async (username) => {
     try {
-      const userResponse = await fetch(`${apiURL}/user/${userId}`);
+      const userResponse = await fetch(`${apiURL}/user/${username}/`);
       const userData = await userResponse.json();
 
       if (userResponse.ok) {
+        fetchPersonnel(userData.id);
+        fetchSupervisor(userData.supervisor_id);
         setUser({
           id: userData.id,
           username: userData.username,
@@ -82,18 +81,17 @@ export const Login = () => {
           supervisor: userData.supervisor,
         });
 
-        const orgResponse = await fetch(`${apiURL}/units/${userData.parent_unit_id}`);
+        const orgResponse = await fetch(`${apiURL}/units/${userData.parent_unit_id}/`);
         const orgData = await orgResponse.json();
 
         if (orgResponse.ok) {
           setOrg({
-            org_id: orgData.id,
-            org_name: orgData.unit_name,
-            unit_level: orgData.unit_level,
-            higher_unit_id: orgData.higher_unit_id,
+            id: orgData.id,
+            name: orgData.unit_name,
+            reports_to: orgData.reports_to,
           });
 
-          console.log(`User and organization data set for user ID: ${userData.id}`);
+          console.log(`User and organization data set for user ID: ${userData.id}/`);
         } else {
           console.error('Failed to fetch organization data', orgData);
           alert('Failed to fetch organization data', orgData);
