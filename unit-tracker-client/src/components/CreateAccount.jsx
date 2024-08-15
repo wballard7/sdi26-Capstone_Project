@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
-import { Dropdown } from 'primereact/dropdown';
+import { Select, Input, Button, Box } from '@chakra-ui/react';
 import Tree from 'react-d3-tree';
 
 export const CreateAccount = () => {
@@ -73,29 +70,29 @@ export const CreateAccount = () => {
   };
 
   return (
-    <>
+    <Box>
       <h1>Account Information</h1>
-      <InputText
+      <Input
         type="text"
         name="username"
         value={userDetails.username}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="Username"
       />
-      <Password
+      <Input
         name="password"
         value={userDetails.password}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="Password"
       />
-      <InputText
+      <Input
         type="text"
         name="first_name"
         value={userDetails.first_name}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="First Name"
       />
-      <InputText
+      <Input
         type="text"
         name="last_name"
         value={userDetails.last_name}
@@ -106,7 +103,7 @@ export const CreateAccount = () => {
       {newOrg && (
         <>
           <h2>New Organization Information</h2>
-          <Dropdown
+          <Select
             value={userDetails.parent_unit_id}
             onChange={(e) => handleChange(e, setUserDetails)}
             options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
@@ -117,14 +114,14 @@ export const CreateAccount = () => {
           <Tree data={transformUnitsToTree(units)} />
 
           <h3>Add New Unit</h3>
-          <InputText
+          <Input
             type="text"
             name="unit_name"
             value={newUnit.unit_name}
             onChange={(e) => handleChange(e, setNewUnit)}
             placeholder="Unit Name"
           />
-          <InputText
+          <Input
             type="number"
             name="unit_level"
             value={newUnit.unit_level}
@@ -132,7 +129,7 @@ export const CreateAccount = () => {
             placeholder="Unit Level"
           />
 
-          <Dropdown
+          <Select
             value={newUnit.higher_unit_id}
             onChange={(e) => handleChange(e, setNewUnit)}
             options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
@@ -146,7 +143,10 @@ export const CreateAccount = () => {
         label={newOrg ? 'Submit Admin Account Creation and Organization' : 'Create Account'}
         onClick={handleSubmit}
       />
-      <Button label={newOrg ? 'Back to Account Creation' : 'Create New Organization'} onClick={toggleNewOrg} />
-    </>
+      <Button
+        label={newOrg ? 'Back to Account Creation' : 'Create New Organization'}
+        onClick={toggleNewOrg}
+      />
+    </Box>
   );
 };

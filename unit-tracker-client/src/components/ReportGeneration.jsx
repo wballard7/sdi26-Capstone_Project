@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
+import { Input, Select, Box, Heading } from '@chakra-ui/react';
 import { PersonnelContext } from '../context/PersonnelContext';
 import { DynamicContext } from '../context/DynamicContext';
 
@@ -39,7 +38,9 @@ const ReportGeneration = () => {
       }
 
       if (filter.name !== '') {
-        filtered = filtered.filter((report) => report.name.toLowerCase().includes(filter.name.toLowerCase()));
+        filtered = filtered.filter((report) =>
+          report.name.toLowerCase().includes(filter.name.toLowerCase()),
+        );
       }
 
       if (filter.personnel !== '') {
@@ -65,45 +66,58 @@ const ReportGeneration = () => {
   };
 
   return (
-    <div>
-      <h1>Report Generation</h1>
-      <InputText placeholder="Filter by Report Name" name="name" value={filter.name} onChange={handleFilterChange} />
-      <InputText
+    <Box padding="4" maxW="3xl" margin="auto">
+      <Heading mb="4">Report Generation</Heading>
+      <Input
+        placeholder="Filter by Report Name"
+        name="name"
+        value={filter.name}
+        onChange={handleFilterChange}
+        mb="4"
+      />
+      <Input
         placeholder="Filter by Personnel Name"
         name="personnel"
         value={filter.personnel}
         onChange={handleFilterChange}
+        mb="4"
       />
-      <Dropdown
+      <Select
         placeholder="Filter by Completion Status"
         name="completed"
         value={filter.completed}
-        options={[
-          { label: 'All', value: '' },
-          { label: 'Completed', value: 'true' },
-          { label: 'Not Completed', value: 'false' },
-        ]}
         onChange={handleFilterChange}
-      />
+        mb="6"
+      >
+        <option value="">All</option>
+        <option value="true">Completed</option>
+        <option value="false">Not Completed</option>
+      </Select>
 
-      <div>
-        <h2>Filtered Reports</h2>
-        {filteredReports.map((report) => (
-          <div key={report.id}>
-            <p>
-              <strong>{report.name}</strong>
-            </p>
-            <p>Start Date: {report.start_date}</p>
-            <p>End Date: {report.end_date}</p>
-            <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
-            <p>
-              Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
-            </p>
-            <p>Tag: {report.tag_name}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+      <Box>
+        <Heading size="md" mb="2">
+          Filtered Reports
+        </Heading>
+        {filteredReports.length > 0 ? (
+          filteredReports.map((report) => (
+            <Box key={report.id} borderWidth="1px" borderRadius="lg" padding="4" mb="4">
+              <p>
+                <strong>{report.name}</strong>
+              </p>
+              <p>Start Date: {report.start_date}</p>
+              <p>End Date: {report.end_date}</p>
+              <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
+              <p>
+                Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
+              </p>
+              <p>Tag: {report.tag_name}</p>
+            </Box>
+          ))
+        ) : (
+          <p>No reports found matching your filters.</p>
+        )}
+      </Box>
+    </Box>
   );
 };
 

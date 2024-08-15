@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Calendar } from 'primereact/calendar';
-import { InputNumber } from 'primereact/inputnumber';
-import { MultiSelect } from 'primereact/multiselect';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { Chip } from 'primereact/chip';
+import { Button, Input, Box, Tab, TabList, Textarea, Select } from '@chakra-ui/react';
 
 export const EditAddDynamicEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -47,25 +40,25 @@ export const EditAddDynamicEntries = () => {
   };
 
   return (
-    <div>
+    <Box>
       <div>
-        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
-          <TabPanel header="Edit Entries" />
-          <TabPanel header="Add New Entry" />
-        </TabView>
+        <Tab activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+          <TabList header="Edit Entries" />
+          <TabList header="Add New Entry" />
+        </Tab>
       </div>
 
       <div>
         <>
           {activeIndex === 0 ? (
             <>
-              <Calendar
+              <Input
                 placeholder="completed on"
                 value={entryDetails.completed_on_date}
                 onChange={(e) => handleEntryChange('completed_on_date', e.value)}
               />
 
-              <InputText
+              <Input
                 placeholder="completed by"
                 value={entryDetails.compeleted_by_id}
                 onChange={(e) => handleEntryChange('compeleted_by_id', e.target.value)}
@@ -76,39 +69,39 @@ export const EditAddDynamicEntries = () => {
           )}
         </>
         <div>
-          <InputText
+          <Input
             placeholder="Name"
             value={entryDetails.name}
             onChange={(e) => handleEntryChange('name', e.target.value)}
           />
           <div>
-            <Calendar
+            <Input
               placeholder="Start Date"
               value={entryDetails.start_date}
               onChange={(e) => handleEntryChange('startDate', e.value)}
             />
-            <Calendar
+            <Input
               placeholder="End Date"
               value={entryDetails.endDate}
               onChange={(e) => handleEntryChange('endDate', e.value)}
             />
-            <InputTextarea
+            <Textarea
               placeholder="Misc. Notes"
               value={entryDetails.notes}
               onChange={(e) => handleEntryChange('notes', e.target.value)}
             />
           </div>
-          <InputNumber
+          <Input
             placeholder="Repeat every __ days"
             value={entryDetails.repeatEvery}
             onValueChange={(e) => handleEntryChange('repeatEvery', e.value)}
           />
-          <InputText
+          <Input
             placeholder="Event Owner"
             value={entryDetails.eventOwner}
             onChange={(e) => handleEntryChange('eventOwner', e.target.value)}
           />
-          <MultiSelect
+          <Select
             placeholder="Attach to Static Entries"
             value={entryDetails.attachedStaticEntries}
             options={[]} //fetch static
@@ -121,11 +114,15 @@ export const EditAddDynamicEntries = () => {
             <h3>Tags</h3>
             <div>
               {tags.map((tag, index) => (
-                <Chip key={index} label={tag} />
+                <Input key={index} label={tag} />
               ))}
             </div>
             <div>
-              <InputText placeholder="New Tag" value={newTag} onChange={(e) => setNewTag(e.target.value)} />
+              <Input
+                placeholder="New Tag"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+              />
               <Button label="Add Tag" onClick={addTag} />
             </div>
           </div>
@@ -134,11 +131,11 @@ export const EditAddDynamicEntries = () => {
             <h3>Audience</h3>
             <div className="audience-list">
               {audiences.map((audience, index) => (
-                <Chip key={index} label={audience} />
+                <Input key={index} label={audience} />
               ))}
             </div>
             <div className="add-audience">
-              <InputText
+              <Input
                 placeholder="New Audience"
                 value={newAudience}
                 onChange={(e) => setNewAudience(e.target.value)}
@@ -148,6 +145,6 @@ export const EditAddDynamicEntries = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };

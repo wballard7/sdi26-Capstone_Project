@@ -1,9 +1,6 @@
-import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
+import { Button, Link, Input, Box, Heading } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import { UserContext } from '../context/UserContext';
 import { PersonnelContext } from '../context/PersonnelContext';
 import { SupervisorContext } from '../context/SupervisorContext';
@@ -69,7 +66,6 @@ export const Login = () => {
 
   const fetchUserData = async (userId) => {
     try {
-      // Fetch user details from the user endpoint
       const userResponse = await fetch(`${apiURL}/user/${userId}`);
       const userData = await userResponse.json();
 
@@ -86,7 +82,6 @@ export const Login = () => {
           supervisor: userData.supervisor,
         });
 
-        // Fetch organization (unit) details using the parent_unit_id
         const orgResponse = await fetch(`${apiURL}/units/${userData.parent_unit_id}`);
         const orgData = await orgResponse.json();
 
@@ -114,24 +109,31 @@ export const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login or Create an Account</h1>
-      <InputText
+    <Box maxW="sm" mx="auto" mt="10" padding="6" boxShadow="lg" borderRadius="lg">
+      <Heading as="h1" size="lg" mb="6">
+        Login or Create an Account
+      </Heading>
+      <Input
         placeholder="Username"
         value={usernameInput}
         onChange={(e) => setUsernameInput(e.target.value)}
+        mb="4"
       />
-      <Password
+      <Input
         placeholder="Password"
+        type="password"
         value={passwordInput}
         onChange={(e) => setPasswordInput(e.target.value)}
-        feedback={false}
-        tabIndex={1}
+        mb="4"
       />
-      <Button className="button" label="Login" onClick={submitLogin} />
-      <Link to="/CreateAccount">
-        <Button className="button" label="Create Account" />
+      <Button colorScheme="blue" width="full" onClick={submitLogin} mb="4">
+        Login
+      </Button>
+      <Link href="/CreateAccount">
+        <Button colorScheme="teal" width="full">
+          Create Account
+        </Button>
       </Link>
-    </div>
+    </Box>
   );
 };

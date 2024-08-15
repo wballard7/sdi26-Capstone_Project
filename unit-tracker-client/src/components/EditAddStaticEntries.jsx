@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { postFetch } from '../utils/Fetches';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { MultiSelect } from 'primereact/multiselect';
-import { TabView, TabPanel } from 'primereact/tabview';
+import { Input, Button, Select, Tab, TabList, TabPanel, Textarea, Box } from '@chakra-ui/react';
+
+// Chakra does not have ====> import { MultiSelect } from 'primereact/multiselect';
 
 export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,7 +28,12 @@ export const EditAddStaticEntries = () => {
   const handleChange = (e, field) => {
     const { value } = e.target;
     setNewStaticEntry((prev) => {
-      if (field === 'audience_id' || field === 'tag_id' || field === 'unitid' || field === 'category') {
+      if (
+        field === 'audience_id' ||
+        field === 'tag_id' ||
+        field === 'unitid' ||
+        field === 'category'
+      ) {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
       return { ...prev, [field]: value };
@@ -39,18 +41,18 @@ export const EditAddStaticEntries = () => {
   };
 
   return (
-    <div className="p-fluid">
+    <Box className="p-fluid">
       <div>
-        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
-          <TabPanel header="Edit Entries" />
-          <TabPanel header="Add New Entry" />
-        </TabView>
+        <TabList activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+          <Tab>header="Edit Entries"</Tab>
+          <Tab>header="Add New Entry"</Tab>
+        </TabList>
       </div>
       <>
         {activeIndex === 1 ? (
           <div className="p-field">
             <label htmlFor="title">Title</label>
-            <InputText
+            <Input
               id="title"
               value={newStaticEntry.title}
               onChange={(e) => handleChange(e, 'title')}
@@ -60,7 +62,7 @@ export const EditAddStaticEntries = () => {
         ) : (
           <div className="p-field">
             <label htmlFor="title">Title</label>
-            <Dropdown
+            <Select
               id="title"
               value={newStaticEntry.title} /*fetch for existing static*/
               onChange={(e) => handleChange(e, 'title')}
@@ -72,7 +74,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label htmlFor="unit_id">Unit ID</label>
-        <InputText
+        <Input
           id="unit_id"
           type="number"
           value={newStaticEntry.unitid}
@@ -83,7 +85,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label>Owner</label>
-        <Dropdown
+        <Select
           id="owner_id"
           value={newStaticEntry.ownerid} /*fetch for existing users*/
           onChange={(e) => handleChange(e, 'owner_id')}
@@ -93,7 +95,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label htmlFor="category">Category</label>
-        <Dropdown
+        <Select
           id="category_id"
           value={newStaticEntry.category}
           options={[]} // Add category fetch here
@@ -104,7 +106,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label htmlFor="notes">Notes</label>
-        <InputTextarea
+        <Textarea
           id="notes"
           value={newStaticEntry.notes}
           onChange={(e) => handleChange(e, 'notes')}
@@ -115,7 +117,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label htmlFor="tag_id">Tags</label>
-        <MultiSelect
+        <Select
           id="tag_id"
           value={newStaticEntry.tags}
           options={[]} // Add tags fetch here
@@ -126,7 +128,7 @@ export const EditAddStaticEntries = () => {
 
       <div className="p-field">
         <label htmlFor="audience">Audience</label>
-        <MultiSelect
+        <Select
           id="audience_id"
           value={newStaticEntry.audience}
           options={[]} // Add audience fetch here
@@ -136,6 +138,6 @@ export const EditAddStaticEntries = () => {
       </div>
 
       <Button label="Add Entry" onClick={handleAddEntry} className="p-mt-2" />
-    </div>
+    </Box>
   );
 };

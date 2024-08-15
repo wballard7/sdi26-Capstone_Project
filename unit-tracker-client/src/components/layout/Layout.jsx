@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavBar } from './NavBar';
+import { Box } from '@chakra-ui/react';
 
 export const Layout = ({ children }) => {
   return (
-    <div>
+    <Box>
       <NavBar />
       <main>{children}</main>
-    </div>
+    </Box>
   );
 };

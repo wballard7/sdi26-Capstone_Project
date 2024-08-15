@@ -1,5 +1,4 @@
-import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
+import { Button, Box, Link } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 export const NavBar = () => {
@@ -8,24 +7,28 @@ export const NavBar = () => {
     <>
       {admin === true ? (
         <>
-          <Link to="/Admin">
-            <Button className="button" label="Admin" />
-          </Link>
-          <Link to="/Home">
-            <Button className="button" label="Home" />
-          </Link>
-          <Link to="/UserProfile">
-            <Button className="button" label={`${username}'s Profile`} />
-          </Link>
+          <Box>
+            <Link size={80} name={'Admin'} href="/Admin">
+              <Button>Admin</Button>
+            </Link>
+            <Link size={80} name={'Home'} href="/Home">
+              <Button>Home</Button>
+            </Link>
+            <Link size={80} name={'UserProfile'} href="/UserProfile">
+              <Button>{`${username}'s Profile`}</Button>
+            </Link>
+          </Box>
         </>
       ) : (
         <>
-          <Link to="/Home">
-            <Button className="button" label="Home" />
-          </Link>
-          <Link to="/UserProfile">
-            <Button className="button" label={`${username}'s Profile`} />
-          </Link>
+          <Box>
+            <Link size={80} name={'Home'} href="/Home">
+              <Button>Home</Button>
+            </Link>
+            <Link size={80} name={'UserProfile'} href="/UserProfile">
+              <Button>{`${username}'s Profile`}</Button>
+            </Link>
+          </Box>
         </>
       )}
     </>

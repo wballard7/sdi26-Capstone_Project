@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Button } from 'primereact/button';
+import { Link, Button, Box } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { getFetch } from '../utils/Fetches';
-import { Card } from 'primereact/card';
 
 const apiURL = 'http://localhost:8080';
 
@@ -36,8 +34,10 @@ export const StaticEntries = () => {
   return (
     <>
       <h1>StaticEntries</h1>
-      <Link to="/EditAddStaticEntries">
-        <Button label="Edit/Add Entries" />
+      <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
+        <Button width="full" colorScheme="teal" size="lg">
+          Edit/Add Entries
+        </Button>
       </Link>
       <div>
         {staticEntries.length > 0 ? (

@@ -11,13 +11,12 @@ import { StaticEntries } from './components/StaticEntries';
 import { ReportGeneration } from './components/ReportGeneration';
 import './styles/App.css';
 import { Layout } from './components/layout/Layout';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primereact/resources/themes/md-dark-indigo/theme.css';
+import { Box } from '@chakra-ui/react';
+import { MyCalendar } from './utils/Calendar';
 
 function App() {
   return (
-    <div>
+    <Box>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -30,7 +29,14 @@ function App() {
               </Layout>
             }
           />
-          <Route path="/Calendar" />
+          <Route
+            path="/Calendar"
+            element={
+              <Layout>
+                <MyCalendar />
+              </Layout>
+            }
+          />
           <Route
             path="/UserProfile"
             element={
@@ -97,7 +103,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Box>
   );
 }
 
