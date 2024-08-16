@@ -33,13 +33,13 @@ async function getAllUnderUnit(id) {
     const units = await knex.raw(
       `
     WITH RECURSIVE UnitHierarchy AS (
-              SELECT id, unit_name, higher_unit
+              SELECT id, unit_name, reports_to
               FROM units
               WHERE id = ?
 
               UNION ALL
 
-              SELECT u.id, u.unit_name, u.higher_unit
+              SELECT u.id, u.unit_name, u.reports_to
               FROM units u
               INNER JOIN UnitHierarchy uh ON u.parent = uh.id
               )

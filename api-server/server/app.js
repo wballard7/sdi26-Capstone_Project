@@ -22,16 +22,17 @@ const audienceRoutes = require('./routes/join_audience');
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/:id', userRoutes.getUserById);
 app.get('/users/:username', userRoutes.getUserByUsername);
+app.get('/users/unit_supervisors', userRoutes.getAllUnitSupervisors);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
 
-// ${apiURL}/units/${userData.parent_unit_id}
+// ${apiURL}/units/${userData.my_unit_id}
 // getFetch('units')
 // postFetch('units', newUnit)
-app.get('/units/', unitRoutes.getAllUnits);
+app.get('/units', unitRoutes.getAllUnits);
 app.get('/units/:id', unitRoutes.getUnitsId);
 app.post('/units', unitRoutes.createUnit);
-app.patch('/units/', unitRoutes.updateUnit);
+app.patch('/units', unitRoutes.updateUnit);
 
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');

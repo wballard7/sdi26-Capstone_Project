@@ -34,13 +34,26 @@ async function createUser(req, res) {
 }
 
 async function loginUser(req, res) {
+  // validation JOI
   const { username, password } = req.body;
+  console.log(`At loginUser in routes: ${username} and ${password} were passed in`);
   const user = await User.getByUsername(username);
+  console.log(`Passed in password:${password} & ${username}:${user.password} are being compared`);
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
+    console.log('Passwords do not match! Authentication failed.');
     return res.status(409).json({ message: 'Passwords do not match!' });
   }
+  console.log('Passwords match! User logged in.');
   return res.status(200).json({ message: 'User logged in', user });
+}
+
+async function getAllUnitSupervisors(req, res) {
+  const unitId = req.params.my_unit_id;
+  const allSupervisors = await User.getBySupervisorTrue();
+  const unitSupervisors = allSupervisors.filter((user) => user.unitId === unitId);
+
+  return res.send(unitSupervisors);
 }
 
 module.exports = {
@@ -49,4 +62,5 @@ module.exports = {
   getUserByUsername,
   createUser,
   loginUser,
+  getAllUnitSupervisors,
 };

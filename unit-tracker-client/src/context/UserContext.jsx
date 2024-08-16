@@ -6,14 +6,14 @@ const UserContext = createContext({
   first_name: '',
   last_name: '',
   supervisor_id: '',
-  parent_unit_id: '',
+  my_unit_id: '',
   available: false,
   admin: false,
   supervisor: false,
   loggedIn: false,
   org: {
-    org_id: '',
-    org_name: '',
+    id: '',
+    name: '',
     reports_to: '',
   },
   setUser: () => {},
@@ -27,15 +27,15 @@ const UserProvider = ({ children }) => {
     first_name: '',
     last_name: '',
     supervisor_id: '',
-    parent_unit_id: '',
+    my_unit_id: '',
     available: false,
     admin: false,
     supervisor: false,
     loggedIn: false,
-    org: {
-      org_id: '',
-      org_name: '',
-      higher_unit_id: '',
+    unit: {
+      id: '',
+      name: '',
+      reports_to: '',
     },
   });
 
@@ -46,7 +46,9 @@ const UserProvider = ({ children }) => {
     }));
   };
 
-  return <UserContext.Provider value={{ ...user, setUser, setOrg }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ ...user, setUser, setOrg }}>{children}</UserContext.Provider>
+  );
 };
 
 export { UserProvider, UserContext };
