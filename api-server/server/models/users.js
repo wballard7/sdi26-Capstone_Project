@@ -9,6 +9,7 @@ async function getById(id) {
   const results = await knex('users').where({ id });
   return results[0];
 }
+
 async function getByUsername(username) {
   console.log(username);
   const results = await knex('users').where({ username });
@@ -21,8 +22,8 @@ async function getByUsernameAndPassword(data) {
   return results[0];
 }
 
-async function getBySupervisorTrue() {
-  const results = await knex('users').where({ supervisor: true });
+async function getByUnit(my_unit_id) {
+  const results = await knex('users').where({ my_unit_id });
   return results;
 }
 
@@ -49,5 +50,5 @@ module.exports = {
   getByUsername,
   getByUsernameAndPassword,
   getById,
-  getBySupervisorTrue,
+  getByUnit,
 };
