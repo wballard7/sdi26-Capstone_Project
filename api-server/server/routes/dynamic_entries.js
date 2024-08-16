@@ -30,8 +30,8 @@ async function getEntryByOwner(req, res) {
 }
 
 async function getEntryByUnit(req, res) {
-  const unit_id = req.params.unit_id;
-  const entry = await Dynamic_entry.getByUnit(unit_id);
+  const my_unit_id = req.params.my_unit_id;
+  const entry = await Dynamic_entry.getByUnit(my_unit_id);
   return res.send(entry);
 }
 

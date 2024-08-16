@@ -18,7 +18,7 @@ export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({
     title: '',
-    unit_id: 0,
+    my_unit_id: 0,
     owner_id: '',
     category_id: 0,
     notes: '',
@@ -56,7 +56,7 @@ export const EditAddStaticEntries = () => {
       if (
         field === 'audience_id' ||
         field === 'tag_id' ||
-        field === 'unit_id' ||
+        field === 'my_unit_id' ||
         field === 'category'
       ) {
         return { ...prev, [field]: parseInt(value) || 0 };
@@ -97,12 +97,12 @@ export const EditAddStaticEntries = () => {
           </div>
 
           <div className="p-field">
-            <label htmlFor="unit_id">Unit ID</label>
+            <label htmlFor="my_unit_id">Unit ID</label>
             <Input
-              id="unit_id"
+              id="my_unit_id"
               type="number"
-              value={newStaticEntry.unit_id}
-              onChange={(e) => handleChange(e, 'unit_id')}
+              value={newStaticEntry.my_unit_id}
+              onChange={(e) => handleChange(e, 'my_unit_id')}
               placeholder="Unit ID"
             />
           </div>
