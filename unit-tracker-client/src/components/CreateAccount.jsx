@@ -6,7 +6,8 @@ import Tree from 'react-d3-tree';
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
   const [listOfSups, setListOfSups] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingUnits, setLoadingUnits] = useState(true);
+  const [loadingSups, setLoadingSups] = useState(false);
   const [userDetails, setUserDetails] = useState({
     username: '',
     password: '',
@@ -14,6 +15,9 @@ export const CreateAccount = () => {
     last_name: '',
     my_unit_id: '',
     supervisor_id: '',
+    availability: true,
+    admin: false,
+    supervisor: false,
   });
   const [units, setUnits] = useState([]);
   const [newUnit, setNewUnit] = useState({
@@ -23,16 +27,21 @@ export const CreateAccount = () => {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      const fetchedUnits = await getFetch('units');
-      setUnits(fetchedUnits);
-      setLoading(false);
+      try {
+        const fetchedUnits = await getFetch('units');
+        setUnits(fetchedUnits);
+      } catch (error) {
+        console.error('Error fetching units:', error);
+      } finally {
+        setLoadingUnits(false);
+      }
     };
 
     fetchUnits();
   }, []);
 
   const handleCreateAccount = async () => {
-    await postFetch(`users`, userDetails);
+    await postFetch('users', userDetails);
   };
 
   const handleAddUnit = async () => {
@@ -46,6 +55,18 @@ export const CreateAccount = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleUnitChange = async (e) => {
+    handleChange(e, setUserDetails);
+    let unit = e.target.value;
+    console.log(`Line 60, handleUnitChange, CreateAccount.jsx. Getting ${unit} for target.value`);
+    // Fetch supervisors only when a unit is selected
+    if (unit) {
+      setLoadingSups(true);
+      await fetchUnitSupervisors(e.target.value);
+      setLoadingSups(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -72,9 +93,13 @@ export const CreateAccount = () => {
     return rootUnits.map(buildTree);
   };
 
-  const fetchUnitSupervisors = async (id) => {
-    const unitSupervisors = await getFetch(`users/supervisor/${id}`);
-    setListOfSups(unitSupervisors);
+  const fetchUnitSupervisors = async (unitId) => {
+    try {
+      const supervisors = await getFetch(`users/unit_supervisors/${unitId}`);
+      setListOfSups(supervisors);
+    } catch (error) {
+      console.error('Error fetching unit supervisors:', error);
+    }
   };
 
   return (
@@ -113,19 +138,37 @@ export const CreateAccount = () => {
         mb="4"
       />
 
-      {loading ? (
-        <Heading as="h3">Loading...</Heading>
+      {loadingUnits ? (
+        <Heading as="h3">Loading Units...</Heading>
       ) : (
         <Select
           name="my_unit_id"
           value={userDetails.my_unit_id}
-          onChange={(e) => handleChange(e, setUserDetails)}
+          onChange={handleUnitChange}
           placeholder="Your Unit"
           mb="4"
         >
           {units.map((unit) => (
             <option key={unit.id} value={unit.id}>
               {unit.unit_name}
+            </option>
+          ))}
+        </Select>
+      )}
+
+      {loadingSups ? (
+        <Heading as="h3">Loading Supervisors...</Heading>
+      ) : (
+        <Select
+          name="supervisor_id"
+          value={userDetails.supervisor_id}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="Unit Supervisors"
+          mb="4"
+        >
+          {listOfSups.map((supervisor) => (
+            <option key={supervisor.id} value={supervisor.id}>
+              {supervisor.first_name} {supervisor.last_name}
             </option>
           ))}
         </Select>

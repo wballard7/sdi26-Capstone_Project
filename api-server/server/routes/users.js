@@ -78,15 +78,25 @@ async function loginUser(req, res) {
 }
 
 async function getAllUnitSupervisors(req, res) {
+  const { id } = req.params;
   console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
-  const allSupervisors = await User.getBySupervisorTrue();
-  const unitSupervisors = allSupervisors.filter((user) => user.unitId === unitId);
+  const allSupervisors = await User.getByUnit(id);
+  const unitSupervisors = allSupervisors.filter((user) => user.supervisor);
+
+  return res.send(unitSupervisors);
+}
+
+async function getAllUnitNonSupervisors(req, res) {
+  const { id } = req.params;
+  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
+  const allSupervisors = await User.getByUnit(id);
+  const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
 
   return res.send(unitSupervisors);
 }
 
 async function getMyPersonnel(req, res) {
-  const id = req.params.id;
+  const id = req.params;
   console.log(`Line 74, getMyPersonnel, routes/users id: ${id} was passed in`);
   const allUsers = await User.all();
   const myPersonnel = allUsers.filter((user) => user.id === id);
@@ -102,4 +112,5 @@ module.exports = {
   createUser,
   loginUser,
   getAllUnitSupervisors,
+  getAllUnitNonSupervisors,
 };
