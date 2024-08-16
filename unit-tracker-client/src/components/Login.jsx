@@ -1,4 +1,4 @@
-import { Button, Link, Input, Box, Heading } from '@chakra-ui/react';
+import { Button, Link, Input, Box, Heading, Image } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
 import { getFetch, postFetch } from '../utils/Fetches';
 import { UserContext } from '../context/UserContext';
@@ -24,7 +24,7 @@ export const Login = () => {
     try {
       const response = await postFetch(`users/login`, userDetails);
       if (response) {
-        fetchUserData(userDetails.username);
+        await fetchUserData(userDetails.username);
         setLoggedIn(true);
         navigate('/home');
       } else {
@@ -38,7 +38,7 @@ export const Login = () => {
 
   const fetchSupervisor = async (sup_Id) => {
     console.log(personnel);
-    const supervisorResponse = await getFetch(`users/${sup_Id}`);
+    const supervisorResponse = await getFetch(`users/id/${sup_Id}`);
     setSupervisor({
       id: supervisorResponse.id,
       first_name: supervisorResponse.first_name,
@@ -68,7 +68,7 @@ export const Login = () => {
       console.log(`This is line 67 on Login JSX userResponse`, userResponse);
 
       if (userResponse) {
-        console.log(`userResponse was ok and recieved ${userResponse}`);
+        console.log(`userResponse was ok and recieved ${userData}`);
         if (userData.supervisor) {
           fetchPersonnel(userData.id);
         }
@@ -122,8 +122,30 @@ export const Login = () => {
   };
 
   return (
-    <Box maxW="sm" mx="auto" mt="10" padding="6" boxShadow="lg" borderRadius="lg">
-      <Heading as="h1" size="lg" mb="6">
+    <Box
+      maxW="sm"
+      mx="auto"
+      mt="10"
+      padding="6"
+      boxShadow="lg"
+      borderRadius="lg"
+      position="relative"
+    >
+      <Image
+        src="/assets/image.png"
+        alt="Background"
+        position="absolute"
+        mt={290}
+        top="50%"
+        left="50%"
+        transform="translate(-50%, -50%) scale(2)" // Scale the image to 200% of its original size
+        opacity="0.1"
+        zIndex="-1"
+        borderRadius="50%" // Makes the image circular
+        w="150%" // Makes the image 50% larger
+        h="auto" // Keeps the aspect ratio intact
+      />
+      <Heading as="h1" size="lg" mb="6" textAlign="center" whiteSpace="nowrap">
         Login or Create an Account
       </Heading>
       <Input
