@@ -2,13 +2,14 @@
 //   return <h1>Admin Profile</h1>;
 // };
 import React from 'react';
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, Heading } from '@chakra-ui/react';
 // import { NavBar } from './layout/NavBar';
 import '../styles/admin.css';
 
 export const Admin = () => {
   return (
     <Box className="admin-container">
+      <Heading>Admin Portal</Heading>
       <Box className="content">
         <Box className="sidebar">
           <Box className="unit-buttons">

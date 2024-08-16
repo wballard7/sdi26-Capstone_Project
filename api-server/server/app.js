@@ -50,7 +50,7 @@ app.delete('/static_entries', staticRoutes.removeEntry);
 
 app.get('/dynamic_entries/', dynamicRoutes.getAllEntries);
 app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById);
-app.get('/dynamic_entries/:name', dynamicRoutes.getEntryByName);
+app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
 app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
 app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
 app.get('/dynamic_entries/unit/:id', dynamicRoutes.getEntryByUnit);
@@ -62,7 +62,7 @@ app.delete('/dynamic_entries/', dynamicRoutes.removeEntry);
 // //get tags
 app.get('/tags', tagRoutes.getAllTags);
 app.get('/tags/:id', tagRoutes.getTagById);
-app.get('/tags/tag_name/:id', tagRoutes.getTagByName);
+app.get('/tags/tag_name/:name', tagRoutes.getTagByName);
 app.get('/tags', tagRoutes.createTag);
 app.get('/tags', tagRoutes.deleteTag);
 
