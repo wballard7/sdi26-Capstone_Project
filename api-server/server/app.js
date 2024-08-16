@@ -30,6 +30,7 @@ app.post('/users/login', userRoutes.loginUser);
 
 // ${apiURL}/units/${userData.my_unit_id}
 // getFetch('units')
+
 // postFetch('units', newUnit)
 app.get('/units', unitRoutes.getAllUnits);
 app.get('/units/:id', unitRoutes.getUnitsId);

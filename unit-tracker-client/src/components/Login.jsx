@@ -14,7 +14,7 @@ export const Login = () => {
     password: '',
   });
   const { setUser, setOrg, setLoggedIn } = useContext(UserContext);
-  const { setPersonnel } = useContext(PersonnelContext);
+  const { setPersonnel, personnel } = useContext(PersonnelContext);
   const { setSupervisor } = useContext(SupervisorContext);
   const navigate = useNavigate();
 
@@ -37,6 +37,7 @@ export const Login = () => {
   };
 
   const fetchSupervisor = async (sup_Id) => {
+    console.log(personnel);
     const supervisorResponse = await getFetch(`users/${sup_Id}`);
     setSupervisor({
       id: supervisorResponse.id,
@@ -70,6 +71,7 @@ export const Login = () => {
         console.log(`userResponse was ok and recieved ${userResponse}`);
         fetchPersonnel(userData.id);
         if (userData.supervisor_id) {
+          console.log(`This is line 73 on login.jsx; the supervisor is ${userData.supervisor_id}`);
           fetchSupervisor(userData.supervisor_id);
         }
         setUser({
