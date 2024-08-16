@@ -6,8 +6,9 @@ async function getAllUnits(req, res) {
 }
 
 async function getUnitsId(req, res) {
+  console.log(`Line 9 in routes/units id: ${req.params.id} was passed in`);
   const Id = req.params.id;
-  const unit = await Unit.getById(Id);
+  const unit = await Unit.getUnitsById(Id);
   return res.send(unit);
 }
 

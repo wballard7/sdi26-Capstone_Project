@@ -25,6 +25,7 @@ export const Login = () => {
       const response = await postFetch(`users/login`, userDetails);
       if (response) {
         fetchUserData(userDetails.username);
+        setLoggedIn(true);
         navigate('/home');
       } else {
         alert(response.message);
@@ -45,7 +46,6 @@ export const Login = () => {
       my_unit_id: supervisorResponse.my_unit_id,
       supervisor: supervisorResponse.supervisor,
     });
-    setLoggedIn(true);
   };
 
   const fetchPersonnel = async (userId) => {
@@ -62,12 +62,16 @@ export const Login = () => {
 
   const fetchUserData = async (username) => {
     try {
-      const userResponse = await fetch(`${apiURL}/user/${username}/`);
+      const userResponse = await fetch(`${apiURL}/users/username/${username}`);
       const userData = await userResponse.json();
+      console.log(`This is line 67 on Login JSX userResponse`, userResponse);
 
-      if (userResponse.ok) {
+      if (userResponse) {
+        console.log(`userResponse was ok and recieved ${userResponse}`);
         fetchPersonnel(userData.id);
-        fetchSupervisor(userData.supervisor_id);
+        if (userData.supervisor_id) {
+          fetchSupervisor(userData.supervisor_id);
+        }
         setUser({
           id: userData.id,
           username: userData.username,
@@ -83,7 +87,7 @@ export const Login = () => {
         const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}`);
         const orgData = await orgResponse.json();
 
-        if (orgResponse.ok) {
+        if (orgResponse) {
           setOrg({
             id: orgData.id,
             name: orgData.unit_name,
