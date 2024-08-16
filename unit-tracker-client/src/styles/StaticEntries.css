@@ -2,14 +2,20 @@
   padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: #2d3748;
 } */
+.container-heading {
+  background-color: #2d3748;
+}
 
 .main-section {
-  border-radius: 0px;
+  border-radius: 8px;
   padding: 16px;
   background-color: #2d3748;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  margin-top: 10px;
 }
 
 .buttons {
@@ -25,10 +31,11 @@
 
 .content-area {
   border-radius: 8px;
-  height: 400px;
+  height: 1200px;
   padding: 16px;
   overflow-y: auto;
   background-color: rgb(67, 67, 90);
+  flex-grow: 1;
 }
 
 .content-area h2 {
@@ -46,4 +53,54 @@
   flex-direction: column;
   height: 100vh;
   background-color: rgb(67, 67, 90);
+  flex-grow: 1;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  background-color: blue;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: seperate;
+  border-spacing: 0;
+  border: 1px solid green;
+  border-radius: 8px;
+}
+
+.table th,
+.table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  height: 150px;
+  position: relative;
+  min-width: 130px;
+}
+
+.table th span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* transform: rotate(-45deg); */
+  transform-origin: left bottom;
+  white-space: nowrap;
+}
+
+.table td {
+  text-align: left;
+  width: auto;
+}
+
+.table tr {
+  height: 50px;
 }
