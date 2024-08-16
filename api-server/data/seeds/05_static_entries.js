@@ -8,7 +8,7 @@ exports.seed = async function (knex) {
   await knex('static_entries').insert([
     {
       title: 'Med-deployment status',
-      unit_id: 11,
+      my_unit_id: 11,
       category_id: 1,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 4,
@@ -16,7 +16,7 @@ exports.seed = async function (knex) {
     },
     {
       title: 'Motorpool Maintenance',
-      unit_id: 11,
+      my_unit_id: 11,
       category_id: 3,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 1,
@@ -24,14 +24,14 @@ exports.seed = async function (knex) {
     },
     {
       title: 'Weapons Qual',
-      unit_id: 11,
+      my_unit_id: 11,
       category_id: 4,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       misc_notes: 'M4, range 37',
     },
     {
       title: 'JQS',
-      unit_id: 11,
+      my_unit_id: 11,
       category_id: 2,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 2,
@@ -40,7 +40,7 @@ exports.seed = async function (knex) {
 
     {
       title: 'PFC Snuffy',
-      unit_id: 12,
+      my_unit_id: 12,
       category_id: 7,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 1,
@@ -48,7 +48,7 @@ exports.seed = async function (knex) {
     },
     {
       title: 'SGT Slaughter',
-      unit_id: 12,
+      my_unit_id: 12,
       category_id: 7,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 2,
@@ -56,7 +56,7 @@ exports.seed = async function (knex) {
     },
     {
       title: 'A1C Damp',
-      unit_id: 12,
+      my_unit_id: 12,
       category_id: 7,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 3,
@@ -64,7 +64,7 @@ exports.seed = async function (knex) {
     },
     {
       title: 'SSG Rambo',
-      unit_id: 12,
+      my_unit_id: 12,
       category_id: 7,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 4,
@@ -74,13 +74,13 @@ exports.seed = async function (knex) {
 };
 
 // table.string('title').notNullable();
-// table.integer('unit_id').notNullable();
+// table.integer('my_unit_id').notNullable();
 // table.integer('category_id').notNullable();
 // table.uuid('input_owner_id').notNullable();
 // table.integer('tag_id');
 // table.string('misc_notes');
 
-// table.foreign('unit_id').references('id').inTable('units');
+// table.foreign('my_unit_id').references('id').inTable('units');
 // table.foreign('category_id').references('id').inTable('categories');
 // table.foreign('input_owner_id').references('id').inTable('users');
 // table.foreign('tag_id').references('id').inTable('tags');

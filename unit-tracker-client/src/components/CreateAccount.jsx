@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
-import { Select, Input, Button, Box } from '@chakra-ui/react';
+import { Select, Input, Button, Box, Heading } from '@chakra-ui/react';
 import Tree from 'react-d3-tree';
 
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
   const [listOfSups, setListOfSups] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [userDetails, setUserDetails] = useState({
     username: '',
     password: '',
@@ -24,6 +25,7 @@ export const CreateAccount = () => {
     const fetchUnits = async () => {
       const fetchedUnits = await getFetch('units');
       setUnits(fetchedUnits);
+      setLoading(false);
     };
 
     fetchUnits();
@@ -59,9 +61,9 @@ export const CreateAccount = () => {
   };
 
   const transformUnitsToTree = (units) => {
-    const rootUnits = units.filter((unit) => unit.reports_to_id === 0);
+    const rootUnits = units.filter((unit) => unit.reports_to === 0);
     const buildTree = (unit) => {
-      const children = units.filter((child) => child.reports_to_id === unit.id);
+      const children = units.filter((child) => child.reports_to === unit.id);
       return {
         name: unit.unit_name,
         children: children.map(buildTree),
@@ -72,28 +74,27 @@ export const CreateAccount = () => {
 
   const fetchUnitSupervisors = async (id) => {
     const unitSupervisors = await getFetch(`users/supervisor/${id}`);
-    setListOfSups({
-      id: unitSupervisors.id,
-      first_name: unitSupervisors.first_name,
-      last_name: unitSupervisors.last_name,
-    });
+    setListOfSups(unitSupervisors);
   };
 
   return (
     <Box>
-      <h1>Account Information</h1>
+      <Heading as="h1">Account Information</Heading>
       <Input
         type="text"
         name="username"
         value={userDetails.username}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="Username"
+        mb="4"
       />
       <Input
         name="password"
         value={userDetails.password}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="Password"
+        type="password"
+        mb="4"
       />
       <Input
         type="text"
@@ -101,6 +102,7 @@ export const CreateAccount = () => {
         value={userDetails.first_name}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="First Name"
+        mb="4"
       />
       <Input
         type="text"
@@ -108,49 +110,89 @@ export const CreateAccount = () => {
         value={userDetails.last_name}
         onChange={(e) => handleChange(e, setUserDetails)}
         placeholder="Last Name"
+        mb="4"
       />
+
+      {loading ? (
+        <Heading as="h3">Loading...</Heading>
+      ) : (
+        <Select
+          name="my_unit_id"
+          value={userDetails.my_unit_id}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="Your Unit"
+          mb="4"
+        >
+          {units.map((unit) => (
+            <option key={unit.id} value={unit.id}>
+              {unit.unit_name}
+            </option>
+          ))}
+        </Select>
+      )}
 
       {newOrg && (
         <>
-          <h2>New Organization Information</h2>
+          <Heading as="h2" size="md" mb="4">
+            New Organization Information
+          </Heading>
           <Select
-            value={userDetails.my_unit_id}
-            onChange={(e) => handleChange(e, setUserDetails)}
-            options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
-            placeholder="Select Your Unit"
-          />
-          some function to fetchUnitSupervisors based on unit selected
-          <h3>Units Tree</h3>
-          <Tree data={transformUnitsToTree(units)} />
-          <h3>Add New Unit</h3>
+            name="reports_to"
+            value={newUnit.reports_to}
+            onChange={(e) => handleChange(e, setNewUnit)}
+            placeholder="Reports To"
+            mb="4"
+          >
+            {units.map((unit) => (
+              <option key={unit.id} value={unit.id}>
+                {unit.unit_name}
+              </option>
+            ))}
+          </Select>
+
+          <Heading as="h3" size="sm" mb="4">
+            Units Tree
+          </Heading>
+          <Box mb="4" border="1px solid #ccc" borderRadius="md" p="4">
+            <Tree data={transformUnitsToTree(units)} />
+          </Box>
+
+          <Heading as="h3" size="sm" mb="4">
+            Add New Unit
+          </Heading>
           <Input
             type="text"
             name="unit_name"
             value={newUnit.unit_name}
             onChange={(e) => handleChange(e, setNewUnit)}
             placeholder="Unit Name"
+            mb="4"
           />
+
           <Select
+            name="reports_to"
             value={newUnit.reports_to}
             onChange={(e) => handleChange(e, setNewUnit)}
-            options={units.map((unit) => ({ label: unit.unit_name, value: unit.id }))}
-            placeholder="Your Unit"
-          />
-          <Button label="Add Unit" onClick={handleAddUnit} />
+            placeholder="Reports To"
+            mb="4"
+          >
+            {units.map((unit) => (
+              <option key={unit.id} value={unit.id}>
+                {unit.unit_name}
+              </option>
+            ))}
+          </Select>
+
+          <Button colorScheme="teal" onClick={handleAddUnit} mb="4">
+            Add Unit
+          </Button>
         </>
       )}
 
-      <Button
-        label={newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
-        onClick={handleSubmit}
-      >
+      <Button colorScheme="blue" onClick={handleSubmit} mb="4">
         {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
       </Button>
-      <Button
-        label={newOrg ? 'Back to Account Creation' : 'Create New Organization'}
-        onClick={toggleNewOrg}
-      >
-        {' '}
+      <Button colorScheme="gray" onClick={toggleNewOrg}>
         {newOrg ? 'Back to Account Creation' : 'Create New Organization'}
       </Button>
     </Box>

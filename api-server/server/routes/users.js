@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
+const { v4: uuidv4 } = require('uuid');
 
 async function getAllUsers(req, res) {
   console.log(`Line 5, getAllUsers, routes/users happened`);
@@ -22,13 +23,24 @@ async function getUserByUsername(req, res) {
 }
 
 async function createUser(req, res) {
+  const id = uuidv4();
   console.log(`This is line 25 in routes/users, createUser ${req.body.username}.`);
   const user = await User.getByUsername(req.body.username);
-  console.log(`This is line 27 in routes/users, createUser ${user}.`);
   if (!user) {
+    console.log(
+      `starting the hashing for user password on line 28 on routes/users createAccount`,
+
+      `
+      id: ${id},
+      username: ${req.body.username},
+      password: ${req.body.password},
+      my_unit_id: ${req.body.my_unit_id}
+      supervisor_id: ${req.body.supervisor_id},`,
+    );
     const saltValue = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, saltValue);
     const created = await User.create({
+      id: id,
       ...req.body,
       password: hashedPassword,
     });
