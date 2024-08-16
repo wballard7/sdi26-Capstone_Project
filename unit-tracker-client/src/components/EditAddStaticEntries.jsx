@@ -20,7 +20,7 @@ export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({
     title: '',
-    unit_id: 0,
+    my_unit_id: 0,
     owner_id: '',
     category_id: 0,
     notes: '',

@@ -8,7 +8,7 @@ const apiURL = 'http://localhost:8080';
 export const StaticEntries = () => {
   const [staticEntries, setStaticEntries] = useState({
     title: '',
-    unit_id: 0,
+    my_unit_id: 0,
     category_id: 0,
     input_owner_id: '',
     tag_id: 0,

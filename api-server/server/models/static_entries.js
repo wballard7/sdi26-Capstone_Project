@@ -23,8 +23,8 @@ async function getByOwner(input_owner_id) {
   return results[0];
 }
 
-async function getByUnit(unit_id) {
-  const results = await knex('static_entries').where(unit_id);
+async function getByUnit(my_unit_id) {
+  const results = await knex('static_entries').where(my_unit_id);
   return results[0];
 }
 
