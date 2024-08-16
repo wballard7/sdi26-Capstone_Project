@@ -113,9 +113,9 @@ export const EditAddStaticEntries = () => {
               </Select>
             </div>
             <div className="p-field">
-              <label htmlFor="unit_id">Unit ID</label>
+              <label htmlFor="my_unit_id">Unit ID</label>
               <Input
-                id="unit_id"
+                id="my_unit_id"
                 type="number"
                 value={newStaticEntry.unit_id}
                 onChange={(e) => handleChange(e, 'unit_id')}
