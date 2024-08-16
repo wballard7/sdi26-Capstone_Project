@@ -26,7 +26,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={loggedIn ? <Navigate to="/Home" /> : <Login />} />
           <Route path="/Login" element={loggedIn ? <Navigate to="/Home" /> : <Login />} />
-
+          <Route path="/CreateAccount" element={<CreateAccount />} />
           {/* Protected Routes */}
           {loggedIn ? (
             <>
@@ -59,14 +59,6 @@ function App() {
                 element={
                   <Layout>
                     <Admin />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/CreateAccount"
-                element={
-                  <Layout>
-                    <CreateAccount />
                   </Layout>
                 }
               />

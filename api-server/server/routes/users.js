@@ -22,9 +22,9 @@ async function getUserByUsername(req, res) {
 }
 
 async function createUser(req, res) {
-  console.log(`This is line 24 in routes/users, createUser ${req.body.username}.`);
+  console.log(`This is line 25 in routes/users, createUser ${req.body.username}.`);
   const user = await User.getByUsername(req.body.username);
-  console.log(`This is line 24 in routes/users, createUser ${user}.`);
+  console.log(`This is line 27 in routes/users, createUser ${user}.`);
   if (!user) {
     const saltValue = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, saltValue);
