@@ -69,7 +69,9 @@ export const Login = () => {
 
       if (userResponse) {
         console.log(`userResponse was ok and recieved ${userResponse}`);
-        fetchPersonnel(userData.id);
+        if (userData.supervisor) {
+          fetchPersonnel(userData.id);
+        }
         if (userData.supervisor_id) {
           console.log(`This is line 73 on login.jsx; the supervisor is ${userData.supervisor_id}`);
           fetchSupervisor(userData.supervisor_id);
