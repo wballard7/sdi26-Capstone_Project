@@ -21,39 +21,28 @@ import {
 } from '@chakra-ui/react';
 
 const MyCalendar = () => {
-  const [date, setDate] = useState(new Date());
-  const [eventData, setEventData] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleDateChange = (selectedDate) => {
-    setDate(selectedDate);
-    onOpen(); // Open the modal when a date is selected
+    const dayOfWeek = selectedDate.getDay();
+    const start = new Date(selectedDate);
+    start.setDate(selectedDate.getDate() - dayOfWeek + 1); // Set to Monday
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6); // Set to Sunday
+
+    setStartDate(start);
+    setEndDate(end);
+    console.log(startDate);
   };
 
-  const handleSubmit = async () => {
-    // Example of pushing data to a database using a POST request
-    try {
-      const response = await fetch('/api/calendar-events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          date,
-          eventData,
-        }),
-      });
-
-      if (response.ok) {
-        console.log('Event saved successfully!');
-        // Handle successful submission
-      } else {
-        console.error('Failed to save the event');
+  const tileClassName = ({ date }) => {
+    if (startDate && endDate) {
+      if (date >= startDate && date <= endDate) {
+        return 'highlight'; // Add custom CSS class for highlighted dates
       }
-    } catch (error) {
-      console.error('Error:', error);
     }
-    onClose();
+    return null;
   };
 
   return (
@@ -74,7 +63,7 @@ const MyCalendar = () => {
         <Box
           as={Calendar}
           onChange={handleDateChange}
-          value={date}
+          tileClassName={tileClassName}
           borderRadius="md"
           boxShadow="md"
           background="darkgrey"
@@ -117,51 +106,18 @@ const MyCalendar = () => {
             '& .react-calendar__tile--now:hover': {
               bg: 'darkslategrey',
             },
+            // Custom highlight style
+            '& .highlight': {
+              background: 'blue',
+              color: 'white',
+              borderRadius: '8px',
+            },
           }}
         />
         <Text mt={4} textAlign="center" color="snow">
-          Selected Date: {date.toDateString()}
+          Week Range: {startDate ? startDate.toDateString() : 'N/A'} -{' '}
+          {endDate ? endDate.toDateString() : 'N/A'}
         </Text>
-
-        {/* Modal for adding event information */}
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent
-            bg="white"
-            borderRadius="lg"
-            boxShadow="2xl"
-            color="black"
-            padding={6}
-            width="sm"
-            maxWidth="400px"
-            minHeight="300px"
-          >
-            <ModalHeader fontWeight="bold">Add Event Information</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl>
-                <FormLabel color="gray.700">Event Details</FormLabel>
-                <Input
-                  placeholder="Enter event details"
-                  value={eventData}
-                  onChange={(e) => setEventData(e.target.value)}
-                  bg="gray.200"
-                  color="white"
-                  borderRadius="md"
-                  _placeholder={{ color: 'gray.500' }}
-                />
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="teal" mr={3} onClick={handleSubmit}>
-                Save
-              </Button>
-              <Button variant="ghost" onClick={onClose}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
       </Box>
     </Flex>
   );

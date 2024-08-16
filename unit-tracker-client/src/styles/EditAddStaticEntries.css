@@ -1,0 +1,4 @@
+/* In a global CSS file or CSS module */
+.dropdown-option {
+  color: black !important; /* Force black text color */
+}

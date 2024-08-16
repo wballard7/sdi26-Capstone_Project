@@ -1,7 +1,23 @@
-.gridBodyLayout {
+.topRow {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+  margin-top: 1rem;
+}
+.categoryTabs {
+  padding: 10px;
+}
+
+.calanderButtonGroup {
+  width: 305px;
+}
+.calanderButton {
+  width: 305px;
+}
+
+.bodyGrid {
   /* display: inline-grid; */
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto, auto;
   margin: 1px;
   padding: 1px;
   font-weight: bold;
@@ -11,10 +27,20 @@
   background-color: rgb(121, 42, 5);
   padding: 10px;
   border-radius: 8px;
-
   grid-column: 1;
   box-sizing: border-box;
   width: 300px;
+}
+
+.currentTab {
+  background-color: rgba(255, 233, 233, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid black;
 }
 
 .staticEntry {
@@ -23,24 +49,53 @@
   border-radius: 10px;
   color: white;
   font-weight: bold;
-
+  border: 1px solid black;
   width: 280px;
   box-sizing: border-box;
   word-wrap: break-word;
+  margin-bottom: 10px;
 }
 
-.draggieboiiiz {
+.dynamicGroup {
   background-color: rgb(34, 4, 105);
   padding: 10px;
   border-radius: 8px;
-  width: 84vw;
-
+  width: 87vw;
   grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
 }
+.dynamicEntries {
+}
+
+.dynamicTime {
+  color: white;
+  text-align: center;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  height: 40px;
+}
+
+.dragDropContainer {
+  grid-column: 1 / -1; /* This makes the container span all columns */
+}
+
 .bottomButtons {
-  grid-column: 2;
+  display: grid;
+  grid-template-columns: 50vw, 50vw;
 }
 
+.entriesButton {
+  grid-column: 1;
+  width: 50vw;
+}
+
+.tasksButton {
+  grid-column: 2;
+  width: 50vw;
+}
 /* attempt grid setup */
 /* .gridSetup {
   display: grid;
