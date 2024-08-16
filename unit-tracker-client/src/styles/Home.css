@@ -1,37 +1,52 @@
-.staticGroup {
-  background-color: rgba(255, 0, 0, 0.1);
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.staticEntry {
-  background-color: rgba(255, 0, 0, 0.3);
-  padding: 10px;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
-}
-
-.draggieboiiiz {
-  background-color: rgba(0, 255, 0, 0.1);
-  padding: 10px;
-  border-radius: 8px;
-}
-
-/* attempt grid setup */
-.gridSetup {
-  display: grid;
-  padding: 10px;
-  cursor: pointer;
-}
-
 .gridBodyLayout {
-  display: inline-grid;
-  grid-template-columns: 150px 1fr 150px;
+  /* display: inline-grid; */
+  display: grid;
+  grid-template-columns: auto auto;
   margin: 1px;
   padding: 1px;
   font-weight: bold;
 }
+/* https://www.freecodecamp.org/news/complete-guide-to-css-grid/ */
+.staticGroup {
+  background-color: rgb(121, 42, 5);
+  padding: 10px;
+  border-radius: 8px;
+
+  grid-column: 1;
+  box-sizing: border-box;
+  width: 300px;
+}
+
+.staticEntry {
+  background-color: rgba(255, 233, 233, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+
+  width: 280px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+
+.draggieboiiiz {
+  background-color: rgb(34, 4, 105);
+  padding: 10px;
+  border-radius: 8px;
+  width: 84vw;
+
+  grid-column: 2;
+}
+.bottomButtons {
+  grid-column: 2;
+}
+
+/* attempt grid setup */
+/* .gridSetup {
+  display: grid;
+  padding: 10px;
+  cursor: pointer;
+} */
 
 /* <div className='gridStyled'>
 <div className='gridHeadersLayout'>

@@ -88,39 +88,41 @@ export const Home = () => {
   };
 
   return (
-    <Box maxW="md" mx="auto" mt="8" p="6" boxShadow="lg" borderRadius="lg">
-      <Heading as="h1" size="lg" mb="6">
-        Home
-      </Heading>
+    <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
       <div>
         {staticEntries.length > 0 ? (
-          <div className="gridSetup">
-            <div className="gridBodyLayout">
-              <div className="staticGroup">
-                {staticEntries.map((entry) => (
-                  <h1 className="staticEntry">{entry.title}</h1>
-                ))}
-              </div>
-              <div className="draggieboiiiz">
-                <DragDropContainer />
-              </div>
+          // <div className="gridSetup">
+          <div className="gridBodyLayout">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <div className="staticGroup">
+              {staticEntries.map((entry) => (
+                <h1 className="staticEntry">{entry.title}</h1>
+              ))}
+            </div>
+            <div className="draggieboiiiz">
+              <DragDropContainer />
             </div>
           </div>
         ) : (
+          // </div>
           <p>No static entries found.</p>
         )}
       </div>
-
-      <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
-        <Button width="full" colorScheme="teal" size="lg">
-          Entries
-        </Button>
-      </Link>
-      <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
-        <Button width="full" colorScheme="teal" size="lg">
-          Task
-        </Button>
-      </Link>
+      <div classname="bottomButtons">
+        <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
+          <Button width="full" colorScheme="teal" size="lg">
+            Entries
+          </Button>
+        </Link>
+        <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
+          <Button width="full" colorScheme="teal" size="lg">
+            Task
+          </Button>
+        </Link>
+      </div>
     </Box>
   );
 };
