@@ -1,0 +1,86 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1a202c;
+}
+
+.content {
+  display: flex;
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+}
+
+.sidebar {
+  width: 25%;
+  background-color: #2d3748;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.unit-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-unit-button {
+  width: 100%;
+  color: white;
+  background-color: rgb(67, 67, 90);
+}
+
+.create-unit-button {
+  width: 100%;
+  color: white;
+  background-color: rgb(67, 67, 90);
+}
+
+.unit-info {
+  flex-grow: 1;
+  width: 100%;
+  color: white;
+  background-color: rgb(67, 67, 90);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.main-content {
+  width: 75%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: #2d3748;
+}
+
+.user-management {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.edit-users-button {
+  color: white;
+  background-color: rgb(67, 67, 90);
+}
+
+.user-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-user-button {
+  color: white;
+  background-color: rgb(67, 67, 90);
+}
+
+.users-list {
+  flex-grow: 1;
+  background-color: rgb(67, 67, 90);
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}

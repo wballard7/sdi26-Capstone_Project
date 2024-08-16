@@ -1,4 +1,4 @@
-import { Button, Box, Link } from '@chakra-ui/react';
+import { Button, Box, Link, Flex } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 export const NavBar = () => {
@@ -6,7 +6,7 @@ export const NavBar = () => {
   return (
     <>
       {admin === true ? (
-        <>
+        <Flex justifyContent="right" p={4}>
           <Box>
             <Link size={80} name={'Admin'} href="/Admin">
               <Button>Admin</Button>
@@ -18,9 +18,9 @@ export const NavBar = () => {
               <Button>{`${username}'s Profile`}</Button>
             </Link>
           </Box>
-        </>
+        </Flex>
       ) : (
-        <>
+        <Flex justifyContent="right" p={4}>
           <Box>
             <Link size={80} name={'Home'} href="/Home">
               <Button>Home</Button>
@@ -29,7 +29,7 @@ export const NavBar = () => {
               <Button>{`${username}'s Profile`}</Button>
             </Link>
           </Box>
-        </>
+        </Flex>
       )}
     </>
   );
