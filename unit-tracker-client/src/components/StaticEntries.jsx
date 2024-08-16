@@ -1,6 +1,7 @@
-import { Link, Button, Box } from '@chakra-ui/react';
+import { Link, Button, Box, Flex, Text, Heading } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { getFetch } from '../utils/Fetches';
+import '../styles/StaticEntries.css';
 
 const apiURL = 'http://localhost:8080';
 
@@ -32,24 +33,34 @@ export const StaticEntries = () => {
   }, []);
 
   return (
-    <>
-      <h1>StaticEntries</h1>
-      <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
-        <Button width="full" colorScheme="teal" size="lg">
-          Edit/Add Entries
-        </Button>
-      </Link>
-      <div>
-        {staticEntries.length > 0 ? (
-          <div>
-            {staticEntries.map((entry) => (
-              <h2>{entry.title}</h2>
-            ))}
-          </div>
-        ) : (
-          <p>No static entries found.</p>
-        )}
-      </div>
-    </>
+    <Box className="container">
+      <Heading>Static Entries</Heading>
+      <Box className="main-section">
+        <Flex className="buttons">
+          <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
+            <Button width="buttons-button" colorScheme="teal">
+              Edit/Add Entries
+            </Button>
+          </Link>
+          <Link href="/AddNewStaticEntries" style={{ textDecoration: 'none' }}>
+            <Button width="buttons-button" colorScheme="teal">
+              Edit/Add Entries
+            </Button>
+          </Link>
+        </Flex>
+
+        <Box className="content-area">
+          {staticEntries.length > 0 ? (
+            staticEntries.map((entry) => (
+              <Box key={entry.id} mb={2}>
+                <Text>{entry.title}</Text>
+              </Box>
+            ))
+          ) : (
+            <Text>No static entries found.</Text>
+          )}
+        </Box>
+      </Box>
+    </Box>
   );
 };

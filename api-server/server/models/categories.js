@@ -19,16 +19,11 @@ async function create(data) {
   const results = await knex('categories').insert(data).returning('*');
   return results[0];
 }
-async function update(id, data) {
-  const results = await knex('categories').where(id).update(data);
-  return results[0];
-}
 
 module.exports = {
-    all,
-    create,
-    remove,
-    update,
-    getById,
-    getByName,
-  };
+  all,
+  create,
+  remove,
+  getById,
+  getByName,
+};

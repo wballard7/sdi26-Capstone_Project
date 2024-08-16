@@ -15,6 +15,9 @@ const userRoutes = require('./routes/users');
 const unitRoutes = require('./routes/units');
 const staticRoutes = require('./routes/static_entries');
 const dynamicRoutes = require('./routes/dynamic_entries');
+const categoryRoutes = require('./routes/categories');
+const tagRoutes = require('./routes/tags');
+const audienceRoutes = require('./routes/join_audience');
 
 app.get('/users', userRoutes.getAllUsers);
 app.get('/users/id/:id', userRoutes.getUserById);
@@ -47,20 +50,35 @@ app.patch('/static_entries', staticRoutes.updateEntry);
 app.delete('/static_entries', staticRoutes.removeEntry);
 
 app.get('/dynamic_entries/', dynamicRoutes.getAllEntries);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryById);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryByTitle);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryByOwner);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryByCategory);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryByUnit);
-app.get('/dynamic_entries/', dynamicRoutes.getEntryByTags);
+app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById);
+app.get('/dynamic_entries/:name', dynamicRoutes.getEntryByName);
+app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
+app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
+app.get('/dynamic_entries/unit/:id', dynamicRoutes.getEntryByUnit);
+app.get('/dynamic_entries/tags/:id', dynamicRoutes.getEntryByTags);
 app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/', dynamicRoutes.removeEntry);
 
-//get tags
+// //get tags
+app.get('/tags', tagRoutes.getAllTags);
+app.get('/tags/:id', tagRoutes.getTagById);
+app.get('/tags/tag_name/:id', tagRoutes.getTagByName);
+app.get('/tags', tagRoutes.createTag);
+app.get('/tags', tagRoutes.deleteTag);
 
-//get audience
-
-//get categories
-
+// //get categories
+app.get('/categories', categoryRoutes.getAllCategories);
+app.get('/categories/:id', categoryRoutes.getCategoriesById);
+app.get('/categories/name/:id', categoryRoutes.getCategoriesByName);
+app.get('/categories', categoryRoutes.createCategory);
+app.get('/categories', categoryRoutes.deleteCategory);
+// //get audience
+app.get('/join_audience', audienceRoutes.getAllAudiences);
+app.get('/join_audience/:id', audienceRoutes.getAudienceById);
+app.get('/join_audience/static_id/:id', audienceRoutes.getAudienceByStaticID);
+app.get('/join_audience/user_id/:id', audienceRoutes.getAudienceByUserID);
+app.get('/join_audience', audienceRoutes.createAudience);
+app.get('/join_audience', audienceRoutes.updateAudience);
+app.get('/join_audience', audienceRoutes.deleteAudience);
 module.exports = app;

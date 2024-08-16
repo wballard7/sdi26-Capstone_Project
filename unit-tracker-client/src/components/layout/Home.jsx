@@ -22,13 +22,13 @@ export const Home = () => {
     const fetchDynamicEntries = async () => {
       const fetchedDynamicEntries = await getFetch('dynamic_entries');
       setDynamicEntries(fetchedDynamicEntries);
-      console.log(fetchedDynamicEntries);
     };
 
     fetchDynamicEntries();
-    console.log(dynamicEntries);
   }, []);
-
+  //NOTE:
+  //will need to change updated buttons so it is a 1 for 1 swap
+  //using a 3rd obj placeholder
   //dragie boi
   const DraggableButton = ({ id, children, onDragStart }) => (
     <Button
@@ -50,8 +50,10 @@ export const Home = () => {
 
     const onDrop = (e, index) => {
       const id = e.dataTransfer.getData('id');
-      const draggedButton = dynamicEntries.find((btn) => btn.id === id);
-      const filteredButtons = dynamicEntries.filter((btn) => btn.id !== id);
+      const convertedid = Number(id);
+      const draggedButton = dynamicEntries.find((btn) => btn.id === convertedid);
+
+      const filteredButtons = dynamicEntries.filter((btn) => btn.id !== convertedid);
 
       const updatedButtons = [
         ...filteredButtons.slice(0, index),
@@ -83,112 +85,18 @@ export const Home = () => {
         ))}
       </VStack>
     );
-
-    // return (
-    //   <VStack spacing={4}>
-    //     {buttons.map((button, index) => (
-    //       <Box
-    //         key={button.id}
-    //         onDrop={(e) => onDrop(e, index)}
-    //         onDragOver={onDragOver}
-    //         width="100%"
-    //       >
-    //         <DraggableButton id={button.id} onDragStart={onDragStart}>
-    //           {button.content}
-    //         </DraggableButton>
-    //       </Box>
-    //     ))}
-    //   </VStack>
-    // );
   };
-  // const DraggableButton = ({ id, children, onDragStart }) => (
-  //   <Button
-  //     draggable
-  //     onDragStart={(e) => onDragStart(e, id)}
-  //     bg="blue.500"
-  //     color="white"
-  //     _hover={{ bg: 'blue.400' }}
-  //     width="100%"
-  //   >
-  //     {children}
-  //   </Button>
-  // );
-
-  // const DragDropContainer = () => {
-  //   const [buttons, setButtons] = useState([
-  //     { id: '1', content: 'Button 1' },
-  //     { id: '2', content: 'Button 2' },
-  //     { id: '3', content: 'Button 3' },
-  //   ]);
-
-  //   const onDragStart = (e, id) => {
-  //     e.dataTransfer.setData('id', id);
-  //   };
-
-  //   const onDrop = (e, index) => {
-  //     const id = e.dataTransfer.getData('id');
-  //     const draggedButton = dynamicEntries.find((btn) => btn.id === id);
-  //     const filteredButtons = dynamicEntries.filter((btn) => btn.id !== id);
-
-  //     const updatedButtons = [
-  //       ...filteredButtons.slice(0, index),
-  //       draggedButton,
-  //       ...filteredButtons.slice(index),
-  //     ];
-
-  //     setButtons(updatedButtons);
-  //   };
-
-  //   const onDragOver = (e) => {
-  //     e.preventDefault();
-  //   };
-
-  //   return (
-  //     <VStack spacing={1}>
-  //       {dynamicEntries.map((entry, index) => (
-  //         <>
-  //           {console.log('entry', entry.id)}
-
-  //           <Box
-  //             key={entry.id}
-  //             onDrop={(e) => onDrop(e, index)}
-  //             onDragOver={onDragOver}
-  //             width="100%"
-  //           >
-  //             <DraggableButton id={entry.id} onDragStart={onDragStart}>
-  //               {entry.name}
-  //             </DraggableButton>
-  //           </Box>
-  //         </>
-  //       ))}
-  //     </VStack>
-  //   );
-  // };
-  //end draggie boi
-  //
-  //   <VStack spacing={4}>
-  //   {buttons.map((button, index) => (
-  //     <Box
-  //       key={button.id}
-  //       onDrop={(e) => onDrop(e, index)}
-  //       onDragOver={onDragOver}
-  //       width="100%"
-  //     >
-  //       <DraggableButton id={button.id} onDragStart={onDragStart}>
-  //         {button.content}
-  //       </DraggableButton>
-  //     </Box>
-  //   ))}
-  // </VStack>
 
   return (
-    <Box maxW="md" mx="auto" mt="8" p="6" boxShadow="lg" borderRadius="lg">
-      <Heading as="h1" size="lg" mb="6">
-        Home
-      </Heading>
+    <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
       <div>
         {staticEntries.length > 0 ? (
-          <div className="gridaLayout">
+          // <div className="gridSetup">
+          <div className="gridBodyLayout">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
             <div className="staticGroup">
               {staticEntries.map((entry) => (
                 <h1 className="staticEntry">{entry.title}</h1>
@@ -199,20 +107,22 @@ export const Home = () => {
             </div>
           </div>
         ) : (
+          // </div>
           <p>No static entries found.</p>
         )}
       </div>
-
-      <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
-        <Button width="full" colorScheme="teal" size="lg">
-          Entries
-        </Button>
-      </Link>
-      <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
-        <Button width="full" colorScheme="teal" size="lg">
-          Task
-        </Button>
-      </Link>
+      <div classname="bottomButtons">
+        <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
+          <Button width="full" colorScheme="teal" size="lg">
+            Entries
+          </Button>
+        </Link>
+        <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
+          <Button width="full" colorScheme="teal" size="lg">
+            Task
+          </Button>
+        </Link>
+      </div>
     </Box>
   );
 };

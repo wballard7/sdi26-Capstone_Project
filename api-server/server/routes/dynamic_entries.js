@@ -11,9 +11,9 @@ async function getEntryById(req, res) {
   return res.send(entry);
 }
 
-async function getEntryByTitle(req, res) {
+async function getEntryByName(req, res) {
   const title = req.params.title;
-  const entry = await Dynamic_entry.getByTitle(title);
+  const entry = await Dynamic_entry.getByName(title);
   return res.send(entry);
 }
 
@@ -62,7 +62,7 @@ module.exports = {
   updateEntry,
   createEntry,
   getEntryById,
-  getEntryByTitle,
+  getEntryByName,
   getEntryByCategory,
   getEntryByOwner,
   getEntryByUnit,

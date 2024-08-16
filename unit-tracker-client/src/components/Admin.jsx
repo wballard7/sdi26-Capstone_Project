@@ -11,7 +11,31 @@ export const Admin = () => {
     <Box className="admin-container">
       <Box className="content">
         <Box className="sidebar">
-          <Box></Box>
+          <Box className="unit-buttons">
+            <Button className="edit-unit-button">Edit Unit</Button>
+            <Button className="create-unit-button">Create Unit</Button>
+          </Box>
+          <Box className="unit-info">
+            <Text fontSize="lg" color="white">
+              Unit Info
+            </Text>
+            <Text color="whtie">Where unit info is displayed</Text>
+          </Box>
+        </Box>
+
+        <Box className="main-content">
+          <Box className="user-management">
+            <Box className="user-buttons">
+              <Button className="edit-user-button">Edit users</Button>
+              <Button className="create-user-button">Create users</Button>
+            </Box>
+            <Box className="users-list">
+              <Text fontSize="lg" color="white">
+                Users List
+              </Text>
+              <Text color="white">Where list of users will be displayed</Text>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>
