@@ -34,18 +34,29 @@ async function createUser(req, res) {
 }
 
 async function loginUser(req, res) {
-  // validation JOI
-  const { username, password } = req.body;
-  console.log(`At loginUser in routes: ${username} and ${password} were passed in`);
-  const user = await User.getByUsername(username);
-  console.log(`Passed in password:${password} & ${username}:${user.password} are being compared`);
-  const isPasswordMatch = await bcrypt.compare(password, user.password);
-  if (!isPasswordMatch) {
-    console.log('Passwords do not match! Authentication failed.');
-    return res.status(409).json({ message: 'Passwords do not match!' });
+  try {
+    const { username, password } = req.body;
+    console.log(`At loginUser in routes: ${username} and ${password} were passed in`);
+    const user = await User.getByUsername(username);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log(
+      `Passed in password: ${password} & stored password: ${user.password} are being compared`,
+    );
+    // Compare the provided password with the stored password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      console.log('Passwords do not match! Authentication failed.');
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    console.log('Passwords match! User logged in.');
+    // Return the user data
+    return res.status(200).json({ message: 'User logged in', user });
+  } catch (err) {
+    console.error('Error during login:', err);
+    return res.status(500).json({ message: 'Server error during login', error: err.message });
   }
-  console.log('Passwords match! User logged in.');
-  return res.status(200).json({ message: 'User logged in', user });
 }
 
 async function getAllUnitSupervisors(req, res) {

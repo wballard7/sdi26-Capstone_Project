@@ -4,6 +4,7 @@ import { getFetch, postFetch } from '../utils/Fetches';
 import { UserContext } from '../context/UserContext';
 import { PersonnelContext } from '../context/PersonnelContext';
 import { SupervisorContext } from '../context/SupervisorContext';
+import { useNavigate } from 'react-router-dom';
 
 const apiURL = 'http://localhost:8080';
 
@@ -12,21 +13,20 @@ export const Login = () => {
     username: '',
     password: '',
   });
-  const { setUser, setOrg, loggedIn } = useContext(UserContext);
+  const { setUser, setOrg, setLoggedIn } = useContext(UserContext);
   const { setPersonnel } = useContext(PersonnelContext);
   const { setSupervisor } = useContext(SupervisorContext);
+  const navigate = useNavigate();
 
   const submitLogin = async () => {
     console.log(`Login submitted`);
     console.log(JSON.stringify(userDetails)); // Logging the userDetails object
     try {
       const response = await postFetch(`users/login`, userDetails);
-      if (response.ok) {
-        console.log(response);
+      if (response) {
         fetchUserData(userDetails.username);
-        loggedIn(true);
+        navigate('/home');
       } else {
-        console.error(response.message);
         alert(response.message);
       }
     } catch (err) {
@@ -45,6 +45,7 @@ export const Login = () => {
       my_unit_id: supervisorResponse.my_unit_id,
       supervisor: supervisorResponse.supervisor,
     });
+    setLoggedIn(true);
   };
 
   const fetchPersonnel = async (userId) => {
@@ -79,7 +80,7 @@ export const Login = () => {
           supervisor: userData.supervisor,
         });
 
-        const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}/`);
+        const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}`);
         const orgData = await orgResponse.json();
 
         if (orgResponse.ok) {

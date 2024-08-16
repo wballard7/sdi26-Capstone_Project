@@ -18,6 +18,7 @@ const UserContext = createContext({
   },
   setUser: () => {},
   setOrg: () => {},
+  setLoggedIn: () => {},
 });
 
 const UserProvider = ({ children }) => {
@@ -39,6 +40,8 @@ const UserProvider = ({ children }) => {
     },
   });
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const setOrg = (orgDetails) => {
     setUser((prevUser) => ({
       ...prevUser,
@@ -47,7 +50,9 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ ...user, setUser, setOrg }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ ...user, loggedIn, setUser, setOrg, setLoggedIn }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
