@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
 import { Select, Input, Button, Box, Heading } from '@chakra-ui/react';
 import Tree from 'react-d3-tree';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateAccount = () => {
   const [newOrg, setNewOrg] = useState(false);
@@ -24,6 +25,7 @@ export const CreateAccount = () => {
     unit_name: '',
     reports_to: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -42,6 +44,7 @@ export const CreateAccount = () => {
 
   const handleCreateAccount = async () => {
     await postFetch('users', userDetails);
+    navigate('/home');
   };
 
   const handleAddUnit = async () => {
@@ -142,11 +145,14 @@ export const CreateAccount = () => {
         <Heading as="h3">Loading Units...</Heading>
       ) : (
         <Select
+                    bg="black"
+            color="white"
           name="my_unit_id"
           value={userDetails.my_unit_id}
           onChange={handleUnitChange}
           placeholder="Your Unit"
           mb="4"
+          s
         >
           {units.map((unit) => (
             <option key={unit.id} value={unit.id}>
@@ -160,6 +166,8 @@ export const CreateAccount = () => {
         <Heading as="h3">Loading Supervisors...</Heading>
       ) : (
         <Select
+                    bg="white"
+            color="black"
           name="supervisor_id"
           value={userDetails.supervisor_id}
           onChange={(e) => handleChange(e, setUserDetails)}
@@ -185,6 +193,8 @@ export const CreateAccount = () => {
             onChange={(e) => handleChange(e, setNewUnit)}
             placeholder="Reports To"
             mb="4"
+            bg="white"
+            color="black"
           >
             {units.map((unit) => (
               <option key={unit.id} value={unit.id}>
@@ -232,10 +242,10 @@ export const CreateAccount = () => {
         </>
       )}
 
-      <Button colorScheme="blue" onClick={handleSubmit} mb="4">
+      <Button colorScheme="blue" onClick={handleSubmit} m="4">
         {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
       </Button>
-      <Button colorScheme="gray" onClick={toggleNewOrg}>
+      <Button colorScheme="gray" onClick={toggleNewOrg} m="4">
         {newOrg ? 'Back to Account Creation' : 'Create New Organization'}
       </Button>
     </Box>
