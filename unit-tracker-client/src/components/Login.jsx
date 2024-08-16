@@ -4,6 +4,7 @@ import { getFetch, postFetch } from '../utils/Fetches';
 import { UserContext } from '../context/UserContext';
 import { PersonnelContext } from '../context/PersonnelContext';
 import { SupervisorContext } from '../context/SupervisorContext';
+import { useNavigate } from 'react-router-dom';
 
 const apiURL = 'http://localhost:8080';
 
@@ -12,21 +13,21 @@ export const Login = () => {
     username: '',
     password: '',
   });
-  const { setUser, setOrg, loggedIn } = useContext(UserContext);
+  const { setUser, setOrg, setLoggedIn } = useContext(UserContext);
   const { setPersonnel } = useContext(PersonnelContext);
   const { setSupervisor } = useContext(SupervisorContext);
+  const navigate = useNavigate();
 
   const submitLogin = async () => {
     console.log(`Login submitted`);
     console.log(JSON.stringify(userDetails)); // Logging the userDetails object
     try {
       const response = await postFetch(`users/login`, userDetails);
-      if (response.ok) {
-        console.log(response);
+      if (response) {
         fetchUserData(userDetails.username);
-        loggedIn(true);
+        setLoggedIn(true);
+        navigate('/home');
       } else {
-        console.error(response.message);
         alert(response.message);
       }
     } catch (err) {
@@ -61,12 +62,16 @@ export const Login = () => {
 
   const fetchUserData = async (username) => {
     try {
-      const userResponse = await fetch(`${apiURL}/user/${username}/`);
+      const userResponse = await fetch(`${apiURL}/users/username/${username}`);
       const userData = await userResponse.json();
+      console.log(`This is line 67 on Login JSX userResponse`, userResponse);
 
-      if (userResponse.ok) {
+      if (userResponse) {
+        console.log(`userResponse was ok and recieved ${userResponse}`);
         fetchPersonnel(userData.id);
-        fetchSupervisor(userData.supervisor_id);
+        if (userData.supervisor_id) {
+          fetchSupervisor(userData.supervisor_id);
+        }
         setUser({
           id: userData.id,
           username: userData.username,
@@ -79,10 +84,10 @@ export const Login = () => {
           supervisor: userData.supervisor,
         });
 
-        const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}/`);
+        const orgResponse = await fetch(`${apiURL}/units/${userData.my_unit_id}`);
         const orgData = await orgResponse.json();
 
-        if (orgResponse.ok) {
+        if (orgResponse) {
           setOrg({
             id: orgData.id,
             name: orgData.unit_name,

@@ -20,9 +20,10 @@ const tagRoutes = require('./routes/tags');
 const audienceRoutes = require('./routes/join_audience');
 
 app.get('/users', userRoutes.getAllUsers);
-app.get('/users/:id', userRoutes.getUserById);
-app.get('/users/:username', userRoutes.getUserByUsername);
+app.get('/users/id/:id', userRoutes.getUserById);
+app.get('/users/username/:username', userRoutes.getUserByUsername);
 app.get('/users/unit_supervisors', userRoutes.getAllUnitSupervisors);
+app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
 

@@ -5,6 +5,7 @@ async function all() {
 }
 
 async function getById(id) {
+  console.log(`UserID at models line 8 ${id}`);
   const results = await knex('users').where({ id });
   return results[0];
 }
