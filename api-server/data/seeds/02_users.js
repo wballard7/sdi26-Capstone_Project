@@ -10,14 +10,13 @@ exports.seed = async function (knex) {
   const password1 = await bcrypt.hash('a', salt);
   await knex('users').del();
   await knex('users').insert([
-    // Original Users
     {
       id: '0c49ad8f-a23e-4379-a920-96af872449b8',
       first_name: 'a',
       last_name: 'a',
       username: 'a',
       password: password1,
-      my_unit_id: 8, // Assigned to Unit 8
+      my_unit_id: 8,
       supervisor_id: null,
       availability: true,
       admin: true,
@@ -27,10 +26,10 @@ exports.seed = async function (knex) {
       id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       first_name: 'John',
       last_name: 'Wick',
-      username: 'Baba_Yaga',
+      username: 'baba_yaga',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a920-96af872449b8', // Supervising 'Son Goku' in a related unit
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a920-96af872449b8',
       availability: true,
       admin: false,
       supervisor: true,
@@ -41,7 +40,7 @@ exports.seed = async function (knex) {
       last_name: 'Goku',
       username: 'kakarot',
       password: password1,
-      my_unit_id: 11, // Same unit as supervisor John Wick
+      my_unit_id: 11,
       supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: true,
@@ -53,8 +52,8 @@ exports.seed = async function (knex) {
       last_name: 'Bueller',
       username: 'sick_boy',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: null, // Not supervised
+      my_unit_id: 12,
+      supervisor_id: null,
       availability: false,
       admin: false,
       supervisor: true,
@@ -65,8 +64,8 @@ exports.seed = async function (knex) {
       last_name: 'Ripley',
       username: 'xenomorph_hunter',
       password: password1,
-      my_unit_id: 7, // Assigned to Unit 7
-      supervisor_id: null, // Not supervised
+      my_unit_id: 7,
+      supervisor_id: null,
       availability: true,
       admin: false,
       supervisor: true,
@@ -77,8 +76,8 @@ exports.seed = async function (knex) {
       last_name: 'Connor',
       username: 'terminator_resistance',
       password: password1,
-      my_unit_id: 10, // Assigned to Unit 10
-      supervisor_id: null, // Not supervised
+      my_unit_id: 10,
+      supervisor_id: null,
       availability: true,
       admin: true,
       supervisor: false,
@@ -89,8 +88,8 @@ exports.seed = async function (knex) {
       last_name: 'Solo',
       username: 'nerf_herder',
       password: password1,
-      my_unit_id: 16, // Assigned to Unit 16
-      supervisor_id: null, // Supervises Luke Skywalker in the same unit
+      my_unit_id: 16,
+      supervisor_id: null,
       availability: true,
       admin: false,
       supervisor: true,
@@ -101,21 +100,20 @@ exports.seed = async function (knex) {
       last_name: 'Skywalker',
       username: 'force_wielder',
       password: password1,
-      my_unit_id: 16, // Same unit as supervisor Han Solo
+      my_unit_id: 16,
       supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       availability: false,
       admin: false,
       supervisor: true,
     },
-
     {
       id: 'a1b2c3d4-e567-490f-a123-4567890b1cde',
       first_name: 'James',
       last_name: 'Bond',
       username: 'agent_007',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
@@ -126,8 +124,8 @@ exports.seed = async function (knex) {
       last_name: 'Jones',
       username: 'dr_jones',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
@@ -138,8 +136,8 @@ exports.seed = async function (knex) {
       last_name: 'Stark',
       username: 'iron_man',
       password: password1,
-      my_unit_id: 16, // Assigned to Unit 16
-      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d', // Supervised by Han Solo
+      my_unit_id: 16,
+      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       availability: true,
       admin: true,
       supervisor: false,
@@ -150,8 +148,8 @@ exports.seed = async function (knex) {
       last_name: 'Wayne',
       username: 'batman',
       password: password1,
-      my_unit_id: 16, // Assigned to Unit 16
-      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d', // Supervised by Han Solo
+      my_unit_id: 16,
+      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       availability: true,
       admin: false,
       supervisor: false,
@@ -162,272 +160,272 @@ exports.seed = async function (knex) {
       last_name: 'Kent',
       username: 'superman',
       password: password1,
-      my_unit_id: 10, // Assigned to Unit 10
-      supervisor_id: null, // Not supervised
+      my_unit_id: 10,
+      supervisor_id: null,
       availability: true,
       admin: true,
       supervisor: true,
     },
     {
-      id: 'f6a7b8c9-0123-5678-f901-23g456abc789',
+      id: 'f6a7b8c9-0123-5678-f901-23a456abc789',
       first_name: 'Peter',
       last_name: 'Parker',
       username: 'spiderman',
       password: password1,
-      my_unit_id: 7, // Assigned to Unit 7
-      supervisor_id: '1c98df21-1234-432f-a920-96af12345678', // Supervised by Ellen Ripley
+      my_unit_id: 7,
+      supervisor_id: '1c98df21-1234-432f-a920-96af12345678',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'g7b8c9d0-1234-6789-g012-34h567abc890',
+      id: 'f7b8c9d0-1234-6789-f012-34a567abc890',
       first_name: 'Diana',
       last_name: 'Prince',
       username: 'wonder_woman',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'h8c9d0e1-2345-7890-h123-45i678abc901',
+      id: 'f8c9d0e1-2345-7890-f123-45a678abc901',
       first_name: 'Natasha',
       last_name: 'Romanoff',
       username: 'black_widow',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'i9d0e1f2-3456-8901-i234-56j789abc012',
+      id: 'a9d0e1f2-3456-8901-f234-56e789abc012',
       first_name: 'Steve',
       last_name: 'Rogers',
       username: 'captain_america',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'j0e1f2g3-4567-9012-j345-67k890abc123',
+      id: 'a0e1f2b3-4567-9012-f345-67a890abc123',
       first_name: 'Thor',
       last_name: 'Odinson',
       username: 'god_of_thunder',
       password: password1,
-      my_unit_id: 16, // Assigned to Unit 16
-      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d', // Supervised by Han Solo
+      my_unit_id: 16,
+      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'k1f2g3h4-5678-0123-k456-78l901abc234',
+      id: 'b1c2d3e4-5678-0123-b456-78a901abc234',
       first_name: 'Bruce',
       last_name: 'Banner',
       username: 'hulk',
       password: password1,
-      my_unit_id: 16, // Assigned to Unit 16
-      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d', // Supervised by Han Solo
+      my_unit_id: 16,
+      supervisor_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'l2g3h4i5-6789-1234-l567-89m012abc345',
+      id: 'a2a3a4a5-6789-1234-a567-89a012abc345',
       first_name: 'Arthur',
       last_name: 'Curry',
       username: 'aquaman',
       password: password1,
-      my_unit_id: 10, // Assigned to Unit 10
-      supervisor_id: null, // Not supervised
+      my_unit_id: 10,
+      supervisor_id: null,
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'm3h4i5j6-7890-2345-m678-90n123abc456',
+      id: 'a3a4a5a6-7890-2345-a678-90a123abc456',
       first_name: 'Barry',
       last_name: 'Allen',
       username: 'the_flash',
       password: password1,
-      my_unit_id: 7, // Assigned to Unit 7
-      supervisor_id: '1c98df21-1234-432f-a920-96af12345678', // Supervised by Ellen Ripley
+      my_unit_id: 7,
+      supervisor_id: '1c98df21-1234-432f-a920-96af12345678',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'n4i5j6k7-8901-3456-n789-01o234abc567',
+      id: 'b4c5d6e7-8901-3456-b789-01a234abc567',
       first_name: 'Victor',
       last_name: 'Stone',
       username: 'cyborg',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'o5j6k7l8-9012-4567-o890-12p345abc678',
+      id: 'c5d6e7f8-9012-4567-c890-12b345abc678',
       first_name: 'Clark',
       last_name: 'Griswold',
       username: 'holiday_roadhouse',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'p6k7l8m9-0123-5678-p901-23q456abc789',
+      id: 'd6e7f809-0123-5678-d901-23c456abc789',
       first_name: 'Marty',
       last_name: 'McFly',
       username: 'time_traveler',
       password: password1,
-      my_unit_id: 7, // Assigned to Unit 7
-      supervisor_id: '1c98df21-1234-432f-a920-96af12345678', // Supervised by Ellen Ripley
+      my_unit_id: 7,
+      supervisor_id: '1c98df21-1234-432f-a920-96af12345678',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'q7l8m9n0-1234-6789-q012-34r567abc890',
+      id: 'e7f8091a-1234-6789-e012-34d567abc890',
       first_name: 'Emmett',
       last_name: 'Brown',
       username: 'doc_brown',
       password: password1,
-      my_unit_id: 7, // Assigned to Unit 7
-      supervisor_id: '1c98df21-1234-432f-a920-96af12345678', // Supervised by Ellen Ripley
+      my_unit_id: 7,
+      supervisor_id: '1c98df21-1234-432f-a920-96af12345678',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'r8m9n0o1-2345-7890-r123-45s678abc901',
+      id: 'f8091a2b-2345-7890-f123-45e678abc901',
       first_name: 'Rick',
       last_name: 'Deckard',
       username: 'blade_runner',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 's9n0o1p2-3456-8901-s234-56t789abc012',
+      id: '091a2b3c-3456-8901-a234-56f789abc012',
       first_name: 'Ethan',
       last_name: 'Hunt',
       username: 'mission_impossible',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 't0o1p2q3-4567-9012-t345-67u890abc123',
+      id: '1a2b3c4d-4567-9012-b345-67a890abc123',
       first_name: 'Neo',
       last_name: 'Anderson',
       username: 'the_one',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'u1p2q3r4-5678-0123-u456-78v901abc234',
+      id: '2b3c4d5e-5678-0123-c456-78b901abc234',
       first_name: 'John',
       last_name: 'McClane',
       username: 'die_hard',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'v2q3r4s5-6789-1234-v567-89w012abc345',
+      id: '3c4d5e6f-6789-1234-d567-89c012abc345',
       first_name: 'Max',
       last_name: 'Rockatansky',
       username: 'mad_max',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'w3r4s5t6-7890-2345-w678-90x123abc456',
+      id: '4d5e6f70-7890-2345-e678-90d123abc456',
       first_name: 'Frodo',
       last_name: 'Baggins',
       username: 'ring_bearer',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'x4s5t6u7-8901-3456-x789-01y234abc567',
+      id: '5e6f7081-8901-3456-f789-01e234abc567',
       first_name: 'Aragorn',
       last_name: 'Son_of_Arathorn',
       username: 'strider',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'y5t6u7v8-9012-4567-y890-12z345abc678',
+      id: '6f708192-9012-4567-a890-12f345abc678',
       first_name: 'Samwise',
       last_name: 'Gamgee',
       username: 'sam',
       password: password1,
-      my_unit_id: 11, // Assigned to Unit 11
-      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8', // Supervised by John Wick
+      my_unit_id: 11,
+      supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'z6u7v8w9-0123-5678-z901-23a456abc789',
+      id: '708192a3-0123-5678-b901-23a456abc789',
       first_name: 'Legolas',
       last_name: 'Greenleaf',
       username: 'the_elven_archer',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
     },
     {
-      id: 'a7v8w9x0-1234-6789-a012-34b567abc890',
+      id: '8192a3b4-1234-6789-c012-34b567abc890',
       first_name: 'Gimli',
       last_name: 'Son_of_Gloin',
       username: 'the_dwarf_warrior',
       password: password1,
-      my_unit_id: 12, // Assigned to Unit 12
-      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6', // Supervised by Ferris Bueller
+      my_unit_id: 12,
+      supervisor_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       availability: true,
       admin: false,
       supervisor: false,
