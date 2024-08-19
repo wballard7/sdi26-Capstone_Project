@@ -18,7 +18,8 @@ const ReportGeneration = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const data = await getFetch(`dynamic_entries/${me}`);
+        const data = await getFetch(`dynamic_entries/supervisor/${me}`);
+        setDynamicList(data)
         setReports(data);
         setFilteredReports(data); // Initialize filtered reports with all reports
       } catch (error) {

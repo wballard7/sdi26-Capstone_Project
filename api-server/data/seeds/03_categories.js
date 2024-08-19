@@ -13,6 +13,21 @@ exports.seed = async function (knex) {
     { category_name: 'certifications' },
     { category_name: 'administrative' },
     { category_name: 'personnel' },
+    { category_name: 'logistics' },
+    { category_name: 'communications' },
+    { category_name: 'intelligence' },
+    { category_name: 'operations' },
+    { category_name: 'supply' },
+    { category_name: 'security' },
+    { category_name: 'medical readiness' },
+    { category_name: 'IT support' },
+    { category_name: 'reconnaissance' },
+    { category_name: 'strategy planning' },
+    { category_name: 'resource management' },
+    { category_name: 'transportation' },
+    { category_name: 'aircraft maintenance' },
+    { category_name: 'vehicle readiness' },
+    { category_name: 'personnel deployment' },
   ]);
 };
 
