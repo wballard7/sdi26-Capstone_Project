@@ -19,10 +19,10 @@ const categoryRoutes = require('./routes/categories');
 const tagRoutes = require('./routes/tags');
 const audienceRoutes = require('./routes/join_audience');
 
-app.get('/users', userRoutes.getAllUsers);
-app.get('/users/id/:id', userRoutes.getUserById);
-app.get('/users/username/:username', userRoutes.getUserByUsername);
-app.get('/users/unit_supervisors/:id', userRoutes.getAllUnitSupervisors);
+app.get('/users', userRoutes.getAllUsers);//TESTED GOOD
+app.get('/users/id/:id', userRoutes.getUserById);//TESTED GOOD
+app.get('/users/username/:username', userRoutes.getUserByUsername);//TESTED GOOD
+app.get('/users/unit_supervisors/:id', userRoutes.getAllUnitSupervisors);//TESTED BAD
 app.get('/users/unit_nonsupervisors/:id', userRoutes.getAllUnitSupervisors);
 app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
 app.post('/users', userRoutes.createUser);
@@ -41,12 +41,12 @@ app.patch('/units', unitRoutes.updateUnit);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
 app.get('/static_entries/', staticRoutes.getAllEntries);
-app.get('/static_entries', staticRoutes.getEntryById);
-app.get('/static_entries', staticRoutes.getEntryByTitle);
-app.get('/static_entries', staticRoutes.getEntryByOwner);
-app.get('/static_entries', staticRoutes.getEntryByCategory);
-app.get('/static_entries', staticRoutes.getEntryByUnit);
-app.get('/static_entries', staticRoutes.getEntryByTags);
+app.get('/static_entries/:id', staticRoutes.getEntryById);
+app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
+app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
+app.get('/static_entries/category/:category', staticRoutes.getEntryByCategory);
+app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit);
+app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags);
 app.post('/static_entries', staticRoutes.createEntry);
 app.patch('/static_entries', staticRoutes.updateEntry);
 app.delete('/static_entries', staticRoutes.removeEntry);

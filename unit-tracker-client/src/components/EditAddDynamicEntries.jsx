@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Box, Tab, TabList, Textarea, Select } from '@chakra-ui/react';
+import { Button, Input, Box, Tabs, TabList, Textarea, Select } from '@chakra-ui/react';
 
 export const EditAddDynamicEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -42,10 +42,10 @@ export const EditAddDynamicEntries = () => {
   return (
     <Box>
       <div>
-        <Tab activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+        <Tabs activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabList header="Edit Entries" />
           <TabList header="Add New Entry" />
-        </Tab>
+        </Tabs>
       </div>
 
       <div>

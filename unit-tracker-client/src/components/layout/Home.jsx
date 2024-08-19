@@ -10,26 +10,42 @@ import {
   ModalCloseButton,
   ModalBody,
 } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../../utils/Fetches';
 import '../../styles/Home.css';
 import { MyCalendar } from '../../utils/Calendar';
+import { CalendarContext } from '../../context/CalendarContext';
 
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState([]);
   const [dynamicEntries, setDynamicEntries] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const { startDate, endDate, setStartDate, setEndDate } = useContext(CalendarContext);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  //==============calendar stuff===================
   const openCalendar = () => {
     setIsCalendarOpen(true);
   };
   const closeCalendar = () => {
     setIsCalendarOpen(false);
   };
+  useEffect(() => {
+    const initializeWeekDates = () => {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+      const start = new Date(today);
+      start.setDate(today.getDate() - dayOfWeek + 1);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
 
+      setStartDate(start);
+      setEndDate(end);
+    };
+    initializeWeekDates();
+  }, [setStartDate, setEndDate]);
+
+  //========fetch = static_entries, dynamic_entries, categories========
   useEffect(() => {
     const fetchStaticEntries = async () => {
       try {
@@ -67,6 +83,7 @@ export const Home = () => {
   //will need to change updated buttons so it is a 1 for 1 swap
   //using a 3rd obj placeholder
   //dragie boi
+  //==================dragging functionality====================
   const DraggableButton = ({ id, children, onDragStart }) => (
     <Button
       draggable
@@ -79,6 +96,46 @@ export const Home = () => {
       {children}
     </Button>
   );
+  const getTimeSlots = (entry) => {
+    const start = new Date(entry.start_date);
+    const end = new Date(entry.end_date);
+    const slots = [];
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      slots.push(d.getDay());
+    }
+
+    return slots;
+  };
+  const renderDynamicEntries = () => {
+    const timeSlots = Array(7)
+      .fill()
+      .map(() => []);
+
+    dynamicEntries.forEach((entry) => {
+      const slot = getTimeSlots(entry);
+      if (slot >= 0 && slot < 7) {
+        timeSlots[slot].push(entry);
+      }
+    });
+    return timeSlots.map((entries, index) => (
+      <div key={index} className="timeSlot">
+        <h2 className="dynamicTime">Time {index + 1}</h2>
+        {entries.map((entry) => (
+          <Button
+            key={entry.id}
+            className="dynamicEntry"
+            bg="blue.500"
+            color="white"
+            _hover={{ bg: 'blue.400' }}
+            width="100%"
+          >
+            {entry.name}
+          </Button>
+        ))}
+      </div>
+    ));
+  };
 
   const DragDropContainer = () => {
     const onDragStart = (e, id) => {
@@ -123,21 +180,24 @@ export const Home = () => {
       </VStack>
     );
   };
-  // {dynamic
-  //   name: 'medical-deployment task for Unit 11',
-  //   input_id: input_id[0].id,
-  //   audience_id: audience_id[0].id,
-  //   start_date: 20240814,
-  //   end_date: 20240815,
-  //   recurrence: 'none',
-  //   event_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
-  //   notes: 'Get this done by next week',
-  // }
+  // nextDay.setDate(startDate.getDate() + 1);
+  function timeRange() {
+    const dates = [];
+    let currentDate = new Date(startDate);
 
-  //will need a context for calendar
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
+  const dates = timeRange();
+
   return (
     <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
       <div>
+        <h1>{startDate ? startDate.toDateString() : 'N/A'}</h1>
         {staticEntries.length > 0 ? (
           <>
             <div className="topRow">
@@ -173,15 +233,21 @@ export const Home = () => {
             <div className="bodyGrid">
               <div className="staticGroup">
                 <h1 className="currentTab">Current Tab</h1>
-                {staticEntries.map((entry) => (
+                {console.log('my start date:', startDate)}
+                {/* {staticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
                     {entry.title}
                   </h1>
+                ))} */}
+                {dates.map((dateElement, index) => (
+                  <h1 key={index} className="staticEntry">
+                    {dateElement.toDateString()}
+                  </h1>
                 ))}
               </div>
-              <div className="dynamicGroup">
+              {/* <div className="dynamicGroup">
                 <h1 className="dynamicTime">time 1</h1>
-                <h1 className="dynamicTime">{MyCalendar.startDate}</h1>
+                <h1 className="dynamicTime"> </h1>
                 <h1 className="dynamicTime">time 3</h1>
                 <h1 className="dynamicTime">time 4</h1>
                 <h1 className="dynamicTime">time 5</h1>
@@ -190,7 +256,8 @@ export const Home = () => {
                 <div className="dragDropContainer">
                   <DragDropContainer />
                 </div>
-              </div>
+              </div> */}
+              <div className="dynamicGroup">{renderDynamicEntries()}</div>
             </div>
           </>
         ) : (

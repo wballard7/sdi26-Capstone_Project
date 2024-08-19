@@ -6,14 +6,14 @@ import '../styles/StaticEntries.css';
 const apiURL = 'http://localhost:8080';
 
 export const StaticEntries = () => {
-  const [staticEntries, setStaticEntries] = useState({
-    title: '',
-    my_unit_id: 0,
-    category_id: 0,
-    input_owner_id: '',
-    tag_id: 0,
-    misc_notes: '',
-  });
+  const [staticEntries, setStaticEntries] = useState([]);
+  // title: '',
+  // my_unit_id: 0,
+  // category_id: 0,
+  // input_owner_id: '',
+  // tag_id: 0,
+  // misc_notes: '',
+  // });
 
   useEffect(() => {
     console.log('in use effect');
@@ -22,7 +22,23 @@ export const StaticEntries = () => {
         console.log('in fetch');
         const fetchedStaticEntries = await getFetch(`static_entries`);
         console.log(fetchedStaticEntries);
-        setStaticEntries(fetchedStaticEntries);
+        const fetchedTags = await getFetch(`tags`);
+        const fetchedUnits = await getFetch(`units`);
+        const fetchedCategories = await getFetch(`categories`);
+        const fetchedOwners = await getFetch(`users`);
+
+        const enrichedEntries = fetchedStaticEntries.map((entry) => ({
+          ...entry,
+          tag: fetchedTags.find((tag) => tag.id === entry.tag_id)?.tag_name || 'Not inputed',
+          unit:
+            fetchedUnits.find((unit) => unit.id === entry.my_unit_id)?.unit_name || 'Not inputed',
+          category:
+            fetchedCategories.find((cat) => cat.id === entry.category_id)?.category_name ||
+            'Not inputed',
+          owner:
+            fetchedOwners.find((owner) => owner.id === entry.owner_id)?.username || 'Not inputed',
+        }));
+        setStaticEntries(enrichedEntries);
       } catch (err) {
         console.log(err);
       }
@@ -71,8 +87,8 @@ export const StaticEntries = () => {
                     <td>{entry.title}</td>
                     <td>{entry.tag}</td>
                     <td>{entry.unit}</td>
-                    <td>{entry.Category}</td>
-                    <td>{entry.Owner}</td>
+                    <td>{entry.category}</td>
+                    <td>{entry.owner}</td>
                     <td>{entry.misc_notes}</td>
                   </tr>
                 ))}
