@@ -79,7 +79,7 @@ async function loginUser(req, res) {
 
 async function getAllUnitSupervisors(req, res) {
   const { id } = req.params;
-  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
+  console.log(`Line 82, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => user.supervisor);
 
@@ -88,16 +88,16 @@ async function getAllUnitSupervisors(req, res) {
 
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
-  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
+  console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
-  const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
+  const nonSupervisors = allSupervisors.filter((user) => user.supervisor === false);
 
-  return res.send(unitSupervisors);
+  return res.send(nonSupervisors);
 }
 
 async function getMyPersonnel(req, res) {
-  const id = req.params;
-  console.log(`Line 74, getMyPersonnel, routes/users id: ${id} was passed in`);
+  const { id } = req.params;
+  console.log(`Line 100, getMyPersonnel, routes/users id: ${id} was passed in`);
   const allUsers = await User.all();
   const myPersonnel = allUsers.filter((user) => user.id === id);
 
