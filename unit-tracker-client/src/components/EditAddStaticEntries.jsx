@@ -77,7 +77,7 @@ export const EditAddStaticEntries = () => {
   const handleChange = (e, field) => {
     const { value } = e.target;
     setNewStaticEntry((prev) => {
-      if (field === 'tag_id' || field === 'unit_id' || field === 'category') {
+      if (field === 'tag_id' || field === 'my_unit_id' || field === 'category') {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
       return { ...prev, [field]: value };
@@ -118,7 +118,7 @@ export const EditAddStaticEntries = () => {
                 id="my_unit_id"
                 type="number"
                 value={newStaticEntry.unit_id}
-                onChange={(e) => handleChange(e, 'unit_id')}
+                onChange={(e) => handleChange(e, 'my_unit_id')}
                 placeholder="Unit ID"
               />
             </div>
