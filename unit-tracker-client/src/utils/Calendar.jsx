@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Import the calendar styles
 import {
@@ -19,21 +19,37 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
+import { CalendarContext } from '../context/CalendarContext';
 
 const MyCalendar = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const { startDate, setStartDate, endDate, setEndDate } = useContext(CalendarContext);
+  const [timeRange, setTimeRange] = useState('week');
 
   const handleDateChange = (selectedDate) => {
-    const dayOfWeek = selectedDate.getDay();
-    const start = new Date(selectedDate);
-    start.setDate(selectedDate.getDate() - dayOfWeek + 1); // Set to Monday
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6); // Set to Sunday
+    if (timeRange === 'week') {
+      const dayOfWeek = selectedDate.getDay();
+      const start = new Date(selectedDate);
+      start.setDate(selectedDate.getDate() - dayOfWeek + 1); //Monday
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6); //Sunday
 
-    setStartDate(start);
-    setEndDate(end);
-    console.log(startDate);
+      setStartDate(start);
+      setEndDate(end);
+    } else if (timeRange === 'month') {
+      const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1); // First day of the month
+      const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0); // Last day of the month
+
+      setStartDate(start);
+      setEndDate(end);
+    }
+  };
+
+  useEffect(() => {
+    handleDateChange(new Date());
+  }, [timeRange]);
+
+  const handleTimeRangeChange = (range) => {
+    setTimeRange(range);
   };
 
   const tileClassName = ({ date }) => {
@@ -60,6 +76,25 @@ const MyCalendar = () => {
         <Heading as="h3" size="lg" textAlign="center" mb={4} color="snow">
           Select a Date
         </Heading>
+        {/* {timeRange==='week' ?
+        <> */}
+        <button
+          onClick={() => handleTimeRangeChange('week')}
+          style={{ backgroundColor: timeRange === 'week' ? 'blue' : 'gray', color: 'white' }}
+        >
+          week
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange('month')}
+          style={{ backgroundColor: timeRange === 'month' ? 'blue' : 'gray', color: 'white' }}
+        >
+          month
+        </button>
+        {/* </> : <>
+        <button onClick={() => handleDateChange('week')}>week</button>
+        <button onClick={() => handleDateChange('month')}>month</button>
+        </>
+        }*/}
         <Box
           as={Calendar}
           onChange={handleDateChange}
