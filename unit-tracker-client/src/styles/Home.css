@@ -1,64 +1,85 @@
 .topRow {
   display: grid;
-  grid-template-columns: repeat(8, auto);
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
   margin-top: 1rem;
 }
+
 .categoryTabs {
   padding: 10px;
+  background-color: #1e5f74; /* Teal blue */
+  color: #ffffff;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
 }
 
-.calanderButtonGroup {
-  width: 305px;
+.categoryTabs:hover {
+  background-color: #46006e; /* Soft orange */
+  color: #ffffff;
 }
+
+.calanderButtonGroup,
 .calanderButton {
   width: 305px;
+  text-align: center;
+  background-color: #3282b8; /* Light navy */
+  padding: 10px;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.calanderButton:hover {
+  background-color: #46006e;
+  color: #ffffff;
 }
 
 .bodyGrid {
-  /* display: inline-grid; */
   display: grid;
-  grid-template-columns: auto, auto;
-  margin: 1px;
-  padding: 1px;
+  grid-template-columns: auto auto;
+  gap: 1rem;
   font-weight: bold;
 }
-/* https://www.freecodecamp.org/news/complete-guide-to-css-grid/ */
+
+/* Static group (left section) */
 .staticGroup {
-  background-color: rgb(121, 42, 5);
-  padding: 10px;
+  background-color: #1e5f74; /* Teal blue */
+  padding: 15px;
   border-radius: 8px;
-  grid-column: 1;
-  box-sizing: border-box;
+  color: #ffffff;
   width: 300px;
+  box-sizing: border-box;
 }
 
 .currentTab {
-  background-color: rgba(255, 233, 233, 0.3);
+  background-color: #46006e;
   padding: 10px;
   border-radius: 10px;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid #3282b8; /* Light navy */
 }
 
 .staticEntry {
-  background-color: rgba(255, 233, 233, 0.3);
+  background-color: #3282b8;
   padding: 10px;
   border-radius: 10px;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
-  border: 1px solid black;
+  border: 2px solid #1e5f74;
   width: 280px;
   box-sizing: border-box;
   word-wrap: break-word;
   margin-bottom: 10px;
 }
 
+/* Dynamic group (right section) */
 .dynamicGroup {
-  background-color: rgb(34, 4, 105);
-  padding: 10px;
+  background-color: #02133d; /* Dark navy */
+  padding: 15px;
   border-radius: 8px;
   width: 87vw;
   grid-column: 2;
@@ -66,11 +87,17 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 }
+
 .dynamicEntries {
+  background-color: #032368; /* Muted blue */
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  text-align: center;
 }
 
 .dynamicTime {
-  color: white;
+  color: #ffffff;
   text-align: center;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.1);
@@ -79,83 +106,31 @@
 }
 
 .dragDropContainer {
-  grid-column: 1 / -1; /* This makes the container span all columns */
+  grid-column: 1 / -1;
+  background-color: #01101a;
+  border-radius: 10px;
+  padding: 15px;
 }
 
 .bottomButtons {
   display: grid;
-  grid-template-columns: 50vw, 50vw;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-.entriesButton {
-  grid-column: 1;
-  width: 50vw;
-}
-
+.entriesButton,
 .tasksButton {
-  grid-column: 2;
-  width: 50vw;
-}
-/* attempt grid setup */
-/* .gridSetup {
-  display: grid;
-  padding: 10px;
-  cursor: pointer;
-} */
-
-/* <div className='gridStyled'>
-<div className='gridHeadersLayout'>
-    <div className='nameHeader'>Item Name</div>----time, categories, nav buttons
-    <div className='descriptionHeader'>Description Name</div>
-    <div className='quantityHeader'>Quantity Name</div>
-</div>
-{items.map((item) => (-----static entries
-    <div className='gridLineLayout'>
-        <div onClick={() => viewItem(item)} className='item'>{item.name}</div>
-        <div onClick={() => viewItem(item)} className='description'>{item.description.length > 100 ? `${item.description.substring(0, 100)}...` : item.description}</div>
-        <div onClick={() => viewItem(item)} className='quantity'>{item.quantity}</div>
-    </div>
-))}
-</div> */
-
-/* .gridStyled {
-  display: grid;
-  padding: 10px;
+  width: 100%;
+  padding: 12px;
+  background-color: #3282b8;
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: center;
   cursor: pointer;
 }
 
- https://www.freecodecamp.org/news/complete-guide-to-css-grid/
-.gridLineLayout {
-  display: inline-grid;
-  grid-template-columns: 150px 1fr 150px;
-  margin: 1px;
-  padding: 1px;
+.entriesButton:hover,
+.tasksButton:hover {
+  background-color: #46006e;
+  color: #ffffff;
 }
-.gridHeadersLayout {
-  display: inline-grid;
-  grid-template-columns: 150px 1fr 150px;
-  margin: 1px;
-  padding: 1px;
-  font-weight: bold;
-}
-
-.item {
-  grid-column: 1;
-}
-.nameHeader{
-  grid-column: 1;
-}
-
-.description {
-  grid-column: 2;
-}
-.descriptionHeader{
-  grid-column: 2;
-}
-
-.quantity {
-  grid-column: 3;
-}
-.quantityHeader{
-  grid-column: 3;
-} */
