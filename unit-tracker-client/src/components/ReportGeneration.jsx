@@ -19,7 +19,7 @@ const ReportGeneration = () => {
     const fetchReports = async () => {
       try {
         const data = await getFetch(`dynamic_entries/supervisor/${me}`);
-        setDynamicList(data)
+        setDynamicList(data);
         setReports(data);
         setFilteredReports(data); // Initialize filtered reports with all reports
       } catch (error) {
