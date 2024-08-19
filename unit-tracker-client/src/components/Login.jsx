@@ -25,8 +25,6 @@ export const Login = () => {
       const response = await postFetch(`users/login`, userDetails);
       if (response) {
         await fetchUserData(userDetails.username);
-        setLoggedIn(true);
-        navigate('/home');
       } else {
         alert(response.message);
       }
@@ -98,6 +96,8 @@ export const Login = () => {
             reports_to: orgData.reports_to,
           });
 
+          setLoggedIn(true);
+          navigate('/home');
           console.log(`User and organization data set for user ID: ${userData.id}/`);
         } else {
           console.error('Failed to fetch organization data', orgData);
@@ -146,7 +146,7 @@ export const Login = () => {
         h="auto" // Keeps the aspect ratio intact
       />
       <Heading as="h1" size="lg" mb="6" textAlign="center" whiteSpace="nowrap">
-        Login or Create an Account
+        OPTIC
       </Heading>
       <Input
         placeholder="Username"
