@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
-import { PersonnelContext } from '../context/PersonnelContext';
+// import { SupervisorContext } from '../context/SupervisorContext';
 import { UserContext } from '../context/UserContext';
 import {
   Input,
@@ -15,6 +15,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import '../styles/EditAddStaticEntries.css';
+var reported = [];
 
 // Chakra does not have ====> import { MultiSelect } from 'primereact/multiselect';
 
@@ -29,8 +30,8 @@ export const EditAddStaticEntries = () => {
     tag_id: 0,
   });
 
-  const { unit } = useContext(UserContext);
-  const { supervisor_id: me } = useContext(PersonnelContext);
+  const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
+  // const { supervisor_id: me } = useContext(SupervisorContext);
   const [staticEntries, setStaticEntries] = useState([]);
   const [owners, setOwners] = useState([]);
   const [units, setUnits] = useState([]);
@@ -46,28 +47,44 @@ export const EditAddStaticEntries = () => {
       const data = await getFetch('categories');
       setCategories(data);
     };
-    const fetchUnits = async () => {
-      const data = await getFetch(`units/reports_to/${unit.id}`);
-      setUnits(data);
-    };
     const fetchTags = async () => {
       const data = await getFetch('tags');
       setTags(data);
     };
-
     fetchOwners();
     fetchCategories();
-    fetchUnits();
     fetchTags();
   }, []);
 
   useEffect(() => {
     const fetchTitles = async () => {
-      const data = await getFetch(`static_entries/${me}`);
+      const data = await getFetch(`static_entries/owner/${userId}`);
+      console.log(userId);
       setStaticEntries(data);
     };
     fetchTitles();
-  }, [me]);
+  }, []);
+
+  useEffect(() => {
+    const fetchUnits = async () => {
+      var data = await getFetch(`units`);
+      console.log('data in units', data);
+      let reported = data.filter((entry) => entry.reports_to === my_unit_id);
+      console.log('data for reports to fetch', units);
+      console.log(reported);
+      setUnits(reported);
+    };
+    fetchUnits();
+  }, []);
+
+  useEffect(() => {
+    if (supervisor) {
+      setNewStaticEntry((prev) => ({
+        ...prev,
+        owner_id: userId,
+      }));
+    }
+  }, [supervisor, userId]);
 
   const handleAddEntry = async () => {
     const audienceArray = newStaticEntry.audience
@@ -92,6 +109,10 @@ export const EditAddStaticEntries = () => {
     });
   };
 
+  const unitsWithUser = [
+    /*{ id: my_unit_id, name: 'Your Unit' }, ...units*/
+  ];
+
   return (
     <Box p={4}>
       <Tabs index={activeIndex} onChange={(index) => setActiveIndex(index)}>
@@ -101,98 +122,113 @@ export const EditAddStaticEntries = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <div className="p-field">
-              <label htmlFor="title">Title</label>
-              <Select
-                id="title"
-                value={newStaticEntry.title} /*fetch for existing static*/
-                onChange={(e) => handleChange(e, 'title')}
-                placeholder="Existing Entries"
-              >
-                {staticEntries.map((staticEntries) => (
-                  <option
-                    key={staticEntries.id}
-                    value={staticEntries.id}
-                    className="dropdown-option"
-                  >
-                    {staticEntries.title}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="p-field">
-              <label htmlFor="my_unit_id">Unit ID</label>
-              <Input
-                id="my_unit_id"
-                type="number"
-                value={newStaticEntry.unit_id}
-                onChange={(e) => handleChange(e, 'my_unit_id')}
-                placeholder="Unit ID"
-              />
-            </div>
+            <>
+              {staticEntries == [] ? (
+                <h1>'No entries exist for this user'</h1>
+              ) : (
+                <>
+                  <div className="p-field">
+                    <label htmlFor="title">Title</label>
 
-            <div className="p-field">
-              <label htmlFor="owner_id">Owner</label>
-              <Select
-                id="owner_id"
-                value={newStaticEntry.owner_id} /*fetch for existing users*/
-                onChange={(e) => handleChange(e, 'owner_id')}
-                placeholder="Owner"
-              >
-                {owners.map((owners) => (
-                  <option key={owners.uuid} value={owners.uuid} className="dropdown-option">
-                    {owners.username}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="p-field">
-              <label htmlFor="category_id">Category</label>
-              <Select
-                id="category_id"
-                value={newStaticEntry.category_id}
-                onChange={(e) => handleChange(e, 'category_id')}
-                placeholder="Select a category"
-              >
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id} className="dropdown-option">
-                    {category.category_name}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="p-field">
-              <label htmlFor="notes">Notes</label>
-              <Textarea
-                id="notes"
-                value={newStaticEntry.notes}
-                onChange={(e) => handleChange(e, 'notes')}
-                rows={5}
-                placeholder="Enter notes"
-              />
-            </div>
-
-            <div className="p-field">
-              <label htmlFor="tag_id">Tags</label>
-              <Select
-                id="tag_id"
-                value={newStaticEntry.tag_id}
-                onChange={(e) => handleChange(e, 'tag_id')}
-                placeholder="Select tags"
-              >
-                {tags.map((tag) => (
-                  <option key={tag.id} value={tag.id} className="dropdown-option">
-                    {tag.tag_name}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <Button onClick={handleAddEntry} mt={2}>
-              Update Entry
-            </Button>
+                    <Select
+                      id="title"
+                      value={newStaticEntry.title} /*fetch for existing static*/
+                      onChange={(e) => handleChange(e, 'title')}
+                      placeholder="Existing Entries"
+                    >
+                      {staticEntries.map((staticEntries) => (
+                        <option
+                          key={staticEntries.id}
+                          value={staticEntries.id}
+                          className="dropdown-option"
+                        >
+                          {staticEntries.title}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="my_unit_id">Unit</label>
+                    <Select
+                      id="my_unit_id"
+                      value={newStaticEntry.my_unit_id}
+                      onChange={(e) => handleChange(e, 'my_unit_id')}
+                      placeholder="Select a unit"
+                    >
+                      {units == []
+                        ? my_unit_id
+                        : units.map((unitOption) => (
+                            <option
+                              key={unitOption.id}
+                              value={unitOption.id}
+                              className="dropdown-option"
+                            >
+                              {unitOption.unit_name}
+                            </option>
+                          ))}
+                    </Select>
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="owner_id">Owner</label>
+                    <Select
+                      id="owner_id"
+                      value={newStaticEntry.owner_id} /*fetch for existing users*/
+                      onChange={(e) => handleChange(e, 'owner_id')}
+                      placeholder="Owner"
+                    >
+                      {owners.map((owners) => (
+                        <option key={owners.uuid} value={owners.uuid} className="dropdown-option">
+                          {owners.username}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="category_id">Category</label>
+                    <Select
+                      id="category_id"
+                      value={newStaticEntry.category_id}
+                      onChange={(e) => handleChange(e, 'category_id')}
+                      placeholder="Select a category"
+                    >
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id} className="dropdown-option">
+                          {category.category_name}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="notes">Notes</label>
+                    <Textarea
+                      id="notes"
+                      value={newStaticEntry.notes}
+                      onChange={(e) => handleChange(e, 'notes')}
+                      rows={5}
+                      placeholder="Enter notes"
+                    />
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="tag_id">Tags</label>
+                    <Select
+                      id="tag_id"
+                      value={newStaticEntry.tag_id}
+                      onChange={(e) => handleChange(e, 'tag_id')}
+                      placeholder="Select tags"
+                    >
+                      {tags.map((tag) => (
+                        <option key={tag.id} value={tag.id} className="dropdown-option">
+                          {tag.tag_name}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <Button onClick={handleAddEntry} mt={2}>
+                    Update Entry
+                  </Button>{' '}
+                </>
+              )}
+            </>
           </TabPanel>
 
           {/* EVERYTHING BELOW IS ADD ENTRY */}
@@ -208,9 +244,39 @@ export const EditAddStaticEntries = () => {
               />
             </div>
 
-            {/* add function to call current logged in user's unit */}
+            <div className="p-field">
+              <label htmlFor="my_unit_id">Unit</label>
+              <Select
+                id="my_unit_id"
+                value={newStaticEntry.my_unit_id}
+                onChange={(e) => handleChange(e, 'my_unit_id')}
+                placeholder="Select a unit"
+              >
+                {units == []
+                  ? my_unit_id
+                  : units.map((unitOption) => (
+                      <option key={unitOption.id} value={unitOption.id} className="dropdown-option">
+                        {unitOption.unit_name}
+                      </option>
+                    ))}
+              </Select>
+            </div>
 
-            {/* add function to call current logged in user as "owner" */}
+            <div className="p-field">
+              <label htmlFor="owner_id">Owner</label>
+              <Select
+                id="owner_id"
+                value={newStaticEntry.owner_id}
+                onChange={(e) => handleChange(e, 'owner_id')}
+                placeholder="Owner"
+              >
+                {owners.map((owner) => (
+                  <option key={owner.uuid} value={owner.uuid} className="dropdown-option">
+                    {owner.username}
+                  </option>
+                ))}
+              </Select>
+            </div>
 
             <div className="p-field">
               <label htmlFor="category_id">Category</label>

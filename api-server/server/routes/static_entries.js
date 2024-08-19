@@ -24,7 +24,7 @@ async function getEntryByCategory(req, res) {
 }
 
 async function getEntryByOwner(req, res) {
-  const owner_id = req.params.owner_id;
+  const owner_id = req.params.input_owner_id;
   const entry = await Static_entry.getByOwner(owner_id);
   return res.send(entry);
 }
