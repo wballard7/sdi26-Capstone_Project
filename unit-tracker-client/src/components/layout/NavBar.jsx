@@ -2,7 +2,7 @@ import { Button, Box, Link, Flex } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 export const NavBar = () => {
-  const { admin, username } = useContext(UserContext);
+  const { admin, username, setLoggedIn } = useContext(UserContext);
   return (
     <>
       {admin === true ? (
@@ -17,6 +17,7 @@ export const NavBar = () => {
             <Link size={80} name={'UserProfile'} href="/UserProfile">
               <Button>{`${username}'s Profile`}</Button>
             </Link>
+            <Button onClick={() => setLoggedIn(false)}>Logout</Button>
           </Box>
         </Flex>
       ) : (
@@ -28,6 +29,7 @@ export const NavBar = () => {
             <Link size={80} name={'UserProfile'} href="/UserProfile">
               <Button>{`${username}'s Profile`}</Button>
             </Link>
+            <Button onClick={() => setLoggedIn(false)}>Logout</Button>
           </Box>
         </Flex>
       )}
