@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
+import { PersonnelContext } from '../context/PersonnelContext';
+import { UserContext } from '../context/UserContext';
 import {
   Input,
   Button,
@@ -27,6 +29,8 @@ export const EditAddStaticEntries = () => {
     tag_id: 0,
   });
 
+  const { unit } = useContext(UserContext);
+  const { supervisor_id: me } = useContext(PersonnelContext);
   const [staticEntries, setStaticEntries] = useState([]);
   const [owners, setOwners] = useState([]);
   const [units, setUnits] = useState([]);
@@ -43,23 +47,27 @@ export const EditAddStaticEntries = () => {
       setCategories(data);
     };
     const fetchUnits = async () => {
-      const data = await getFetch('units');
+      const data = await getFetch(`units/reports_to/${unit.id}`);
       setUnits(data);
     };
     const fetchTags = async () => {
       const data = await getFetch('tags');
       setTags(data);
     };
-    const fetchTitles = async () => {
-      const data = await getFetch('static_entries');
-      setStaticEntries(data);
-    };
+
     fetchOwners();
     fetchCategories();
     fetchUnits();
     fetchTags();
-    fetchTitles();
   }, []);
+
+  useEffect(() => {
+    const fetchTitles = async () => {
+      const data = await getFetch(`static_entries/${me}`);
+      setStaticEntries(data);
+    };
+    fetchTitles();
+  }, [me]);
 
   const handleAddEntry = async () => {
     const audienceArray = newStaticEntry.audience
