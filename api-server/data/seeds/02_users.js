@@ -109,7 +109,7 @@ exports.seed = async function (knex) {
     },
 
     {
-      id: 'a1b2c3d4-e567-890f-a123-4567890b1cde',
+      id: 'a1b2c3d4-e567-490f-a123-4567890b1cde',
       first_name: 'James',
       last_name: 'Bond',
       username: 'agent_007',
@@ -121,7 +121,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'b2c3d4e5-f678-1234-b567-890cdef12abc',
+      id: 'b2c3d4e5-f678-4934-b567-890cdef12abc',
       first_name: 'Indiana',
       last_name: 'Jones',
       username: 'dr_jones',
@@ -133,7 +133,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'c3d4e5f6-7890-2345-c678-90def12abc34',
+      id: 'c3d4e5f6-7890-4235-c678-90def12abc34',
       first_name: 'Tony',
       last_name: 'Stark',
       username: 'iron_man',
@@ -145,7 +145,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'd4e5f6g7-8901-3456-d789-01ef234abc45',
+      id: 'd4e5f6a7-8901-3456-d789-01ef234abc45',
       first_name: 'Bruce',
       last_name: 'Wayne',
       username: 'batman',
@@ -157,7 +157,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'e5f6g7h8-9012-4567-e890-12f345abc567',
+      id: 'e5f6a7b8-9012-4567-e890-12f345abc567',
       first_name: 'Clark',
       last_name: 'Kent',
       username: 'superman',
@@ -169,7 +169,7 @@ exports.seed = async function (knex) {
       supervisor: true,
     },
     {
-      id: 'f6g7h8i9-0123-5678-f901-23g456abc789',
+      id: 'f6a7b8c9-0123-5678-f901-23g456abc789',
       first_name: 'Peter',
       last_name: 'Parker',
       username: 'spiderman',
@@ -181,7 +181,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'g7h8i9j0-1234-6789-g012-34h567abc890',
+      id: 'g7b8c9d0-1234-6789-g012-34h567abc890',
       first_name: 'Diana',
       last_name: 'Prince',
       username: 'wonder_woman',
@@ -193,7 +193,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'h8i9j0k1-2345-7890-h123-45i678abc901',
+      id: 'h8c9d0e1-2345-7890-h123-45i678abc901',
       first_name: 'Natasha',
       last_name: 'Romanoff',
       username: 'black_widow',
@@ -205,7 +205,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'i9j0k1l2-3456-8901-i234-56j789abc012',
+      id: 'i9d0e1f2-3456-8901-i234-56j789abc012',
       first_name: 'Steve',
       last_name: 'Rogers',
       username: 'captain_america',
@@ -217,7 +217,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'j0k1l2m3-4567-9012-j345-67k890abc123',
+      id: 'j0e1f2g3-4567-9012-j345-67k890abc123',
       first_name: 'Thor',
       last_name: 'Odinson',
       username: 'god_of_thunder',
@@ -229,7 +229,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'k1l2m3n4-5678-0123-k456-78l901abc234',
+      id: 'k1f2g3h4-5678-0123-k456-78l901abc234',
       first_name: 'Bruce',
       last_name: 'Banner',
       username: 'hulk',
@@ -241,7 +241,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'l2m3n4o5-6789-1234-l567-89m012abc345',
+      id: 'l2g3h4i5-6789-1234-l567-89m012abc345',
       first_name: 'Arthur',
       last_name: 'Curry',
       username: 'aquaman',
@@ -253,7 +253,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'm3n4o5p6-7890-2345-m678-90n123abc456',
+      id: 'm3h4i5j6-7890-2345-m678-90n123abc456',
       first_name: 'Barry',
       last_name: 'Allen',
       username: 'the_flash',
@@ -265,7 +265,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'n4o5p6q7-8901-3456-n789-01o234abc567',
+      id: 'n4i5j6k7-8901-3456-n789-01o234abc567',
       first_name: 'Victor',
       last_name: 'Stone',
       username: 'cyborg',
@@ -277,7 +277,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'o5p6q7r8-9012-4567-o890-12p345abc678',
+      id: 'o5j6k7l8-9012-4567-o890-12p345abc678',
       first_name: 'Clark',
       last_name: 'Griswold',
       username: 'holiday_roadhouse',
@@ -289,7 +289,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'p6q7r8s9-0123-5678-p901-23q456abc789',
+      id: 'p6k7l8m9-0123-5678-p901-23q456abc789',
       first_name: 'Marty',
       last_name: 'McFly',
       username: 'time_traveler',
@@ -301,7 +301,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'q7r8s9t0-1234-6789-q012-34r567abc890',
+      id: 'q7l8m9n0-1234-6789-q012-34r567abc890',
       first_name: 'Emmett',
       last_name: 'Brown',
       username: 'doc_brown',
@@ -313,7 +313,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'r8s9t0u1-2345-7890-r123-45s678abc901',
+      id: 'r8m9n0o1-2345-7890-r123-45s678abc901',
       first_name: 'Rick',
       last_name: 'Deckard',
       username: 'blade_runner',
@@ -325,7 +325,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 's9t0u1v2-3456-8901-s234-56t789abc012',
+      id: 's9n0o1p2-3456-8901-s234-56t789abc012',
       first_name: 'Ethan',
       last_name: 'Hunt',
       username: 'mission_impossible',
@@ -337,7 +337,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 't0u1v2w3-4567-9012-t345-67u890abc123',
+      id: 't0o1p2q3-4567-9012-t345-67u890abc123',
       first_name: 'Neo',
       last_name: 'Anderson',
       username: 'the_one',
@@ -349,7 +349,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'u1v2w3x4-5678-0123-u456-78v901abc234',
+      id: 'u1p2q3r4-5678-0123-u456-78v901abc234',
       first_name: 'John',
       last_name: 'McClane',
       username: 'die_hard',
@@ -361,7 +361,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'v2w3x4y5-6789-1234-v567-89w012abc345',
+      id: 'v2q3r4s5-6789-1234-v567-89w012abc345',
       first_name: 'Max',
       last_name: 'Rockatansky',
       username: 'mad_max',
@@ -373,7 +373,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'w3x4y5z6-7890-2345-w678-90x123abc456',
+      id: 'w3r4s5t6-7890-2345-w678-90x123abc456',
       first_name: 'Frodo',
       last_name: 'Baggins',
       username: 'ring_bearer',
@@ -385,7 +385,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'x4y5z6a7-8901-3456-x789-01y234abc567',
+      id: 'x4s5t6u7-8901-3456-x789-01y234abc567',
       first_name: 'Aragorn',
       last_name: 'Son_of_Arathorn',
       username: 'strider',
@@ -397,7 +397,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'y5z6a7b8-9012-4567-y890-12z345abc678',
+      id: 'y5t6u7v8-9012-4567-y890-12z345abc678',
       first_name: 'Samwise',
       last_name: 'Gamgee',
       username: 'sam',
@@ -409,7 +409,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'z6a7b8c9-0123-5678-z901-23a456abc789',
+      id: 'z6u7v8w9-0123-5678-z901-23a456abc789',
       first_name: 'Legolas',
       last_name: 'Greenleaf',
       username: 'the_elven_archer',
@@ -421,7 +421,7 @@ exports.seed = async function (knex) {
       supervisor: false,
     },
     {
-      id: 'a7b8c9d0-1234-6789-a012-34b567abc890',
+      id: 'a7v8w9x0-1234-6789-a012-34b567abc890',
       first_name: 'Gimli',
       last_name: 'Son_of_Gloin',
       username: 'the_dwarf_warrior',
