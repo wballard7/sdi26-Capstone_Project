@@ -15,6 +15,7 @@ import { getFetch } from '../../utils/Fetches';
 import '../../styles/Home.css';
 import { MyCalendar } from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
+import { UserContext } from '../../context/UserContext';
 
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState([]);
@@ -22,6 +23,7 @@ export const Home = () => {
   const [categories, setCategories] = useState([]);
   const { startDate, endDate, setStartDate, setEndDate } = useContext(CalendarContext);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const { id: Userid } = useContext(UserContext);
 
   //==============calendar stuff===================
   const openCalendar = () => {
@@ -50,11 +52,9 @@ export const Home = () => {
     const fetchStaticEntries = async () => {
       try {
         const fetchedStaticEntries = await getFetch(`static_entries`);
-        // console.log(fetchedStaticEntries);
+
         setStaticEntries(fetchedStaticEntries);
-      } catch (err) {
-        // console.log(err);
-      }
+      } catch (err) {}
     };
     fetchStaticEntries();
   }, []);
@@ -72,9 +72,7 @@ export const Home = () => {
       try {
         const fetchedCategories = await getFetch(`categories`);
         setCategories(fetchedCategories);
-      } catch (err) {
-        // console.log(err);
-      }
+      } catch (err) {}
     };
     fetchCategories();
   }, []);
@@ -96,58 +94,19 @@ export const Home = () => {
       {children}
     </Button>
   );
-  const getTimeSlots = (entry) => {
-    const start = new Date(entry.start_date);
-    const end = new Date(entry.end_date);
-    const slots = [];
 
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      slots.push(d.getDay());
-    }
-
-    return slots;
-  };
-  const renderDynamicEntries = () => {
-    const timeSlots = Array(7)
-      .fill()
-      .map(() => []);
-
-    dynamicEntries.forEach((entry) => {
-      const slot = getTimeSlots(entry);
-      if (slot >= 0 && slot < 7) {
-        timeSlots[slot].push(entry);
-      }
-    });
-    return timeSlots.map((entries, index) => (
-      <div key={index} className="timeSlot">
-        <h2 className="dynamicTime">Time {index + 1}</h2>
-        {entries.map((entry) => (
-          <Button
-            key={entry.id}
-            className="dynamicEntry"
-            bg="blue.500"
-            color="white"
-            _hover={{ bg: 'blue.400' }}
-            width="100%"
-          >
-            {entry.name}
-          </Button>
-        ))}
-      </div>
-    ));
-  };
-
-  const DragDropContainer = () => {
+  const DragDropContainer = ({ entries }) => {
     const onDragStart = (e, id) => {
       e.dataTransfer.setData('id', id);
     };
 
     const onDrop = (e, index) => {
+      e.preventDefault();
       const id = e.dataTransfer.getData('id');
       const convertedid = Number(id);
-      const draggedButton = dynamicEntries.find((btn) => btn.id === convertedid);
+      const draggedButton = entries.find((btn) => btn.id === convertedid);
 
-      const filteredButtons = dynamicEntries.filter((btn) => btn.id !== convertedid);
+      const filteredButtons = entries.filter((btn) => btn.id !== convertedid);
 
       const updatedButtons = [
         ...filteredButtons.slice(0, index),
@@ -162,25 +121,18 @@ export const Home = () => {
       e.preventDefault();
     };
     return (
-      <VStack spacing={1}>
-        {dynamicEntries.map((entry, index) => (
-          <div className="dynamicEntries">
-            <Box
-              key={entry.id}
-              onDrop={(e) => onDrop(e, index)}
-              onDragOver={onDragOver}
-              width="100%"
-            >
-              <DraggableButton id={entry.id} onDragStart={onDragStart}>
-                {entry.name}
-              </DraggableButton>
-            </Box>
-          </div>
+      <VStack spacing={1} align="stretch">
+        {entries.map((entry, index) => (
+          <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
+            <DraggableButton id={entry.id} onDragStart={onDragStart} width="100%">
+              {entry.name}
+            </DraggableButton>
+          </Box>
         ))}
       </VStack>
     );
   };
-  // nextDay.setDate(startDate.getDate() + 1);
+  //===============time range and dynamicEntry dates==========================
   function timeRange() {
     const dates = [];
     let currentDate = new Date(startDate);
@@ -193,6 +145,17 @@ export const Home = () => {
     return dates;
   }
   const dates = timeRange();
+
+  const matchedDates = dates.map((date) => {
+    const matchingEntries = dynamicEntries.filter((entry) => {
+      const entryStartDate = new Date(entry.start_date);
+      const entryEndDate = new Date(entry.end_date);
+
+      return date >= entryStartDate && date <= entryEndDate;
+    });
+
+    return { date, entries: matchingEntries };
+  });
 
   return (
     <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
@@ -219,7 +182,6 @@ export const Home = () => {
                     <ModalCloseButton />
                     <ModalBody>
                       <MyCalendar setStartDate={setStartDate} setEndDate={setEndDate}></MyCalendar>
-                      {/* <MyCalendar /> */}
                     </ModalBody>
                   </ModalContent>
                 </Modal>
@@ -233,31 +195,36 @@ export const Home = () => {
             <div className="bodyGrid">
               <div className="staticGroup">
                 <h1 className="currentTab">Current Tab</h1>
-                {console.log('my start date:', startDate)}
-                {/* {staticEntries.map((entry) => (
+                {staticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
                     {entry.title}
                   </h1>
-                ))} */}
-                {dates.map((dateElement, index) => (
-                  <h1 key={index} className="staticEntry">
-                    {dateElement.toDateString()}
-                  </h1>
                 ))}
               </div>
-              {/* <div className="dynamicGroup">
-                <h1 className="dynamicTime">time 1</h1>
-                <h1 className="dynamicTime"> </h1>
-                <h1 className="dynamicTime">time 3</h1>
-                <h1 className="dynamicTime">time 4</h1>
-                <h1 className="dynamicTime">time 5</h1>
-                <h1 className="dynamicTime">time 6</h1>
-                <h1 className="dynamicTime">time 7</h1>
-                <div className="dragDropContainer">
-                  <DragDropContainer />
-                </div>
-              </div> */}
-              <div className="dynamicGroup">{renderDynamicEntries()}</div>
+              <div className="dynamicGroup">
+                {matchedDates.map((item, index) => (
+                  <div key={index}>
+                    <h1 className="dynamicTime">{item.date.toDateString()}</h1>
+                    {item.entries.length > 0 ? (
+                      // item.entries.map((entry) => (
+                      <DragDropContainer entries={item.entries} />
+                    ) : (
+                      // <Button
+                      //   key={entry.id}
+                      //   className="dynamicEntry"
+                      //   bg="blue.500"
+                      //   color="white"
+                      //   _hover={{ bg: 'blue.400' }}
+                      //   width="100%"
+                      // >
+                      //   {entry.name}
+                      // </Button>
+                      //))
+                      <p>No entries</p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         ) : (

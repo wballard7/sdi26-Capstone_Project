@@ -24,11 +24,15 @@ async function getEntryByCategory(req, res) {
 }
 
 async function getEntryByOwner(req, res) {
-  const owner_id = req.params.input_owner_id;
-  const entry = await Static_entry.getByOwner(owner_id);
-  return res.send(entry);
+  try {
+    const owner_id = req.params.id;
+    const entries = await Static_entry.getByOwner(owner_id);
+    return res.json(entries);
+  } catch (error) {
+    console.error('Error in getEntryByOwner:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 }
-
 async function getEntryByUnit(req, res) {
   const my_unit_id = req.params.my_unit_id;
   const entry = await Static_entry.getByUnit(my_unit_id);
