@@ -44,8 +44,8 @@
 
 /* Static group (left section) */
 .staticGroup {
-  background-color: #1e5f74; /* Teal blue */
-  padding: 15px;
+  background-color: rgb(121, 42, 5);
+  padding: 9px;
   border-radius: 8px;
   color: #ffffff;
   width: 300px;
@@ -64,8 +64,8 @@
 }
 
 .staticEntry {
-  background-color: #3282b8;
-  padding: 10px;
+  background-color: rgba(255, 233, 233, 0.3);
+  padding: 8px;
   border-radius: 10px;
   color: #ffffff;
   font-weight: bold;
@@ -73,7 +73,7 @@
   width: 280px;
   box-sizing: border-box;
   word-wrap: break-word;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 }
 
 /* Dynamic group (right section) */

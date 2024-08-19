@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
-import { Select, Input, Button, Box, Heading } from '@chakra-ui/react';
+import { Select, Input, Button, Box, Heading, Link, Checkbox } from '@chakra-ui/react';
 import Tree from 'react-d3-tree';
+import { useNavigate } from 'react-router-dom';
+// Import User context
+import { UserContext } from '../context/UserContext';
 
 export const CreateAccount = () => {
+  const { admin, loggedIn } = useContext(UserContext); // Assume loggedIn is available in the context
   const [newOrg, setNewOrg] = useState(false);
   const [listOfSups, setListOfSups] = useState([]);
   const [loadingUnits, setLoadingUnits] = useState(true);
@@ -24,6 +28,7 @@ export const CreateAccount = () => {
     unit_name: '',
     reports_to: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -42,11 +47,13 @@ export const CreateAccount = () => {
 
   const handleCreateAccount = async () => {
     await postFetch('users', userDetails);
+    admin ? navigate('/Home') : navigate('/');
   };
 
   const handleAddUnit = async () => {
     const addedUnit = await postFetch('units', newUnit);
     setUnits((prevUnits) => [...prevUnits, addedUnit]);
+    navigate('/Home');
   };
 
   const handleChange = (e, setter) => {
@@ -59,22 +66,21 @@ export const CreateAccount = () => {
 
   const handleUnitChange = async (e) => {
     handleChange(e, setUserDetails);
-    let unit = e.target.value;
-    console.log(`Line 60, handleUnitChange, CreateAccount.jsx. Getting ${unit} for target.value`);
-    // Fetch supervisors only when a unit is selected
-    if (unit) {
+    const unitId = e.target.value;
+
+    if (unitId) {
       setLoadingSups(true);
-      await fetchUnitSupervisors(e.target.value);
+      await fetchUnitSupervisors(unitId);
       setLoadingSups(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleCreateAccount();
     if (newOrg) {
       await handleAddUnit();
     }
+    await handleCreateAccount();
   };
 
   const toggleNewOrg = () => {
@@ -102,9 +108,68 @@ export const CreateAccount = () => {
     }
   };
 
+  const renderUnitSelect = () => (
+    <Select
+      name="my_unit_id"
+      value={userDetails.my_unit_id}
+      onChange={handleUnitChange}
+      placeholder="Your Unit"
+      mb="4"
+      bg="white"
+      color="black"
+    >
+      {units.map((unit) => (
+        <option key={unit.id} value={unit.id}>
+          {unit.unit_name}
+        </option>
+      ))}
+    </Select>
+  );
+
+  const renderSupervisorSelect = () => (
+    <Select
+      name="supervisor_id"
+      value={userDetails.supervisor_id}
+      onChange={(e) => handleChange(e, setUserDetails)}
+      placeholder="Unit Supervisors"
+      mb="4"
+      bg="white"
+      color="black"
+    >
+      {listOfSups.map((supervisor) => (
+        <option key={supervisor.id} value={supervisor.id}>
+          {supervisor.first_name} {supervisor.last_name}
+        </option>
+      ))}
+    </Select>
+  );
+
+  const renderReportsToSelect = () => (
+    <Select
+      name="reports_to"
+      value={newUnit.reports_to}
+      onChange={(e) => handleChange(e, setNewUnit)}
+      placeholder="Reports To"
+      mb="4"
+      bg="white"
+      color="black"
+    >
+      {units.map((unit) => (
+        <option key={unit.id} value={unit.id}>
+          {unit.unit_name}
+        </option>
+      ))}
+    </Select>
+  );
+
   return (
     <Box>
-      <Heading as="h1">Account Information</Heading>
+      <Link href="/">
+        <Button>Go Back</Button>
+      </Link>
+      <Heading as="h1" mb="4">
+        Account Information
+      </Heading>
       <Input
         type="text"
         name="username"
@@ -137,107 +202,74 @@ export const CreateAccount = () => {
         placeholder="Last Name"
         mb="4"
       />
-
-      {loadingUnits ? (
-        <Heading as="h3">Loading Units...</Heading>
-      ) : (
-        <Select
-          name="my_unit_id"
-          value={userDetails.my_unit_id}
-          onChange={handleUnitChange}
-          placeholder="Your Unit"
+      {admin && (
+        <Checkbox
+          type="checkbox"
+          onChange={(e) =>
+            setUserDetails((prev) => ({
+              ...prev,
+              supervisor: e.target.checked,
+            }))
+          }
           mb="4"
         >
-          {units.map((unit) => (
-            <option key={unit.id} value={unit.id}>
-              {unit.unit_name}
-            </option>
-          ))}
-        </Select>
+          Is A Supervisor?
+        </Checkbox>
       )}
 
-      {loadingSups ? (
-        <Heading as="h3">Loading Supervisors...</Heading>
-      ) : (
-        <Select
-          name="supervisor_id"
-          value={userDetails.supervisor_id}
-          onChange={(e) => handleChange(e, setUserDetails)}
-          placeholder="Unit Supervisors"
-          mb="4"
-        >
-          {listOfSups.map((supervisor) => (
-            <option key={supervisor.id} value={supervisor.id}>
-              {supervisor.first_name} {supervisor.last_name}
-            </option>
-          ))}
-        </Select>
-      )}
+      {loadingUnits ? <Heading as="h3">Loading Units...</Heading> : renderUnitSelect()}
 
-      {newOrg && (
+      {loadingSups ? <Heading as="h3">Loading Supervisors...</Heading> : renderSupervisorSelect()}
+
+      {admin && (
         <>
-          <Heading as="h2" size="md" mb="4">
-            New Organization Information
-          </Heading>
-          <Select
-            name="reports_to"
-            value={newUnit.reports_to}
-            onChange={(e) => handleChange(e, setNewUnit)}
-            placeholder="Reports To"
-            mb="4"
-          >
-            {units.map((unit) => (
-              <option key={unit.id} value={unit.id}>
-                {unit.unit_name}
-              </option>
-            ))}
-          </Select>
+          {newOrg && (
+            <>
+              <Heading as="h2" size="md" mb="4">
+                New Organization Information
+              </Heading>
+              {renderReportsToSelect()}
+              <Heading as="h3" size="sm" mb="4">
+                Units Tree
+              </Heading>
+              <Box mb="4" border="1px solid #ccc" borderRadius="md" p="4">
+                <Tree data={transformUnitsToTree(units)} />
+              </Box>
 
-          <Heading as="h3" size="sm" mb="4">
-            Units Tree
-          </Heading>
-          <Box mb="4" border="1px solid #ccc" borderRadius="md" p="4">
-            <Tree data={transformUnitsToTree(units)} />
-          </Box>
+              <Heading as="h3" size="sm" mb="4">
+                Add New Unit
+              </Heading>
+              <Input
+                type="text"
+                name="unit_name"
+                value={newUnit.unit_name}
+                onChange={(e) => handleChange(e, setNewUnit)}
+                placeholder="Unit Name"
+                mb="4"
+              />
+              {renderReportsToSelect()}
+              <Button colorScheme="teal" onClick={handleAddUnit} mb="4">
+                Add Unit
+              </Button>
+            </>
+          )}
 
-          <Heading as="h3" size="sm" mb="4">
-            Add New Unit
-          </Heading>
-          <Input
-            type="text"
-            name="unit_name"
-            value={newUnit.unit_name}
-            onChange={(e) => handleChange(e, setNewUnit)}
-            placeholder="Unit Name"
-            mb="4"
-          />
-
-          <Select
-            name="reports_to"
-            value={newUnit.reports_to}
-            onChange={(e) => handleChange(e, setNewUnit)}
-            placeholder="Reports To"
-            mb="4"
-          >
-            {units.map((unit) => (
-              <option key={unit.id} value={unit.id}>
-                {unit.unit_name}
-              </option>
-            ))}
-          </Select>
-
-          <Button colorScheme="teal" onClick={handleAddUnit} mb="4">
-            Add Unit
+          <Button colorScheme="blue" onClick={handleSubmit} m="4">
+            {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
+          </Button>
+          <Button colorScheme="gray" onClick={toggleNewOrg} m="4">
+            {newOrg ? 'Back to Account Creation' : 'Create New Organization'}
           </Button>
         </>
       )}
 
-      <Button colorScheme="blue" onClick={handleSubmit} mb="4">
-        {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
-      </Button>
-      <Button colorScheme="gray" onClick={toggleNewOrg}>
-        {newOrg ? 'Back to Account Creation' : 'Create New Organization'}
-      </Button>
+      {!loggedIn ? (
+        <Button colorScheme="blue" onClick={handleSubmit} m="4">
+          Create Account
+        </Button>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
