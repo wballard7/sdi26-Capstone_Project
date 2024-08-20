@@ -28,7 +28,7 @@ async function getByOwner(input_owner_id) {
   }
 }
 
-async function getByInputIds(static_ids) {
+async function getByInputId(static_ids) {
   const results = await knex('static_entries').whereIn('id', static_ids);
   return results; // Return all matched results
 }
@@ -68,6 +68,6 @@ module.exports = {
   getByCategory,
   getByOwner,
   getByUnit,
-  getByInputIds,
+  getByInputId,
   getByTags,
 };
