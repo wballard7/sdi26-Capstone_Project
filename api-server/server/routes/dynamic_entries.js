@@ -1,4 +1,5 @@
 const Dynamic_entry = require('../models/dynamic_entries');
+const Join_audience = require('../models/join_audience');
 
 async function getAllEntries(req, res) {
   const all = await Dynamic_entry.all();
@@ -12,14 +13,15 @@ async function getEntryById(req, res) {
 }
 
 async function getEntryByName(req, res) {
-  const title = req.params.title;
+  //Testing to see if there's an error with req.params calling title instead of name
+  const title = req.params.name;
   const entry = await Dynamic_entry.getByName(title);
   return res.send(entry);
 }
 
 async function getEntryByCategory(req, res) {
   const category_id = req.params.category_id;
-  const entry = await Dynamic_entry.getByCategory(category_id);
+  const entry = await Dynamic_entry.getByCategory(category_id); // insert model methods here
   return res.send(entry);
 }
 
@@ -56,11 +58,21 @@ async function removeEntry(req, res) {
   return res.json(removed);
 }
 
+async function getAllPersonnelEntries(req, res) {
+  const id = req.params.supervisor_id;
+  console.log(`passed in ${id} for user ID, Line 61 routes/dyna`);
+  const personnelEntries = await Join_audience.getByUserID(id);
+  const dynID = personnelEntries.id;
+  const dynamicEntriesAssociated = Dynamic_entry.getByInputId(dynID);
+  return res.json(dynamicEntriesAssociated);
+}
+
 module.exports = {
   getAllEntries,
   removeEntry,
   updateEntry,
   createEntry,
+  getAllPersonnelEntries,
   getEntryById,
   getEntryByName,
   getEntryByCategory,

@@ -1,4 +1,5 @@
 const Static_entry = require('../models/static_entries');
+const Join_audience = require('../models/join_audience');
 
 async function getAllEntries(req, res) {
   const all = await Static_entry.all();
@@ -60,9 +61,19 @@ async function removeEntry(req, res) {
   return res.json(removed);
 }
 
+async function getAllPersonnelEntries(req, res) {
+  const id = req.params.supervisor_id;
+  console.log(`passed in ${id} for user ID, Line 61 routes/dyna`);
+  const personnelEntries = await Join_audience.getByUserID(id);
+  const statID = personnelEntries.static_id;
+  const staticEntriesAssociated = Static_entry.getByInputId(statID);
+  return res.json(staticEntriesAssociated);
+}
+
 module.exports = {
   getAllEntries,
   removeEntry,
+  getAllPersonnelEntries,
   updateEntry,
   createEntry,
   getEntryById,

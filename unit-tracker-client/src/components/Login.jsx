@@ -132,21 +132,21 @@ export const Login = () => {
       position="relative"
     >
       <Image
-        src="/assets/image.png"
+        src="/assets/DRAFT6BLACK.png"
         alt="Background"
-        position="absolute"
-        mt={290}
-        top="50%"
-        left="50%"
-        transform="translate(-50%, -50%) scale(2)" // Scale the image to 200% of its original size
-        opacity="0.1"
-        zIndex="-1"
+        // position="absolute"
+        mt={'50%'}
+        // top="50%"
+        // left="50%"
+        transform="translate(0%, -10%) scale(3)" // Scale the image to 200% of its original size
+        // opacity=".5"
+        // zIndex="-1"
         borderRadius="50%" // Makes the image circular
         w="150%" // Makes the image 50% larger
         h="auto" // Keeps the aspect ratio intact
       />
       <Heading as="h1" size="lg" mb="6" textAlign="center" whiteSpace="nowrap">
-        OPTIC
+        {/* OPTIC */}
       </Heading>
       <Input
         placeholder="Username"

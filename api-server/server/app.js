@@ -41,26 +41,28 @@ app.patch('/units', unitRoutes.updateUnit);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
 app.get('/static_entries/', staticRoutes.getAllEntries); //TESTED GOOD
-app.get('/static_entries/:id', staticRoutes.getEntryById);
+app.get('/static_entries/:id', staticRoutes.getEntryById);//TESTED GOOD
 app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
-app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
-app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory);
-app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit);
-app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags);
+app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner); //TESTED GOOD
+app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory);//TESTED failed
+app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit);//TESTED failed
+app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags);//FAILED
 app.post('/static_entries', staticRoutes.createEntry);
 app.patch('/static_entries', staticRoutes.updateEntry);
+app.get('/static_entries/supervisor/:id', staticRoutes.getAllPersonnelEntries);
 //TESTED BAD --- but no crash --- app.delete('/static_entries', staticRoutes.removeEntry);
 
 app.get('/dynamic_entries/', dynamicRoutes.getAllEntries); //TESTED GOOD
 app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById); //TESTED GOOD
-app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
+app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName); // Not needed
 app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
-app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
-app.get('/dynamic_entries/unit/:id', dynamicRoutes.getEntryByUnit);
+app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory); // No model yet
+app.get('/dynamic_entries/unit/:id', dynamicRoutes.getEntryByUnit); // No model yet
 app.get('/dynamic_entries/tags/:id', dynamicRoutes.getEntryByTags);
 app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/:id', dynamicRoutes.removeEntry);
+app.get('/dynamic_entries/supervisor/:id', dynamicRoutes.getAllPersonnelEntries);
 
 // //get tags
 app.get('/tags', tagRoutes.getAllTags); //TESTED GOOD

@@ -8,7 +8,7 @@ async function getById(id) {
   return results[0];
 }
 async function getByName(tag_name) {
-  const results = await knex('tags').where(tag_name);
+  const results = await knex('tags').where({ tag_name });
   return results[0];
 }
 async function remove(id) {
@@ -27,3 +27,4 @@ module.exports = {
   getById,
   getByName,
 };
+
