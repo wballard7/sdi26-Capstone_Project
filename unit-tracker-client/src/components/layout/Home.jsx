@@ -24,6 +24,7 @@ export const Home = () => {
   const { startDate, endDate, setStartDate, setEndDate } = useContext(CalendarContext);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { id: Userid } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   //==============calendar stuff===================
   const openCalendar = () => {
@@ -40,6 +41,7 @@ export const Home = () => {
       start.setDate(today.getDate() - dayOfWeek + 1);
       const end = new Date(start);
       end.setDate(start.getDate() + 6);
+      console.log('userid:', Userid);
 
       setStartDate(start);
       setEndDate(end);
@@ -49,33 +51,30 @@ export const Home = () => {
 
   //========fetch = static_entries, dynamic_entries, categories========
   useEffect(() => {
-    const fetchStaticEntries = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const fetchedStaticEntries = await getFetch(`static_entries/owner/${Userid}`);
-// so this should work assuming that the user is import works and you are logged in to a user with statics
+        const [fetchedStaticEntries, fetchedDynamicEntries, fetchedCategories] = await Promise.all([
+          getFetch(`static_entries`),
+          ///owner/${Userid}
+          getFetch('dynamic_entries'),
+          getFetch('categories'),
+        ]);
         setStaticEntries(fetchedStaticEntries);
-      } catch (err) {}
-    };
-    fetchStaticEntries();
-  }, []);
-
-  useEffect(() => {
-    const fetchDynamicEntries = async () => {
-      const fetchedDynamicEntries = await getFetch('dynamic_entries');
-      setDynamicEntries(fetchedDynamicEntries);
-    };
-    fetchDynamicEntries();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const fetchedCategories = await getFetch(`categories`);
+        setDynamicEntries(fetchedDynamicEntries);
         setCategories(fetchedCategories);
-      } catch (err) {}
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    fetchCategories();
-  }, []);
+    fetchData();
+  }, [Userid]);
+
+  if (isLoading) {
+    return <Box>Loading...</Box>;
+  }
 
   //NOTE:
   //will need to change updated buttons so it is a 1 for 1 swap

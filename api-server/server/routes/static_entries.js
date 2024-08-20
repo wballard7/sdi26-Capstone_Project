@@ -11,17 +11,17 @@ async function getEntryById(req, res) {
   return res.send(entry);
 }
 
-async function getEntryByTitle(req, res) {
-  const title = req.params.title;
-  const entry = await Static_entry.getByTitle(title);
-  return res.send(entry);
-}
+// async function getEntryByTitle(req, res) {
+//   const title = req.params.title;
+//   const entry = await Static_entry.getByTitle(title);
+//   return res.send(entry);
+// }
 
-async function getEntryByCategory(req, res) {
-  const category_id = req.params.category_id;
-  const entry = await Static_entry.getByCategory(category_id);
-  return res.send(entry);
-}
+// async function getEntryByCategory(req, res) {
+//   const category_id = req.params.category_id;
+//   const entry = await Static_entry.getByCategory(category_id);
+//   return res.send(entry);
+// }
 
 async function getEntryByOwner(req, res) {
   try {

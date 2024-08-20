@@ -8,15 +8,15 @@ async function getById(id) {
   const results = await knex('static_entries').where({ id });
   return results[0];
 }
-async function getByTitle(title) {
-  const results = await knex('static_entries').where(title);
-  return results[0];
-}
+// async function getByTitle(title) {
+//   const results = await knex('static_entries').where(title);
+//   return results[0];
+// }
 
-async function getByCategory(category_id) {
-  const results = await knex('static_entries').where(category_id);
-  return results[0];
-}
+// async function getByCategory(category_id) {
+//   const results = await knex('static_entries').where(category_id);
+//   return results[0];
+// }
 
 async function getByOwner(input_owner_id) {
   try {
