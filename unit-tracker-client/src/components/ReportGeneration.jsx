@@ -89,7 +89,7 @@ const ReportGeneration = () => {
     });
 
     filteredReports.forEach((report) => {
-      const staticEntry = staticEntries.find((entry) => entry.id === report.input_id);
+      const staticEntry = staticEntries.find((entry) => entry.id === report.input_owner_id);
       if (staticEntry) {
         const category = staticEntry.category_name;
         categoryCounts[category].total += 1;
@@ -187,20 +187,22 @@ const ReportGeneration = () => {
           Filtered Reports
         </Heading>
         {filteredReports.length > 0 ? (
-          filteredReports.map((report) => (
-            <Box key={report.id} borderWidth="1px" borderRadius="lg" padding="4" mb="4">
-              <p>
-                <strong>{report.name}</strong>
-              </p>
-              <p>Start Date: {report.start_date}</p>
-              <p>End Date: {report.end_date}</p>
-              <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
-              <p>
-                Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
-              </p>
-              <p>Tag: {report.tag_name}</p>
-            </Box>
-          ))
+          filteredReports
+            .filter((report) => report !== null) // Filter out null entries
+            .map((report) => (
+              <Box key={report.id} borderWidth="1px" borderRadius="lg" padding="4" mb="4">
+                <p>
+                  <strong>{report.name}</strong>
+                </p>
+                <p>Start Date: {report.start_date}</p>
+                <p>End Date: {report.end_date}</p>
+                <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
+                <p>
+                  Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
+                </p>
+                <p>Tag: {report.tag_name}</p>
+              </Box>
+            ))
         ) : (
           <p>No reports found matching your filters.</p>
         )}

@@ -79,7 +79,7 @@ async function getAllPersonnelEntries(req, res) {
       }),
     );
 
-    console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
+    // console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
 
     // Flatten the result in case it is nested arrays
     const flattenedDynamicEntries = dynamicEntriesAssociated.flat();
