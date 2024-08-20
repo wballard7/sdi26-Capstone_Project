@@ -113,13 +113,7 @@ export const UserProfile = () => {
           </Box>
         </CardBody>
       </Card>
-      <Box mt={4}>
-        <Link href="/ReportGeneration" style={{ textDecoration: 'none' }}>
-          <Button width="full" colorScheme="teal" size="lg">
-            Generate A Report
-          </Button>
-        </Link>
-      </Box>
+      <Box mt={4}></Box>
     </Box>
   );
 };

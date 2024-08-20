@@ -29,12 +29,12 @@ const ReportGeneration = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const dynamicData = await getFetch(`dynamic_entries/supervisor/${id}`);
         const staticData = await getFetch(`static_entries/supervisor/${id}`);
-        setDynamicList(dynamicData);
-        setReports(dynamicData);
         setStaticEntries(staticData);
+        const dynamicData = await getFetch(`dynamic_entries/supervisor/${id}`);
+        setReports(dynamicData);
         setFilteredReports(dynamicData);
+        setDynamicList(dynamicData);
       } catch (error) {
         console.error('Error fetching reports:', error);
       } finally {
