@@ -35,22 +35,7 @@
   color: #ffffff;
 }
 
-.bodyGrid {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 1rem;
-  font-weight: bold;
-}
-
 /* Static group (left section) */
-.staticGroup {
-  background-color: rgb(121, 42, 5);
-  padding: 9px;
-  border-radius: 8px;
-  color: #ffffff;
-  width: 300px;
-  box-sizing: border-box;
-}
 
 .currentTab {
   background-color: #46006e;
@@ -77,16 +62,6 @@
 }
 
 /* Dynamic group (right section) */
-.dynamicGroup {
-  background-color: #02133d; /* Dark navy */
-  padding: 15px;
-  border-radius: 8px;
-  width: 87vw;
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-}
 
 .dynamicEntries {
   background-color: #032368; /* Muted blue */
@@ -94,15 +69,6 @@
   border-radius: 5px;
   color: #ffffff;
   text-align: center;
-}
-
-.dynamicTime {
-  color: #ffffff;
-  text-align: center;
-  padding: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  height: 40px;
 }
 
 .dragDropContainer {
@@ -133,4 +99,43 @@
 .tasksButton:hover {
   background-color: #46006e;
   color: #ffffff;
+}
+.bodyGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.staticGroup {
+  background-color: rgb(121, 42, 5);
+  padding: 9px;
+  border-radius: 8px;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dynamicGroup {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  background-color: #02133d;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.dynamicColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dynamicTime {
+  color: #ffffff;
+  text-align: center;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  height: 40px;
 }

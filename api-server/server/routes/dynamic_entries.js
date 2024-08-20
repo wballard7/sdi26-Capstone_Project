@@ -11,10 +11,12 @@ async function getEntryById(req, res) {
   return res.send(entry);
 }
 
-async function getEntryByName(req, res) {
-  const title = req.params.title;
-  const entry = await Dynamic_entry.getByName(title);
-  return res.send(entry);
+async function getEntryByStaticId(req, res) {
+  const id = req.params.id;
+  console.log(id);
+  const entry = await Dynamic_entry.all(id);
+  const newEntry = entry.filter((dynamic_entry) => dynamic_entry.input_id === id);
+  return res.send(newEntry);
 }
 
 async function getEntryByCategory(req, res) {
@@ -24,7 +26,7 @@ async function getEntryByCategory(req, res) {
 }
 
 async function getEntryByOwner(req, res) {
-  const owner_id = req.params.owner_id;
+  const owner_id = req.params.id;
   const entry = await Dynamic_entry.getByOwner(owner_id);
   return res.send(entry);
 }
@@ -62,7 +64,7 @@ module.exports = {
   updateEntry,
   createEntry,
   getEntryById,
-  getEntryByName,
+  getEntryByStaticId,
   getEntryByCategory,
   getEntryByOwner,
   getEntryByUnit,

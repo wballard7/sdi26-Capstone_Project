@@ -18,15 +18,15 @@ async function getById(id) {
 //   return results[0];
 // }
 
-async function getByOwner(input_owner_id) {
-  try {
-    const results = await knex('static_entries').where('input_owner_id', input_owner_id);
-    return results;
-  } catch (error) {
-    console.error('Error in getByOwner:', error);
-    throw error;
-  }
-}
+// async function getByOwner(input_owner_id) {
+//   try {
+//     const results = await knex('static_entries').where('input_owner_id', input_owner_id);
+//     return results;
+//   } catch (error) {
+//     console.error('Error in getByOwner:', error);
+//     throw error;
+//   }
+// }
 
 async function getByUnit(my_unit_id) {
   const results = await knex('static_entries').where(my_unit_id);

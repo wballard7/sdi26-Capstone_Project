@@ -8,10 +8,6 @@ async function getById(id) {
   const results = await knex('dynamic_entries').where({ id });
   return results[0];
 }
-async function getByName(name) {
-  const results = await knex('dynamic_entries').where(name);
-  return results[0];
-}
 async function getByInputId(input_id) {
   const results = await knex('dynamic_entries').where(input_id);
   return results[0];

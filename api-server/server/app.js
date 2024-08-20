@@ -1,3 +1,4 @@
+const knex = require('../db');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -40,11 +41,11 @@ app.patch('/units', unitRoutes.updateUnit);
 // postFetch(''dynamic_entries', newStaticEntry);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
-app.get('/static_entries/', staticRoutes.getAllEntries); //TESTED GOOD
-app.get('/static_entries/:id', staticRoutes.getEntryById);
-app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
-app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
-app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory);
+// app.get('/static_entries/', staticRoutes.getAllEntries); //TESTED GOOD
+// app.get('/static_entries/:id', staticRoutes.getEntryById);
+// app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
+// app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
+// app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory);
 app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit);
 app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags);
 app.post('/static_entries', staticRoutes.createEntry);
@@ -53,8 +54,8 @@ app.patch('/static_entries', staticRoutes.updateEntry);
 
 app.get('/dynamic_entries/', dynamicRoutes.getAllEntries); //TESTED GOOD
 app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById); //TESTED GOOD
-app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
-app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
+app.get('/dynamic_entries/input_id/:id', dynamicRoutes.getEntryByStaticId); // NOT NEEDED
+app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner); // TESTED BAD
 app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
 app.get('/dynamic_entries/unit/:id', dynamicRoutes.getEntryByUnit);
 app.get('/dynamic_entries/tags/:id', dynamicRoutes.getEntryByTags);
@@ -84,3 +85,80 @@ app.get('/join_audience', audienceRoutes.createAudience); // TESTED GOOD
 app.get('/join_audience', audienceRoutes.updateAudience); // TESTED GOOD
 app.get('/join_audience', audienceRoutes.deleteAudience); // TESTED GOOD
 module.exports = app;
+
+app.get('/static_entries', async (req, res) => {
+  try {
+    const entries = await knex('static_entries').select('*');
+    res.json(entries);
+  } catch (error) {
+    console.error('Error fetching entries:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/static_entries/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const entry = await knex('static_entries').where({ id }).first();
+    if (entry) {
+      res.json(entry);
+    } else {
+      res.status(404).send('Entry not found');
+    }
+  } catch (error) {
+    console.error('Error fetching entry:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/static_entries', async (req, res) => {
+  const { title, my_unit_id, category_id, input_owner_id, tag_id, misc_notes } = req.body;
+  try {
+    const [id] = await knex('static_entries')
+      .insert({
+        title,
+        my_unit_id,
+        category_id,
+        input_owner_id,
+        tag_id,
+        misc_notes,
+      })
+      .returning('id');
+
+    res.status(201).json({ id });
+  } catch (error) {
+    console.error('Error creating entry:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.patch('/static_entries/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const updates = req.body;
+  try {
+    const [updated] = await knex('static_entries').where({ id }).update(updates).returning('*'); // Adjust based on your database
+    if (updated) {
+      res.json(updated);
+    } else {
+      res.status(404).send('Entry not found');
+    }
+  } catch (error) {
+    console.error('Error updating entry:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.delete('/static_entries/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const deletedCount = await knex('static_entries').where({ id }).del();
+    if (deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res.status(404).send('Entry not found');
+    }
+  } catch (error) {
+    console.error('Error deleting entry:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});

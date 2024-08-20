@@ -284,5 +284,27 @@ exports.seed = async function (knex) {
       tag_id: 16,
       notes: 'Proper use of radio frequencies and protocols during operations',
     },
+    {
+      name: 'dynamic for ',
+      input_id: input_id[26].id,
+      audience_id: audience_id[26].id,
+      start_date: 20240901,
+      end_date: 20240903,
+      recurrence: 'once',
+      event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+      tag_id: 39,
+      notes: 'Focus on rapid response and disaster recovery operations',
+    },
+    {
+      name: 'Search and Rescue Training',
+      input_id: input_id[27].id,
+      audience_id: audience_id[27].id,
+      start_date: 20240901,
+      end_date: 20240903,
+      recurrence: 'once',
+      event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+      tag_id: 39,
+      notes: 'Focus on rapid response and disaster recovery operations',
+    },
   ]);
 };
