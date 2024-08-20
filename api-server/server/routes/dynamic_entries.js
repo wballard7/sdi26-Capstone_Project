@@ -59,11 +59,12 @@ async function removeEntry(req, res) {
 }
 
 async function getAllPersonnelEntries(req, res) {
-  const id = req.params.supervisor_id;
-  console.log(`passed in ${id} for user ID, Line 61 routes/dyna`);
+  console.log(`passed in ${req.params.id} for user ID, Line 61 routes/dyna`);
+  const id = req.params.id;
   const personnelEntries = await Join_audience.getByUserID(id);
+  console.log(`received ${personnelEntries.id} for a join ID on Line 65 routes/dyna`);
   const dynID = personnelEntries.id;
-  const dynamicEntriesAssociated = Dynamic_entry.getByInputId(dynID);
+  const dynamicEntriesAssociated = await Dynamic_entry.getByInputId(dynID);
   return res.json(dynamicEntriesAssociated);
 }
 

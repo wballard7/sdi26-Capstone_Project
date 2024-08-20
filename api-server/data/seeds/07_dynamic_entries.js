@@ -41,6 +41,7 @@ exports.seed = async function (knex) {
     },
     {
       name: 'JQS',
+
       input_id: input_id[3].id,
       audience_id: audience_id[3].id,
       start_date: 20241001,

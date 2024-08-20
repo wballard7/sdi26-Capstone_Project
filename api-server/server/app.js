@@ -41,12 +41,12 @@ app.patch('/units', unitRoutes.updateUnit);
 // getFetch('dynamic_entries');
 // postFetch('static_entries', newStaticEntry);
 app.get('/static_entries/', staticRoutes.getAllEntries); //TESTED GOOD
-app.get('/static_entries/:id', staticRoutes.getEntryById);//TESTED GOOD
+app.get('/static_entries/:id', staticRoutes.getEntryById); //TESTED GOOD
 app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
 app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner); //TESTED GOOD
-app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory);//TESTED failed
-app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit);//TESTED failed
-app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags);//FAILED
+app.get('/static_entries/category/:category_id', staticRoutes.getEntryByCategory); //FAILED
+app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit); //FAILED
+app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags); //FAILED
 app.post('/static_entries', staticRoutes.createEntry);
 app.patch('/static_entries', staticRoutes.updateEntry);
 app.get('/static_entries/supervisor/:id', staticRoutes.getAllPersonnelEntries);
