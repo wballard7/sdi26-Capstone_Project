@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
+const router = express.Router();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -132,33 +133,70 @@ app.post('/static_entries', async (req, res) => {
   }
 });
 
+// app.patch('/static_entries/:id', async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   const updates = req.body;
+//   try {
+//     const [updated] = await knex('static_entries').where({ id }).update(updates).returning('*');
+//     if (updated) {
+//       res.json(updated);
+//     } else {
+//       res.status(404).send('Entry not found');
+//     }
+//   } catch (error) {
+//     console.error('Error updating entry:', error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+
 app.patch('/static_entries/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
+  const { id } = req.params;
   const updates = req.body;
   try {
-    const [updated] = await knex('static_entries').where({ id }).update(updates).returning('*'); // Adjust based on your database
-    if (updated) {
-      res.json(updated);
-    } else {
-      res.status(404).send('Entry not found');
-    }
+    await knex('static_entries').where({ id }).update(updates);
+    res.status(200).json({ message: 'Item updated' });
   } catch (error) {
-    console.error('Error updating entry:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Error updating Items' });
   }
 });
 
-app.delete('/static_entries/:id', async (req, res) => {
+// app.delete('/static_entries/:id', async (req, res) => {
+//   const { id } = req.params.id;
+//   try {
+//     const deletedCount = await knex('static_entries').where({ id: id }).del();
+//     if (deletedCount > 0) {
+//       res.status(201).json({ message: 'entry deleted' });
+//     } else {
+//       res.status(404).send('Entry not found');
+//     }
+//   } catch (error) {
+//     console.error('Error deleting entry:', error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+router.delete('/:id', async (req, res) => {
   const id = parseInt(req.params.id);
+  console.log(`Attempting to delete static entry with id: ${id}`);
+
   try {
-    const deletedCount = await knex('static_entries').where({ id }).del();
-    if (deletedCount > 0) {
-      res.status(204).send();
-    } else {
-      res.status(404).send('Entry not found');
-    }
+    await knex.transaction(async (trx) => {
+      // Delete related records in other tables
+      await trx('dynamic_entries').where('static_entry_id', id).del();
+      await trx('join_audience').where('static_id', id).del();
+
+      // Delete the static entry
+      const deletedCount = await trx('static_entries').where({ id }).del();
+
+      if (deletedCount > 0) {
+        console.log(`Successfully deleted static entry with id: ${id}`);
+        res.status(200).json({ message: 'Entry and related records deleted successfully' });
+      } else {
+        console.log(`No static entry found with id: ${id}`);
+        res.status(404).json({ error: 'Entry not found' });
+      }
+    });
   } catch (error) {
     console.error('Error deleting entry:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
