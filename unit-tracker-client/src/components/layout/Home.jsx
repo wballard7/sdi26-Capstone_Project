@@ -51,8 +51,8 @@ export const Home = () => {
   useEffect(() => {
     const fetchStaticEntries = async () => {
       try {
-        const fetchedStaticEntries = await getFetch(`static_entries`);
-
+        const fetchedStaticEntries = await getFetch(`static_entries/owner/${Userid}`);
+// so this should work assuming that the user is import works and you are logged in to a user with statics
         setStaticEntries(fetchedStaticEntries);
       } catch (err) {}
     };
