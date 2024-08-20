@@ -91,7 +91,6 @@ async function getAllUnitNonSupervisors(req, res) {
   console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
-
   return res.send(unitSupervisors);
 }
 
@@ -103,6 +102,7 @@ async function getMyPersonnel(req, res) {
 
   return res.send(myPersonnel);
 }
+
 
 module.exports = {
   getAllUsers,
