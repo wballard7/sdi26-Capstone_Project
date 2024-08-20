@@ -7,7 +7,7 @@ const UserContext = createContext({
   last_name: '',
   supervisor_id: '',
   my_unit_id: '',
-  available: false,
+  availability: false,
   admin: false,
   supervisor: false,
   loggedIn: false,
@@ -33,7 +33,7 @@ const UserProvider = ({ children }) => {
           last_name: '',
           supervisor_id: '',
           my_unit_id: '',
-          available: false,
+          availability: false,
           admin: false,
           supervisor: false,
           org: {
@@ -73,7 +73,7 @@ const UserProvider = ({ children }) => {
         last_name: '',
         supervisor_id: '',
         my_unit_id: '',
-        available: false,
+        availability: false,
         admin: false,
         supervisor: false,
         org: {

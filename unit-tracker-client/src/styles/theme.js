@@ -5,23 +5,25 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: '#121212',
-        color: '#ffffff',
+        bg: '#00000', // Dark navy
+        color: '#ffffff', // White text
       },
     },
   },
   colors: {
     brand: {
-      50: '#1db954', // Primary color
+      50: '#46006e', // Soft orange accent color
+      100: '#3282b8', // Light navy
+      200: '#1e5f74', // Teal blue
     },
   },
   components: {
     Button: {
       baseStyle: {
-        bg: '#333333',
+        bg: '#3282b8',
         _hover: {
-          bg: '#1db954',
-          color: '#121212',
+          bg: '#46006e',
+          color: '#ffffff',
         },
       },
     },
