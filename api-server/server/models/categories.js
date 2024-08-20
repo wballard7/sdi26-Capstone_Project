@@ -8,7 +8,7 @@ async function getById(id) {
   return results[0];
 }
 async function getByName(category_name) {
-  const results = await knex('categories').where(category_name);
+  const results = await knex('categories').where({ category_name });
   return results[0];
 }
 async function remove(id) {
@@ -27,3 +27,4 @@ module.exports = {
   getById,
   getByName,
 };
+

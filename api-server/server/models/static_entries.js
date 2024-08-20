@@ -14,13 +14,13 @@ async function getByTitle(title) {
 }
 
 async function getByCategory(category_id) {
-  const results = await knex('static_entries').where(category_id);
+  const results = await knex('static_entries').where({ category_id });
   return results[0];
 }
 
 async function getByOwner(input_owner_id) {
   try {
-    const results = await knex('static_entries').where('input_owner_id', input_owner_id);
+    const results = await knex('static_entries').where({ input_owner_id });
     return results;
   } catch (error) {
     console.error('Error in getByOwner:', error);
@@ -28,13 +28,18 @@ async function getByOwner(input_owner_id) {
   }
 }
 
+async function getByInputId(static_ids) {
+  const results = await knex('static_entries').whereIn('id', static_ids);
+  return results; // Return all matched results
+}
+
 async function getByUnit(my_unit_id) {
-  const results = await knex('static_entries').where(my_unit_id);
+  const results = await knex('static_entries').where({ my_unit_id });
   return results[0];
 }
 
 async function getByTags(tag_id) {
-  const results = await knex('static_entries').where(tag_id);
+  const results = await knex('static_entries').where({ tag_id });
   return results[0];
 }
 
@@ -49,7 +54,7 @@ async function create(data) {
 }
 
 async function update(id, data) {
-  const results = await knex('static_entries').where(id).update(data);
+  const results = await knex('static_entries').where({ id }).update(data);
   return results[0];
 }
 
@@ -63,5 +68,6 @@ module.exports = {
   getByCategory,
   getByOwner,
   getByUnit,
+  getByInputId,
   getByTags,
 };

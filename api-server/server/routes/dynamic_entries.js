@@ -1,4 +1,5 @@
 const Dynamic_entry = require('../models/dynamic_entries');
+const Join_audience = require('../models/join_audience');
 
 async function getAllEntries(req, res) {
   const all = await Dynamic_entry.all();
@@ -12,14 +13,15 @@ async function getEntryById(req, res) {
 }
 
 async function getEntryByName(req, res) {
-  const title = req.params.title;
+  //Testing to see if there's an error with req.params calling title instead of name
+  const title = req.params.name;
   const entry = await Dynamic_entry.getByName(title);
   return res.send(entry);
 }
 
 async function getEntryByCategory(req, res) {
   const category_id = req.params.category_id;
-  const entry = await Dynamic_entry.getByCategory(category_id);
+  const entry = await Dynamic_entry.getByCategory(category_id); // insert model methods here
   return res.send(entry);
 }
 
@@ -56,11 +58,45 @@ async function removeEntry(req, res) {
   return res.json(removed);
 }
 
+async function getAllPersonnelEntries(req, res) {
+  console.log(`Passed in ${req.params.user_id} for user ID, Line 61 routes/dyna`);
+  const user_id = req.params.user_id;
+
+  try {
+    const personnelEntries = await Join_audience.getAllByUserID(user_id);
+
+    if (!personnelEntries || personnelEntries.length === 0) {
+      console.log('No join entries found for the user.');
+      return res.status(404).json({ error: 'No entries found for this user.' });
+    }
+
+    console.log(`Received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/dyna`);
+
+    // Retrieve dynamic entries for each personnel entry using async/await
+    const dynamicEntriesAssociated = await Promise.all(
+      personnelEntries.map(async (data) => {
+        return await Dynamic_entry.getByInputId(data.id);
+      }),
+    );
+
+    // console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
+
+    // Flatten the result in case it is nested arrays
+    const flattenedDynamicEntries = dynamicEntriesAssociated.flat();
+
+    return res.json(flattenedDynamicEntries);
+  } catch (error) {
+    console.error('Error fetching personnel entries:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 module.exports = {
   getAllEntries,
   removeEntry,
   updateEntry,
   createEntry,
+  getAllPersonnelEntries,
   getEntryById,
   getEntryByName,
   getEntryByCategory,

@@ -119,7 +119,7 @@ export const CreateAccount = () => {
       color="black"
     >
       {units.map((unit) => (
-        <option key={unit.id} value={unit.id}>
+        <option color="white" key={unit.id} value={unit.id}>
           {unit.unit_name}
         </option>
       ))}

@@ -1,4 +1,5 @@
 const Static_entry = require('../models/static_entries');
+const Join_audience = require('../models/join_audience');
 
 async function getAllEntries(req, res) {
   const all = await Static_entry.all();
@@ -60,9 +61,46 @@ async function removeEntry(req, res) {
   return res.json(removed);
 }
 
+async function getAllPersonnelEntries(req, res) {
+  console.log(`Passed in ${req.params.user_id} for supervisor ID, Line 61 routes/static`);
+  const user_id = req.params.user_id;
+
+  try {
+    // Fetch all personnel entries based on the supervisor ID
+    const personnelEntries = await Join_audience.getAllByUserID(user_id);
+
+    if (!personnelEntries || personnelEntries.length === 0) {
+      console.log('No personnel entries found for the supervisor.');
+      return res.status(404).json({ error: 'No entries found for this supervisor.' });
+    }
+
+    console.log(
+      `Received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/static`,
+    );
+
+    // Retrieve static entries for each personnel entry using async/await
+    const staticEntriesAssociated = await Promise.all(
+      personnelEntries.map(async (data) => {
+        return await Static_entry.getByInputId(data.static_id);
+      }),
+    );
+
+    console.log(`Static Entries: ${JSON.stringify(staticEntriesAssociated)}`);
+
+    // Flatten the result in case it is nested arrays
+    const flattenedStaticEntries = staticEntriesAssociated.flat();
+
+    return res.json(flattenedStaticEntries);
+  } catch (error) {
+    console.error('Error fetching static entries:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 module.exports = {
   getAllEntries,
   removeEntry,
+  getAllPersonnelEntries,
   updateEntry,
   createEntry,
   getEntryById,
