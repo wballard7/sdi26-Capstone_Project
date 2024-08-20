@@ -59,22 +59,36 @@ async function removeEntry(req, res) {
 }
 
 async function getAllPersonnelEntries(req, res) {
-  console.log(`passed in ${req.params.user_id} for user ID, Line 61 routes/dyna`);
+  console.log(`Passed in ${req.params.user_id} for user ID, Line 61 routes/dyna`);
   const user_id = req.params.user_id;
-  const personnelEntries = await Join_audience.getAllByUserID(user_id);
 
-  if (!personnelEntries || personnelEntries.length === 0) {
-    console.log('No join entries found for the user.');
-    return res.status(404).json({ error: 'No entries found for this user.' });
+  try {
+    const personnelEntries = await Join_audience.getAllByUserID(user_id);
+
+    if (!personnelEntries || personnelEntries.length === 0) {
+      console.log('No join entries found for the user.');
+      return res.status(404).json({ error: 'No entries found for this user.' });
+    }
+
+    console.log(`Received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/dyna`);
+
+    // Retrieve dynamic entries for each personnel entry using async/await
+    const dynamicEntriesAssociated = await Promise.all(
+      personnelEntries.map(async (data) => {
+        return await Dynamic_entry.getByInputId(data.id);
+      }),
+    );
+
+    console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
+
+    // Flatten the result in case it is nested arrays
+    const flattenedDynamicEntries = dynamicEntriesAssociated.flat();
+
+    return res.json(flattenedDynamicEntries);
+  } catch (error) {
+    console.error('Error fetching personnel entries:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  console.log(`received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/dyna`);
-
-  const dynIDs = personnelEntries.map((data) => data.id);
-  console.log(`Dynamic IDs: ${dynIDs}`);
-
-  const dynamicEntriesAssociated = await Dynamic_entry.getByInputId(dynIDs);
-  return res.json(dynamicEntriesAssociated);
 }
 
 module.exports = {
