@@ -61,10 +61,19 @@ async function removeEntry(req, res) {
 async function getAllPersonnelEntries(req, res) {
   console.log(`passed in ${req.params.id} for user ID, Line 61 routes/dyna`);
   const id = req.params.id;
-  const personnelEntries = await Join_audience.getByUserID(id);
-  console.log(`received ${personnelEntries.id} for a join ID on Line 65 routes/dyna`);
-  const dynID = personnelEntries.id;
-  const dynamicEntriesAssociated = await Dynamic_entry.getByInputId(dynID);
+  const personnelEntries = await Join_audience.getAllByUserID(id);
+
+  if (!personnelEntries || personnelEntries.length === 0) {
+    console.log('No join entries found for the user.');
+    return res.status(404).json({ error: 'No entries found for this user.' });
+  }
+
+  console.log(`received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/dyna`);
+
+  const dynIDs = personnelEntries.map((data) => data.id);
+  console.log(`Dynamic IDs: ${dynIDs}`);
+
+  const dynamicEntriesAssociated = await Dynamic_entry.getByInputId(dynIDs);
   return res.json(dynamicEntriesAssociated);
 }
 

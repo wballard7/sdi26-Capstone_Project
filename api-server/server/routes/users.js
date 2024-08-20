@@ -95,14 +95,13 @@ async function getAllUnitNonSupervisors(req, res) {
 }
 
 async function getMyPersonnel(req, res) {
-  const id = req.params;
+  const { id } = req.params.id;
   console.log(`Line 74, getMyPersonnel, routes/users id: ${id} was passed in`);
   const allUsers = await User.all();
   const myPersonnel = allUsers.filter((user) => user.id === id);
 
   return res.send(myPersonnel);
 }
-
 
 module.exports = {
   getAllUsers,

@@ -63,10 +63,23 @@ async function removeEntry(req, res) {
 
 async function getAllPersonnelEntries(req, res) {
   const id = req.params.supervisor_id;
-  console.log(`passed in ${id} for user ID, Line 61 routes/dyna`);
-  const personnelEntries = await Join_audience.getByUserID(id);
-  const statID = personnelEntries.static_id;
-  const staticEntriesAssociated = Static_entry.getByInputId(statID);
+  console.log(`Passed in ${id} for supervisor ID, Line 61 routes/static`);
+
+  // Fetch all personnel entries based on the supervisor ID
+  const personnelEntries = await Join_audience.getAllByUserID(id);
+
+  if (!personnelEntries || personnelEntries.length === 0) {
+    console.log('No personnel entries found for the supervisor.');
+    return res.status(404).json({ error: 'No entries found for this supervisor.' });
+  }
+
+  // Extract all static IDs
+  const statIDs = personnelEntries.map((entry) => entry.static_id);
+  console.log(`Static IDs: ${statIDs}`);
+
+  // Fetch all associated static entries using the static IDs
+  const staticEntriesAssociated = await Static_entry.getByInputIds(statIDs);
+
   return res.json(staticEntriesAssociated);
 }
 

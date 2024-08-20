@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
 import { Input, Select, Box, Heading, Spinner, Text } from '@chakra-ui/react';
-import { PersonnelContext } from '../context/PersonnelContext';
+import { UserContext } from '../context/UserContext';
 import { DynamicContext } from '../context/DynamicContext';
 import { Pie, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
@@ -16,11 +16,11 @@ const ReportGeneration = () => {
     personnel: '',
   });
   const [loading, setLoading] = useState(true);
-  const { supervisor_id: me } = useContext(PersonnelContext);
+  const { id } = useContext(UserContext);
   const { setDynamicList } = useContext(DynamicContext);
 
   useEffect(() => {
-    if (!me) {
+    if (!id) {
       console.warn('supervisor_id is undefined. Check if you have any personnel.');
       setLoading(false);
       return;
@@ -29,8 +29,8 @@ const ReportGeneration = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const dynamicData = await getFetch(`dynamic_entries/supervisor/${me}`);
-        const staticData = await getFetch(`static_entries/supervisor/${me}`);
+        const dynamicData = await getFetch(`dynamic_entries/supervisor/${id}`);
+        const staticData = await getFetch(`static_entries/supervisor/${id}`);
         setDynamicList(dynamicData);
         setReports(dynamicData);
         setStaticEntries(staticData);
@@ -43,7 +43,7 @@ const ReportGeneration = () => {
     };
 
     fetchReports();
-  }, [me]);
+  }, [id]);
 
   useEffect(() => {
     const applyFilters = () => {

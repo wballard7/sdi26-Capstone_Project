@@ -20,12 +20,17 @@ async function getByCategory(category_id) {
 
 async function getByOwner(input_owner_id) {
   try {
-    const results = await knex('static_entries').where('input_owner_id', { input_owner_id });
+    const results = await knex('static_entries').where({ input_owner_id });
     return results;
   } catch (error) {
     console.error('Error in getByOwner:', error);
     throw error;
   }
+}
+
+async function getByInputIds(static_ids) {
+  const results = await knex('static_entries').whereIn('id', static_ids);
+  return results; // Return all matched results
 }
 
 async function getByUnit(my_unit_id) {
@@ -63,5 +68,6 @@ module.exports = {
   getByCategory,
   getByOwner,
   getByUnit,
+  getByInputIds,
   getByTags,
 };

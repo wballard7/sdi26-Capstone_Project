@@ -12,10 +12,12 @@ async function getByName(name) {
   const results = await knex('dynamic_entries').where({ name });
   return results[0];
 }
+
 async function getByInputId(input_id) {
   const results = await knex('dynamic_entries').where({ input_id });
   return results[0];
 }
+
 async function getByAudienceID(audience_id) {
   const results = await knex('dynamic_entries').where({ audience_id });
   return results[0];
@@ -51,6 +53,7 @@ module.exports = {
   remove,
   update,
   getById,
+  getAllByInputId,
   getByName,
   getByInputId,
   getByAudienceID,
