@@ -17,7 +17,7 @@ async function getByUserID(user_id) {
 }
 
 async function getAllByUserID(user_id) {
-  const results = await knex('join_audience').where({ user_id });
+  const results = await knex('join_audience').where('user_id', user_id);
   return results;
 }
 

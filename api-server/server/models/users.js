@@ -1,7 +1,9 @@
 const knex = require('../db');
 
 async function all() {
-  return knex('users').select('*');
+  const users = await knex('users').select('*');
+  console.log('Fetched users:', users); // Log to see what’s returned
+  return users;
 }
 
 async function getById(id) {

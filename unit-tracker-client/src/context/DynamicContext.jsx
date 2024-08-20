@@ -14,7 +14,7 @@ const DynamicProvider = ({ children }) => {
   });
 
   const addToDynamicList = (newItem) => {
-    setDynamicList((prevList) => [...prevList, newItem]);
+    setDynamicList(newItem);
   };
 
   useEffect(() => {

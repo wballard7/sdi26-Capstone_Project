@@ -53,7 +53,6 @@ module.exports = {
   remove,
   update,
   getById,
-  getAllByInputId,
   getByName,
   getByInputId,
   getByAudienceID,

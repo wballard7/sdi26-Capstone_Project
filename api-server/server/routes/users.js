@@ -95,12 +95,28 @@ async function getAllUnitNonSupervisors(req, res) {
 }
 
 async function getMyPersonnel(req, res) {
-  const { id } = req.params.id;
-  console.log(`Line 74, getMyPersonnel, routes/users id: ${id} was passed in`);
-  const allUsers = await User.all();
-  const myPersonnel = allUsers.filter((user) => user.id === id);
+  try {
+    const supervisor_id = req.params.supervisor_id;
+    console.log(`Line 74, getMyPersonnel, routes/users id: ${supervisor_id} was passed in`);
 
-  return res.send(myPersonnel);
+    // Fetch all users
+    const allUsers = await User.all();
+    console.log(`Fetched ${allUsers.length} users`);
+
+    // Filter personnel based on supervisor_id
+    const myPersonnel = allUsers.filter((user) => user.supervisor_id === supervisor_id);
+
+    if (myPersonnel.length === 0) {
+      console.log('No personnel found for this supervisor.');
+      return res.status(404).json({ message: 'No personnel found for this supervisor.' });
+    }
+
+    console.log(`Found ${myPersonnel.length} personnel for supervisor with id: ${supervisor_id}`);
+    return res.json(myPersonnel);
+  } catch (error) {
+    console.error('Error in getMyPersonnel:', error);
+    return res.status(500).json({ error: 'An error occurred while fetching personnel.' });
+  }
 }
 
 module.exports = {

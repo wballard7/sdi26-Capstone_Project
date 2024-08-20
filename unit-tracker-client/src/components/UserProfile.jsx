@@ -11,6 +11,8 @@ import {
   Avatar,
   VStack,
   Stack,
+  Divider,
+  AbsoluteCenter,
 } from '@chakra-ui/react';
 import { UserContext } from '../context/UserContext';
 import { SupervisorContext } from '../context/SupervisorContext';
@@ -25,6 +27,10 @@ export const UserProfile = () => {
     useContext(SupervisorContext);
 
   useEffect(() => {
+    console.log('Personnel List:', personnelList);
+  }, [personnelList]);
+
+  useEffect(() => {
     const fetchAvailability = async () => {
       const data = await getFetch(`users/id/${id}`);
       setAvailability(data.availability);
@@ -36,20 +42,20 @@ export const UserProfile = () => {
 
   return (
     <Box>
-      <Card align="center">
+      <Card align="center" background="black">
         <CardHeader>
           <Heading size="md" color="black">
             User Profile
           </Heading>
         </CardHeader>
-        <CardBody>
+        <CardBody color="white">
           <Text>First Name: {first_name}</Text>
           <Text>Last Name: {last_name}</Text>
           <Text>Org: {org?.name}</Text>
           <Text>
             Supervisor: {supervisor_first_name} {supervisor_last_name}
           </Text>
-          <Box mt={4}>
+          <Box mt={4} mb={14}>
             {availability ? (
               <Heading size="sm" color="green.500">
                 Available
@@ -60,9 +66,19 @@ export const UserProfile = () => {
               </Heading>
             )}
           </Box>
+          <Link href="/ReportGeneration" style={{ textDecoration: 'none' }}>
+            <Button width="full" colorScheme="teal" size="lg">
+              Generate A Report
+            </Button>
+          </Link>
           <Box>
             <VStack align="stretch">
-              <Heading>Personnel</Heading>
+              <Box position="relative" padding="10">
+                <Divider />
+                <AbsoluteCenter px="4" bg="black" fontSize="20">
+                  Personnel
+                </AbsoluteCenter>
+              </Box>
               {personnelList.length > 0 ? (
                 personnelList.map((person) => (
                   <Stack
@@ -79,7 +95,13 @@ export const UserProfile = () => {
                     <Box>
                       <Text fontWeight="bold">{`${person.first_name} ${person.last_name}`}</Text>
                       <Text fontSize="sm" color="gray.500">
-                        {person.role || 'Role not specified'}
+                        {person.admin && person.supervisor
+                          ? 'Admin, Supervisor'
+                          : person.admin
+                          ? 'Admin'
+                          : person.supervisor
+                          ? 'Supervisor'
+                          : 'Team Member'}
                       </Text>
                     </Box>
                   </Stack>

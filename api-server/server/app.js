@@ -24,7 +24,7 @@ app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
 app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
 app.get('/users/unit_supervisors/:id', userRoutes.getAllUnitSupervisors); // TESTED GOOD
 app.get('/users/unit_nonsupervisors/:id', userRoutes.getAllUnitNonSupervisors); // TESTED GOOD
-app.get('/users/personnel/:id', userRoutes.getMyPersonnel); //TESTED GOOD
+app.get('/users/personnel/:supervisor_id', userRoutes.getMyPersonnel); //TESTED GOOD
 app.post('/users', userRoutes.createUser); // TESTED GOOD
 app.post('/users/login', userRoutes.loginUser); // TESTED GOOD
 
@@ -49,7 +49,7 @@ app.get('/static_entries/unit/:id', staticRoutes.getEntryByUnit); //FAILED
 app.get('/static_entries/tags/:id', staticRoutes.getEntryByTags); //FAILED
 app.post('/static_entries', staticRoutes.createEntry);
 app.patch('/static_entries', staticRoutes.updateEntry);
-app.get('/static_entries/supervisor/:id', staticRoutes.getAllPersonnelEntries);
+app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
 //TESTED BAD --- but no crash --- app.delete('/static_entries', staticRoutes.removeEntry);
 
 app.get('/dynamic_entries/', dynamicRoutes.getAllEntries); //TESTED GOOD
@@ -62,9 +62,10 @@ app.get('/dynamic_entries/tags/:id', dynamicRoutes.getEntryByTags);
 app.post('/dynamic_entries/', dynamicRoutes.createEntry);
 app.patch('/dynamic_entries/', dynamicRoutes.updateEntry);
 app.delete('/dynamic_entries/:id', dynamicRoutes.removeEntry);
-app.get('/dynamic_entries/supervisor/:id', dynamicRoutes.getAllPersonnelEntries);
+app.get('/dynamic_entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
 
 // //get tags
+
 app.get('/tags', tagRoutes.getAllTags); //TESTED GOOD
 app.get('/tags/:id', tagRoutes.getTagById);
 app.get('/tags/tag_name/:name', tagRoutes.getTagByName);

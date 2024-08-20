@@ -59,9 +59,9 @@ async function removeEntry(req, res) {
 }
 
 async function getAllPersonnelEntries(req, res) {
-  console.log(`passed in ${req.params.id} for user ID, Line 61 routes/dyna`);
-  const id = req.params.id;
-  const personnelEntries = await Join_audience.getAllByUserID(id);
+  console.log(`passed in ${req.params.user_id} for user ID, Line 61 routes/dyna`);
+  const user_id = req.params.user_id;
+  const personnelEntries = await Join_audience.getAllByUserID(user_id);
 
   if (!personnelEntries || personnelEntries.length === 0) {
     console.log('No join entries found for the user.');

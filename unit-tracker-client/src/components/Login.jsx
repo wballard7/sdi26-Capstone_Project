@@ -37,26 +37,12 @@ export const Login = () => {
   const fetchSupervisor = async (sup_Id) => {
     console.log(personnel);
     const supervisorResponse = await getFetch(`users/id/${sup_Id}`);
-    setSupervisor({
-      id: supervisorResponse.id,
-      first_name: supervisorResponse.first_name,
-      last_name: supervisorResponse.last_name,
-      supervisor_id: supervisorResponse.supervisor_id,
-      my_unit_id: supervisorResponse.my_unit_id,
-      supervisor: supervisorResponse.supervisor,
-    });
+    setSupervisor(supervisorResponse);
   };
 
   const fetchPersonnel = async (userId) => {
     const personnelResponse = await getFetch(`users/personnel/${userId}`);
-    setPersonnel({
-      id: personnelResponse.id,
-      first_name: personnelResponse.first_name,
-      last_name: personnelResponse.last_name,
-      supervisor_id: personnelResponse.supervisor_id,
-      my_unit_id: personnelResponse.my_unit_id,
-      supervisor: personnelResponse.supervisor,
-    });
+    setPersonnel(personnelResponse);
   };
 
   const fetchUserData = async (username) => {

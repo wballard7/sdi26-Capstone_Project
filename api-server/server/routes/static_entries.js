@@ -62,11 +62,11 @@ async function removeEntry(req, res) {
 }
 
 async function getAllPersonnelEntries(req, res) {
-  const id = req.params.supervisor_id;
-  console.log(`Passed in ${id} for supervisor ID, Line 61 routes/static`);
+  const user_id = req.params.user_id;
+  console.log(`Passed in ${user_id} for supervisor ID, Line 61 routes/static`);
 
   // Fetch all personnel entries based on the supervisor ID
-  const personnelEntries = await Join_audience.getAllByUserID(id);
+  const personnelEntries = await Join_audience.getAllByUserID(user_id);
 
   if (!personnelEntries || personnelEntries.length === 0) {
     console.log('No personnel entries found for the supervisor.');
