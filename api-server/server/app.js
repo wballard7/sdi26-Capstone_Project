@@ -22,18 +22,18 @@ const audienceRoutes = require('./routes/join_audience');
 app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
 app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
 app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
-app.get('/users/unit_supervisors/:id', userRoutes.getAllUnitSupervisors);
-app.get('/users/unit_nonsupervisors/:id', userRoutes.getAllUnitSupervisors);
+app.get('/users/unit_supervisors/:id', userRoutes.getAllUnitSupervisors); // TESTED GOOD
+app.get('/users/unit_nonsupervisors/:id', userRoutes.getAllUnitNonSupervisors); // TESTED GOOD
 app.get('/users/personnel/:id', userRoutes.getMyPersonnel); //TESTED GOOD
-app.post('/users', userRoutes.createUser);
-app.post('/users/login', userRoutes.loginUser);
+app.post('/users', userRoutes.createUser); // TESTED GOOD
+app.post('/users/login', userRoutes.loginUser); // TESTED GOOD
 
 // ${apiURL}/units/${userData.my_unit_id}
 // getFetch('units')
 
 // postFetch('units', newUnit)
 app.get('/units', unitRoutes.getAllUnits); //TESTED GOOD
-app.get('/units/:id', unitRoutes.getUnitsId);
+app.get('/units/:id', unitRoutes.getUnitsId); //TESTED GOOD
 app.post('/units', unitRoutes.createUnit);
 app.patch('/units', unitRoutes.updateUnit);
 

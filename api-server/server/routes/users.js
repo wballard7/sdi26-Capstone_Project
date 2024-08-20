@@ -88,7 +88,7 @@ async function getAllUnitSupervisors(req, res) {
 
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
-  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
+  console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
   return res.send(unitSupervisors);
