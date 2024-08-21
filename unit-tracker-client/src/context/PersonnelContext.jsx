@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import { UserContext } from './UserContext';
+
 const PersonnelContext = createContext({
   personnelList: [],
   setPersonnel: () => {},
@@ -9,13 +10,18 @@ const PersonnelProvider = ({ children }) => {
   const { loggedIn } = useContext(UserContext);
 
   const [personnelList, setPersonnelList] = useState(() => {
-    const savedPersonnel = localStorage.getItem('personnelList');
-    return savedPersonnel ? JSON.parse(savedPersonnel) : [];
+    try {
+      const savedPersonnel = localStorage.getItem('personnelList');
+      return savedPersonnel ? JSON.parse(savedPersonnel) : [];
+    } catch (error) {
+      console.error('Failed to parse personnel list from localStorage:', error);
+      return [];
+    }
   });
 
-  const setPersonnel = (newPersonnel) => {
+  const setPersonnel = useCallback((newPersonnel) => {
     setPersonnelList(newPersonnel);
-  };
+  }, []);
 
   // Sync personnelList state with localStorage
   useEffect(() => {
@@ -28,7 +34,7 @@ const PersonnelProvider = ({ children }) => {
       localStorage.removeItem('personnelList');
       setPersonnelList([]);
     }
-  }, [loggedIn]); // The effect runs when loggedIn changes
+  }, [loggedIn]);
 
   return (
     <PersonnelContext.Provider value={{ personnelList, setPersonnel }}>

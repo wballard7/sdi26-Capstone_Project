@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
 import { Input, Select, Box, Heading, Spinner, Text } from '@chakra-ui/react';
 import { UserContext } from '../context/UserContext';
-import { DynamicContext } from '../context/DynamicContext';
+import { PersonnelContext } from '../context/PersonnelContext';
 import { Pie, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
@@ -10,6 +10,8 @@ const ReportGeneration = () => {
   const [reports, setReports] = useState([]);
   const [filteredReports, setFilteredReports] = useState([]);
   const [staticEntries, setStaticEntries] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
   const [filter, setFilter] = useState({
     completed: '',
     name: '',
@@ -17,11 +19,11 @@ const ReportGeneration = () => {
   });
   const [loading, setLoading] = useState(true);
   const { id } = useContext(UserContext);
-  const { setDynamicList } = useContext(DynamicContext);
+  const { personnelList } = useContext(PersonnelContext);
 
   useEffect(() => {
     if (!id) {
-      console.warn('supervisor_id is undefined. Check if you have any personnel.');
+      console.warn('User ID is undefined. Ensure the user is properly logged in.');
       setLoading(false);
       return;
     }
@@ -29,12 +31,26 @@ const ReportGeneration = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
+
+        // Fetch categories and tags from the backend
+        const categoryData = await getFetch('categories');
+        const tagData = await getFetch('tags');
+
+        setCategories(categoryData);
+        setTags(tagData);
+
         const staticData = await getFetch(`static-entries/supervisor/${id}`);
         setStaticEntries(staticData);
         const dynamicData = await getFetch(`dynamic-entries/supervisor/${id}`);
-        setReports(dynamicData);
-        setFilteredReports(dynamicData);
-        setDynamicList(dynamicData);
+
+        // Determine completion status based on the presence of complete_date
+        const updatedDynamicData = dynamicData.map((report) => ({
+          ...report,
+          completed: Boolean(report.complete_date),
+        }));
+
+        setReports(updatedDynamicData);
+        setFilteredReports(updatedDynamicData);
       } catch (error) {
         console.error('Error fetching reports:', error);
       } finally {
@@ -60,18 +76,22 @@ const ReportGeneration = () => {
       }
 
       if (filter.personnel !== '') {
-        filtered = filtered.filter((report) =>
-          `${report.event_owner_first_name} ${report.event_owner_last_name}`
-            .toLowerCase()
-            .includes(filter.personnel.toLowerCase()),
-        );
+        filtered = filtered.filter((report) => {
+          const personnel = personnelList.find((person) => person.id === report.event_owner_id);
+          return (
+            personnel &&
+            `${personnel.first_name} ${personnel.last_name}`
+              .toLowerCase()
+              .includes(filter.personnel.toLowerCase())
+          );
+        });
       }
 
       setFilteredReports(filtered);
     };
 
     applyFilters();
-  }, [filter, reports]);
+  }, [filter, reports, personnelList]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -81,28 +101,43 @@ const ReportGeneration = () => {
     }));
   };
 
+  // Function to get category name by ID
+  const getCategoryName = (categoryId) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category ? category.name : 'Unknown Category';
+  };
+
+  // Function to get tag name by ID
+  const getTagName = (tagId) => {
+    const tag = tags.find((tag) => tag.id === tagId);
+    return tag ? tag.name : 'Unknown Tag';
+  };
+
   // Data processing for the pie chart
   const categoryCompletionData = () => {
     const categoryCounts = {};
     staticEntries.forEach((entry) => {
-      categoryCounts[entry.category_name] = { completed: 0, total: 0 };
-    });
-
-    filteredReports.forEach((report) => {
-      const staticEntry = staticEntries.find((entry) => entry.id === report.input_owner_id);
-      if (staticEntry) {
-        const category = staticEntry.category_name;
-        categoryCounts[category].total += 1;
-        if (report.completed) categoryCounts[category].completed += 1;
+      const categoryName = getCategoryName(entry.category_id);
+      if (!categoryCounts[categoryName]) {
+        categoryCounts[categoryName] = { completed: 0, total: 0 };
       }
     });
 
-    const categories = Object.keys(categoryCounts);
-    const completedCounts = categories.map((category) => categoryCounts[category].completed);
-    const totalCounts = categories.map((category) => categoryCounts[category].total);
+    filteredReports.forEach((report) => {
+      const staticEntry = staticEntries.find((entry) => entry.id === report.input_id);
+      if (staticEntry) {
+        const categoryName = getCategoryName(staticEntry.category_id);
+        categoryCounts[categoryName].total += 1;
+        if (report.completed) categoryCounts[categoryName].completed += 1;
+      }
+    });
+
+    const categoryLabels = Object.keys(categoryCounts);
+    const completedCounts = categoryLabels.map((category) => categoryCounts[category].completed);
+    const totalCounts = categoryLabels.map((category) => categoryCounts[category].total);
 
     return {
-      labels: categories,
+      labels: categoryLabels,
       datasets: [
         {
           label: 'Completion Percentage',
@@ -117,12 +152,15 @@ const ReportGeneration = () => {
   const personnelProgressData = () => {
     const personnelProgress = {};
     filteredReports.forEach((report) => {
-      const personnelName = `${report.event_owner_first_name} ${report.event_owner_last_name}`;
-      if (!personnelProgress[personnelName]) {
-        personnelProgress[personnelName] = { completed: 0, total: 0 };
+      const personnel = personnelList.find((person) => person.id === report.event_owner_id);
+      if (personnel) {
+        const personnelName = `${personnel.first_name} ${personnel.last_name}`;
+        if (!personnelProgress[personnelName]) {
+          personnelProgress[personnelName] = { completed: 0, total: 0 };
+        }
+        personnelProgress[personnelName].total += 1;
+        if (report.completed) personnelProgress[personnelName].completed += 1;
       }
-      personnelProgress[personnelName].total += 1;
-      if (report.completed) personnelProgress[personnelName].completed += 1;
     });
 
     const personnelNames = Object.keys(personnelProgress);
@@ -187,9 +225,9 @@ const ReportGeneration = () => {
           Filtered Reports
         </Heading>
         {filteredReports.length > 0 ? (
-          filteredReports
-            .filter((report) => report !== null) // Filter out null entries
-            .map((report) => (
+          filteredReports.map((report) => {
+            const staticEntry = staticEntries.find((entry) => entry.id === report.input_id);
+            return (
               <Box key={report.id} borderWidth="1px" borderRadius="lg" padding="4" mb="4">
                 <p>
                   <strong>{report.name}</strong>
@@ -198,11 +236,19 @@ const ReportGeneration = () => {
                 <p>End Date: {report.end_date}</p>
                 <p>Completed: {report.completed ? 'Yes' : 'No'}</p>
                 <p>
-                  Personnel: {report.event_owner_first_name} {report.event_owner_last_name}
+                  Personnel:{' '}
+                  {`${
+                    personnelList.find((person) => person.id === report.event_owner_id)?.first_name
+                  } ${
+                    personnelList.find((person) => person.id === report.event_owner_id)?.last_name
+                  }`}
                 </p>
-                <p>Tag: {report.tag_name}</p>
+                <p>Category: {getCategoryName(staticEntry?.category_id)}</p>
+                <p>Tag: {getTagName(report.tag_id)}</p>
+                <p>Notes: {report.notes}</p>
               </Box>
-            ))
+            );
+          })
         ) : (
           <p>No reports found matching your filters.</p>
         )}

@@ -13,9 +13,10 @@ async function getByName(name) {
   return results[0];
 }
 
-async function getByInputId(input_id) {
-  const results = await knex('dynamic_entries').where({ input_id });
-  return results[0];
+async function getByInputId(static_id) {
+  return knex('dynamic_entries')
+    .where({ input_id: static_id }) // Ensure you filter by `input_id` instead of `static_id`
+    .select('*'); // Select all columns; this returns an array of dynamic entries
 }
 
 async function getByAudienceID(audience_id) {
@@ -53,6 +54,7 @@ module.exports = {
   remove,
   update,
   getById,
+
   getByName,
   getByInputId,
   getByAudienceID,

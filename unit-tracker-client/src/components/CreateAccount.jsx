@@ -115,11 +115,18 @@ export const CreateAccount = () => {
       onChange={handleUnitChange}
       placeholder="Your Unit"
       mb="4"
-      bg="white"
-      color="black"
+      bg="black"
+      color="white"
+      _placeholder={{ color: 'white' }}
+      sx={{
+        '& > option': {
+          bg: 'black',
+          color: 'white',
+        },
+      }}
     >
       {units.map((unit) => (
-        <option color="white" key={unit.id} value={unit.id}>
+        <option key={unit.id} value={unit.id}>
           {unit.unit_name}
         </option>
       ))}
@@ -133,8 +140,15 @@ export const CreateAccount = () => {
       onChange={(e) => handleChange(e, setUserDetails)}
       placeholder="Unit Supervisors"
       mb="4"
-      bg="white"
-      color="black"
+      bg="black"
+      color="white"
+      _placeholder={{ color: 'white' }}
+      sx={{
+        '& > option': {
+          bg: 'black',
+          color: 'white',
+        },
+      }}
     >
       {listOfSups.map((supervisor) => (
         <option key={supervisor.id} value={supervisor.id}>
@@ -151,8 +165,15 @@ export const CreateAccount = () => {
       onChange={(e) => handleChange(e, setNewUnit)}
       placeholder="Reports To"
       mb="4"
-      bg="white"
-      color="black"
+      bg="black"
+      color="white"
+      _placeholder={{ color: 'white' }}
+      sx={{
+        '& > option': {
+          bg: 'black',
+          color: 'white',
+        },
+      }}
     >
       {units.map((unit) => (
         <option key={unit.id} value={unit.id}>
@@ -160,6 +181,16 @@ export const CreateAccount = () => {
         </option>
       ))}
     </Select>
+  );
+
+  // Custom node component for the tree
+  const renderCustomNodeElement = ({ nodeDatum }) => (
+    <g>
+      <circle r={10} fill="#2d3748" />
+      <text fill="#87CEFA" x={20}>
+        {nodeDatum.name}
+      </text>
+    </g>
   );
 
   return (
@@ -232,9 +263,61 @@ export const CreateAccount = () => {
               <Heading as="h3" size="sm" mb="4">
                 Units Tree
               </Heading>
-              <Box mb="4" border="1px solid #ccc" borderRadius="md" p="4">
-                <Tree data={transformUnitsToTree(units)} />
+              <Box
+                mb="4"
+                border="1px solid #ccc"
+                borderRadius="md"
+                p="4"
+                height="400px"
+                width="100%"
+                overflowY="auto"
+                bg="gray.800"
+                boxShadow="lg"
+              >
+                <Tree
+                  data={transformUnitsToTree(units)}
+                  orientation="vertical"
+                  pathFunc="step"
+                  translate={{ x: 100, y: 50 }}
+                  separation={{ siblings: 1.5, nonSiblings: 2.5 }}
+                  renderCustomNodeElement={renderCustomNodeElement}
+                  pathClassFunc={() => 'custom-path'}
+                />
               </Box>
+
+              <style jsx global>{`
+                .custom-path {
+                  stroke: #87cefa;
+                  stroke-width: 2px;
+                  fill: none;
+                }
+
+                .rd3t-label__title {
+                  font-size: 16px;
+                  font-weight: bold;
+                  fill: #87cefa;
+                }
+
+                .rd3t-label__attributes {
+                  font-size: 12px;
+                  fill: #87cefa;
+                }
+
+                .rd3t-node {
+                  cursor: pointer;
+                  stroke: #3282b8;
+                  stroke-width: 1.5px;
+                }
+
+                .rd3t-node circle {
+                  fill: #2d3748;
+                }
+
+                .rd3t-node text {
+                  font-family: 'Roboto', sans-serif;
+                  fill: #87cefa;
+                }
+              `}</style>
 
               <Heading as="h3" size="sm" mb="4">
                 Add New Unit
