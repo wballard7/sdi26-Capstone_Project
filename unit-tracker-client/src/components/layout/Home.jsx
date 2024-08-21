@@ -340,9 +340,9 @@ export const Home = () => {
   // useEffect(() => {
   //   console.log('Updated filtered dynamic entries:', filteredDynamicEntries);
   // }, [filteredDynamicEntries]);
-  useEffect(() => {
-    console.log('filtered static entries:', filteredStaticEntries);
-  }, [filteredStaticEntries]);
+  // useEffect(() => {
+  //   console.log('filtered static entries:', filteredStaticEntries);
+  // }, [filteredStaticEntries]);
   //==============calendar stuff===================
   const openCalendar = () => {
     setIsCalendarOpen(true);
@@ -358,7 +358,7 @@ export const Home = () => {
       start.setDate(today.getDate() - dayOfWeek + 1);
       const end = new Date(start);
       end.setDate(start.getDate() + 6);
-      console.log('userid:', Userid);
+      // console.log('userid:', Userid);
 
       setStartDate(start);
       setEndDate(end);
@@ -378,9 +378,9 @@ export const Home = () => {
   // }, []);
 
   const fetchStaticEntries = async () => {
-    console.log('inside static fetch');
+    // console.log('inside static fetch');
     const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
-    console.log('fetched static entries:', fetchedStaticEntries);
+    // console.log('fetched static entries:', fetchedStaticEntries);
     setFilteredStaticEntries(fetchedStaticEntries);
   };
   const fetchDynamicEntries = async () => {
