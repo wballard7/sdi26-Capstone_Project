@@ -23,8 +23,8 @@ const dynamicRoutes = require('./routes/dynamic_entries');
 app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
 app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
 app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
-app.get('/users/unit_supervisors/:unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
-app.get('/users/unit_nonsupervisors/:unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
+app.get('/users/unit_supervisors/:my_unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
+app.get('/users/unit_nonsupervisors/:my_unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
 app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
