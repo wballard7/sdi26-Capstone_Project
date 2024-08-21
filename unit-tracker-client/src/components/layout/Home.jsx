@@ -319,7 +319,8 @@ import {
 import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../../utils/Fetches';
 import '../../styles/Home.css';
-import { MyCalendar } from '../../utils/Calendar';
+// import { MyCalendar } from '../../utils/Calendar';
+import MyCalendar from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
 import { UserContext } from '../../context/UserContext';
 
@@ -495,13 +496,20 @@ export const Home = () => {
       e.preventDefault();
     };
     return (
-      <VStack spacing={1} align="stretch">
-        {entries.map((entry, index) => (
-          <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
-            <DraggableButton id={entry.id} onDragStart={onDragStart} width="100%">
-              {entry.name}
-            </DraggableButton>
-          </Box>
+      <VStack spacing={1}>
+        {dynamicEntries.map((entry, index) => (
+          <div key={entry.id} className="dynamicEntries">
+            <Box
+              key={entry.id}
+              onDrop={(e) => onDrop(e, index)}
+              onDragOver={onDragOver}
+              width="100%"
+            >
+              <DraggableButton id={entry.id} onDragStart={onDragStart}>
+                {entry.name}
+              </DraggableButton>
+            </Box>
+          </div>
         ))}
       </VStack>
     );
@@ -561,9 +569,13 @@ export const Home = () => {
                 </Modal>
               </div>
 
-              {categories.map((cat) => (
+              {/* {categories.map((cat) => ( BERG MADE CHANGE
                 <button className="categoryTabs">{cat.category_name}</button>
-              ))}
+              ))} */}
+              {categories.map((cat) => (
+  <button key={cat.id} className="categoryTabs">{cat.category_name}</button>
+))}
+
             </div>
 
             <div className="bodyGrid">
@@ -571,7 +583,12 @@ export const Home = () => {
                 <h1 className="currentTab">Current Tab</h1>
                 {filteredStaticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
-                    {entry.title}
+                    {entry.title} BERG MADE CHANGE
+                  </h1>
+                ))} */}
+                {dates.map((dateElement, index) => (
+                  <h1 key={index} className="staticEntry">
+                    {dateElement.toDateString()}
                   </h1>
                 ))}
               </div>

@@ -14,7 +14,7 @@ const PersonnelProvider = ({ children }) => {
   });
 
   const setPersonnel = (newPersonnel) => {
-    setPersonnelList((prevList) => [...prevList, newPersonnel]);
+    setPersonnelList(newPersonnel);
   };
 
   // Sync personnelList state with localStorage

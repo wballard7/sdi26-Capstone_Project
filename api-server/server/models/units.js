@@ -9,7 +9,7 @@ async function getUnitsById(id) {
   return results[0];
 }
 async function getByUnitsName(name) {
-  const results = await knex('units').where(name);
+  const results = await knex('units').where({ name });
   return results[0];
 }
 
@@ -24,7 +24,7 @@ async function create(data) {
 }
 
 async function update(id, data) {
-  const results = await knex('units').where(id).update(data);
+  const results = await knex('units').where({ id }).update(data);
   return results[0];
 }
 

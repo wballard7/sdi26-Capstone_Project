@@ -19,6 +19,7 @@ async function getAudienceByUserID(req, res) {
   const audience = await audiences.getByUserID(user_id);
   return res.send(audience);
 }
+
 async function createAudience(req, res) {
   const created = await audiences.create(req.body);
   return res.json(created);
@@ -31,6 +32,8 @@ async function deleteAudience(req, res) {
   const removed = await audiences.remove(req.body);
   return res.json(removed);
 }
+
+
 
 module.exports = {
   getAllAudiences,

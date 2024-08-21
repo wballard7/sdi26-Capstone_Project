@@ -48,57 +48,102 @@ export const StaticEntries = () => {
     fetchStaticEntries();
   }, []);
 
-  return (
-    <Box className="container">
-      <Heading>Static Entries</Heading>
-      <Box className="main-section">
-        <Flex className="buttons">
-          <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
-            <Button width="buttons-button">Edit/Add Entries</Button>
-          </Link>
-        </Flex>
+//   return (
+//     <Box className="container">
+//       <Heading>Static Entries</Heading>
+//       <Box className="main-section">
+//         <Flex className="buttons">
+//           <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
+//             <Button width="buttons-button">Edit/Add Entries</Button>
+//           </Link>
+//         </Flex>
 
-        <Box className="content-area">
-          {staticEntries.length > 0 ? (
-            <Table className="table">
-              <thead>
-                <th>
-                  <span>Title</span>
-                </th>
-                <th>
-                  <span>Tag</span>
-                </th>
-                <th>
-                  <span>Unit</span>
-                </th>
-                <th>
-                  <span>Category</span>
-                </th>
-                <th>
-                  <span>Owner</span>
-                </th>
-                <th>
-                  <span>Notes</span>
-                </th>
-              </thead>
-              <tbody>
-                {staticEntries.map((entry) => (
-                  <tr key={entry.id} mb={2}>
-                    <td>{entry.title}</td>
-                    <td>{entry.tag}</td>
-                    <td>{entry.unit}</td>
-                    <td>{entry.category}</td>
-                    <td>{entry.owner}</td>
-                    <td>{entry.misc_notes}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <Text>No static entries found.</Text>
-          )}
-        </Box>
+//         <Box className="content-area">
+//           {staticEntries.length > 0 ? (
+//             <Table className="table">
+//               <thead>
+//                 <th>
+//                   <span>Title</span>
+//                 </th>
+//                 <th>
+//                   <span>Tag</span>
+//                 </th>
+//                 <th>
+//                   <span>Unit</span>
+//                 </th>
+//                 <th>
+//                   <span>Category</span>
+//                 </th>
+//                 <th>
+//                   <span>Owner</span>
+//                 </th>
+//                 <th>
+//                   <span>Notes</span>
+//                 </th>
+//               </thead>
+//               <tbody>
+//                 {staticEntries.map((entry) => (
+//                   <tr key={entry.id} mb={2}>
+//                     <td>{entry.title}</td>
+//                     <td>{entry.tag}</td>
+//                     <td>{entry.unit}</td>
+//                     <td>{entry.category}</td>
+//                     <td>{entry.owner}</td>
+//                     <td>{entry.misc_notes}</td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </Table>
+//           ) : (
+//             <Text>No static entries found.</Text>
+//           )}
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };
+return (
+  <Box className="container">
+    <Heading>Static Entries</Heading>
+    <Box className="main-section">
+      <Flex className="buttons">
+        <Link href="/EditAddStaticEntries" style={{ textDecoration: 'none' }}>
+          <Button width="buttons-button">Edit/Add Entries</Button>
+        </Link>
+      </Flex>
+
+      <Box className="content-area">
+        {staticEntries.length > 0 ? (
+          <Table className="table">
+            <thead>
+              <tr>
+                <th><span>Title</span></th>
+                <th><span>Tag</span></th>
+                <th><span>Unit</span></th>
+                <th><span>Category</span></th>
+                <th><span>Owner</span></th>
+                <th><span>Notes</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {staticEntries.map((entry) => (
+                <tr key={entry.id} mb={2}>
+                  <td>{entry.title}</td>
+                  <td>{entry.tag}</td>
+                  <td>{entry.unit}</td>
+                  <td>{entry.category}</td>
+                  <td>{entry.owner}</td>
+                  <td>{entry.misc_notes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          <Text>No static entries found.</Text>
+        )}
       </Box>
     </Box>
-  );
+  </Box>
+);
 };
+

@@ -1,0 +1,32 @@
+import React, { createContext, useState } from 'react';
+
+const UserContext = createContext({
+  id: '',
+  username: '',
+  first_name: '',
+  last_name: '',
+  parent_unit_id: '',
+  avaiable: false,
+  admin: false,
+  supervisor: false,
+  loggedIn: false,
+  setUser: () => {},
+});
+
+const UserProvider = ({ children }) => {
+  const [user, setUser] = useState({
+    id: '',
+    username: '',
+    first_name: '',
+    last_name: '',
+    parent_unit_id: '',
+    avaiable: false,
+    admin: false,
+    supervisor: false,
+  });
+
+  return <UserContext.Provider value={{ ...user, setUser }}>{children}</UserContext.Provider>;
+};
+
+export { UserProvider };
+export { UserContext };

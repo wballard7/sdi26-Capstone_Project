@@ -89,8 +89,8 @@ async function getAllUnitSupervisors(req, res) {
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
   console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
-  console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
+<<<<<<< HEAD
   const nonSupervisors = allSupervisors.filter((user) => user.supervisor === false);
 
   return res.send(nonSupervisors);
@@ -101,6 +101,23 @@ async function getMyPersonnel(req, res) {
   console.log(`Line 100, getMyPersonnel, routes/users id: ${id} was passed in`);
   const allUsers = await User.all();
   const myPersonnel = allUsers.filter((user) => user.id === id);
+=======
+  const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
+  return res.send(unitSupervisors);
+}
+
+async function getMyPersonnel(req, res) {
+  try {
+    const supervisor_id = req.params.supervisor_id;
+    console.log(`Line 74, getMyPersonnel, routes/users id: ${supervisor_id} was passed in`);
+>>>>>>> main
+
+    // Fetch all users
+    const allUsers = await User.all();
+    console.log(`Fetched ${allUsers.length} users`);
+
+    // Filter personnel based on supervisor_id
+    const myPersonnel = allUsers.filter((user) => user.supervisor_id === supervisor_id);
 
     if (myPersonnel.length === 0) {
       console.log('No personnel found for this supervisor.');
