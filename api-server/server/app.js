@@ -483,6 +483,7 @@ app.get('/tags', async (req, res) => {
 // Get tag by ID
 // how to search: http://localhost:8080/tags/1
 app.get('/tags/:id', async (req, res) => {
+  console.log('Line 486 of /tags/id');
   try {
     const tag = await db('tags').where('id', req.params.id).first();
     res.json(tag);
@@ -507,6 +508,7 @@ app.get('/categories', async (req, res) => {
 // Get category by ID
 // how to search: http://localhost:8080/categories/3
 app.get('/categories/:id', async (req, res) => {
+  console.log('Line 511 of categories/id');
   try {
     const category = await db('categories').where('id', req.params.id).first();
     res.json(category);

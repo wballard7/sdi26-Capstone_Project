@@ -187,12 +187,11 @@ export const CreateAccount = () => {
   const renderCustomNodeElement = ({ nodeDatum }) => (
     <g>
       <circle r={10} fill="#2d3748" />
-      <text fill="#87CEFA" x={20}>
+      <text fill="#87CEFA" x={20} dy=".31em" strokeWidth="1" stroke="#87CEFA" paintOrder="stroke">
         {nodeDatum.name}
       </text>
     </g>
   );
-
   return (
     <Box>
       <Link href="/">
