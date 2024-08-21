@@ -370,7 +370,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchStaticEntries = async () => {
       try {
-        const fetchedStaticEntries = await getFetch(`static_entries/owner/${Userid}`);
+        const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
         // so this should work assuming that the user is import works and you are logged in to a user with statics
         setStaticEntries(fetchedStaticEntries);
       } catch (err) {}
@@ -380,7 +380,7 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchDynamicEntries = async () => {
-      const fetchedDynamicEntries = await getFetch('dynamic_entries');
+      const fetchedDynamicEntries = await getFetch('dynamic-entries');
       setDynamicEntries(fetchedDynamicEntries);
     };
     fetchDynamicEntries();
@@ -615,9 +615,10 @@ export const Home = () => {
                   </ModalContent>
                 </Modal>
               </div>
+
               {categories.map((cat) => (
                 <button className="categoryTabs">{cat.category_name}</button>
-              ))}{' '}
+              ))}
               {categories.map((cat) => (
                 <button key={cat.id} className="categoryTabs">
                   {cat.category_name}
@@ -630,13 +631,12 @@ export const Home = () => {
                 <h1 className="currentTab">Current Tab</h1>
                 {filteredStaticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
-                    {entry.title} BERG MADE CHANGE
+                    {entry.title}
                   </h1>
                 ))}{' '}
                 {dates.map((dateElement, index) => (
                   <h1 key={index} className="staticEntry">
                     {dateElement.toDateString()}
-                    {entry.title}
                   </h1>
                 ))}
               </div>
