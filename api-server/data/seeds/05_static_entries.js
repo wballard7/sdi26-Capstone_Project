@@ -27,6 +27,7 @@ exports.seed = async function (knex) {
       my_unit_id: 11,
       category_id: 4,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      tag_id: 1,
       misc_notes: 'M4, range 37',
     },
     {
@@ -73,7 +74,7 @@ exports.seed = async function (knex) {
     {
       title: 'IT Support Overview',
       my_unit_id: 11,
-      category_id: 8,
+      category_id: 7,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 12,
       misc_notes: 'Setup secure network communications',
@@ -81,7 +82,7 @@ exports.seed = async function (knex) {
     {
       title: 'Reconnaissance Patrol',
       my_unit_id: 13,
-      category_id: 9,
+      category_id: 4,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 10,
       misc_notes: 'Conduct patrols at night',
@@ -89,7 +90,7 @@ exports.seed = async function (knex) {
     {
       title: 'Aircraft Maintenance',
       my_unit_id: 14,
-      category_id: 13,
+      category_id: 3,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 4,
       misc_notes: 'Ensure all helicopters are mission-ready',
@@ -97,7 +98,7 @@ exports.seed = async function (knex) {
     {
       title: 'Transport Convoy Planning',
       my_unit_id: 12,
-      category_id: 11,
+      category_id: 5,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 7,
       misc_notes: 'Prepare logistics for upcoming convoy operations',
@@ -121,7 +122,7 @@ exports.seed = async function (knex) {
     {
       title: 'Advanced Reconnaissance Briefing',
       my_unit_id: 13,
-      category_id: 9,
+      category_id: 3,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 27,
       misc_notes: 'Briefing on upcoming recon mission details',
@@ -129,7 +130,7 @@ exports.seed = async function (knex) {
     {
       title: 'Urban Warfare Tactics',
       my_unit_id: 12,
-      category_id: 14,
+      category_id: 4,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 32,
       misc_notes: 'Training on close-quarters combat in urban environments',
@@ -145,7 +146,7 @@ exports.seed = async function (knex) {
     {
       title: 'Night Vision Operations Drill',
       my_unit_id: 11,
-      category_id: 10,
+      category_id: 1,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 29,
       misc_notes: 'Practice using night vision equipment in low visibility conditions',
@@ -153,7 +154,7 @@ exports.seed = async function (knex) {
     {
       title: 'Amphibious Assault Exercise',
       my_unit_id: 14,
-      category_id: 12,
+      category_id: 2,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 44,
       misc_notes: 'Joint exercise focusing on beachhead assault and rapid deployment',
@@ -169,7 +170,7 @@ exports.seed = async function (knex) {
     {
       title: 'Radio Communications Protocol',
       my_unit_id: 11,
-      category_id: 16,
+      category_id: 6,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 28,
       misc_notes: 'Standard radio procedures and frequency management',
@@ -185,7 +186,7 @@ exports.seed = async function (knex) {
     {
       title: 'Parachute Rigger Certification',
       my_unit_id: 11,
-      category_id: 15,
+      category_id: 5,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 18,
       misc_notes: 'Certification course for parachute packing and safety',
@@ -209,7 +210,7 @@ exports.seed = async function (knex) {
     {
       title: 'Counterintelligence Briefing',
       my_unit_id: 12,
-      category_id: 16,
+      category_id: 6,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 26,
       misc_notes: 'Briefing on counterintelligence protocols and enemy surveillance',
@@ -217,7 +218,7 @@ exports.seed = async function (knex) {
     {
       title: 'Search and Rescue Operations',
       my_unit_id: 13,
-      category_id: 12,
+      category_id: 2,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 39,
       misc_notes: 'Coordinate joint operations for disaster response and rescue missions',
@@ -225,7 +226,7 @@ exports.seed = async function (knex) {
     {
       title: 'Field Operations Drill',
       my_unit_id: 11,
-      category_id: 17,
+      category_id: 7,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 28,
       misc_notes: 'Simulated field mission focusing on real-time communication and logistics',
@@ -249,7 +250,7 @@ exports.seed = async function (knex) {
     {
       title: 'Logistics Planning Workshop',
       my_unit_id: 11,
-      category_id: 8,
+      category_id: 5,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 17,
       misc_notes: 'Workshop on supply chain management and mission resource allocation',
@@ -257,7 +258,7 @@ exports.seed = async function (knex) {
     {
       title: 'Weapons Systems Maintenance',
       my_unit_id: 14,
-      category_id: 13,
+      category_id: 3,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 46,
       misc_notes: 'Ensure all weapons systems are properly maintained and ready for use',
@@ -273,7 +274,7 @@ exports.seed = async function (knex) {
     {
       title: 'Intelligence Gathering Techniques',
       my_unit_id: 13,
-      category_id: 9,
+      category_id: 3,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 42,
       misc_notes: 'Techniques for gathering, analyzing, and disseminating intelligence',
@@ -289,7 +290,7 @@ exports.seed = async function (knex) {
     {
       title: 'Mountaineering Training',
       my_unit_id: 14,
-      category_id: 18,
+      category_id: 2,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 35,
       misc_notes: 'Techniques for operating in mountainous and rugged terrain',
@@ -297,7 +298,7 @@ exports.seed = async function (knex) {
     {
       title: 'Close Quarters Combat Exercise',
       my_unit_id: 12,
-      category_id: 14,
+      category_id: 4,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 34,
       misc_notes: 'Drills focused on CQB tactics in confined spaces',
@@ -305,7 +306,7 @@ exports.seed = async function (knex) {
     {
       title: 'Force Protection Briefing',
       my_unit_id: 13,
-      category_id: 19,
+      category_id: 4,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 37,
       misc_notes: 'Plans and protocols for securing critical infrastructure and personnel',
@@ -313,7 +314,7 @@ exports.seed = async function (knex) {
     {
       title: 'Search and Rescue Team Certification',
       my_unit_id: 13,
-      category_id: 12,
+      category_id: 2,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 39,
       misc_notes: 'Certification course for advanced search and rescue techniques',
@@ -321,7 +322,7 @@ exports.seed = async function (knex) {
     {
       title: 'Night Reconnaissance Patrol',
       my_unit_id: 13,
-      category_id: 9,
+      category_id: 3,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 29,
       misc_notes: 'Conduct stealth patrols and gather intel during night operations',
@@ -329,7 +330,7 @@ exports.seed = async function (knex) {
     {
       title: 'Parachute Rigger Refresher',
       my_unit_id: 11,
-      category_id: 15,
+      category_id: 5,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 18,
       misc_notes: 'Recertification for parachute riggers on safety and packing standards',
@@ -337,7 +338,7 @@ exports.seed = async function (knex) {
     {
       title: 'Urban Warfare Training',
       my_unit_id: 12,
-      category_id: 14,
+      category_id: 4,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 32,
       misc_notes: 'Techniques for close-quarters combat in city environments',
@@ -361,7 +362,7 @@ exports.seed = async function (knex) {
     {
       title: 'Mission Planning Workshop',
       my_unit_id: 11,
-      category_id: 8,
+      category_id: 3,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 38,
       misc_notes: 'Workshop on planning and executing missions in various scenarios',
@@ -377,7 +378,7 @@ exports.seed = async function (knex) {
     {
       title: 'Terrain Navigation Training',
       my_unit_id: 14,
-      category_id: 18,
+      category_id: 2,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 45,
       misc_notes: 'Training on navigating diverse terrains using maps, compass, and GPS',

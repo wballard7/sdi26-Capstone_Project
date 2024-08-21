@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { postFetch, getFetch } from '../utils/Fetches';
+import { postFetch, getFetch, deleteFetch, putFetch } from '../utils/Fetches';
 // import { SupervisorContext } from '../context/SupervisorContext';
 import { UserContext } from '../context/UserContext';
 import {
@@ -22,12 +22,16 @@ var reported = [];
 export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({
+    id: null,
     title: '',
     my_unit_id: 0,
-    owner_id: '',
+    input_owner_id: '',
     category_id: 0,
-    notes: '',
+    misc_notes: '',
     tag_id: 0,
+  });
+  const [newTag, setNewTag] = useState({
+    tag_name: '',
   });
 
   const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
@@ -40,15 +44,15 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchOwners = async () => {
-      const data = await getFetch('/users');
+      const data = await getFetch('users');
       setOwners(data);
     };
     const fetchCategories = async () => {
-      const data = await getFetch('/categories');
+      const data = await getFetch('categories');
       setCategories(data);
     };
     const fetchTags = async () => {
-      const data = await getFetch('/tags');
+      const data = await getFetch('tags');
       setTags(data);
     };
     fetchOwners();
@@ -58,6 +62,7 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchTitles = async () => {
+      console.log();
       const data = await getFetch(`static-entries/owner/${userId}`);
       console.log(userId);
       setStaticEntries(data);
@@ -67,7 +72,7 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      var data = await getFetch(`/units`);
+      var data = await getFetch(`units`);
       console.log('data in units', data);
       let reported = data.filter((entry) => entry.reports_to === my_unit_id);
       console.log('data for reports to fetch', units);
@@ -79,27 +84,74 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     if (supervisor) {
+      setNewTag((prev) => ({
+        ...prev,
+      }));
+
       setNewStaticEntry((prev) => ({
         ...prev,
-        owner_id: userId,
+        input_owner_id: userId,
       }));
     }
   }, [supervisor, userId]);
 
   const handleAddEntry = async () => {
-    const audienceArray = newStaticEntry.audience
-      .split(',')
-      .map((a) => a.trim())
-      .filter((a) => a);
     try {
-      const response = await postFetch('/static-entries', {
+      const response = await postFetch('static-entries', {
         ...newStaticEntry,
         input_owner_id: userId,
       });
-      console.log('Entry added successfully:', response);
+      console.log('Entry submitted successfully:', response);
     } catch (error) {
       console.error('Error adding entry:', error);
     }
+  };
+
+  const handleEditEntry = async () => {
+    try {
+      const response = await putFetch(`static-entries/${newStaticEntry.id}`, {
+        ...newStaticEntry,
+        input_owner_id: userId,
+      });
+      console.log('Entry submitted successfully:', response);
+    } catch (error) {
+      console.error('Error editing entry:', error);
+    }
+  };
+
+  const handleDeleteEntry = async () => {
+    if (newStaticEntry.id) {
+      const deleteId = Number(newStaticEntry.id);
+      console.log('type of delete', typeof deleteId);
+      console.log('deleteID', deleteId);
+      try {
+        const response = await deleteFetch(`static-entries/${deleteId}`, {});
+        console.log('Entry deleted successfully:', response);
+      } catch (error) {
+        console.error('Error deleting entry:', error);
+      }
+    }
+  };
+
+  const handlecreateTag = async () => {
+    try {
+      const response = await postFetch('tags', {
+        ...newTag,
+      });
+      console.log('Entry submitted successfully:', response);
+    } catch (error) {
+      console.error('Error adding entry:', error);
+    }
+  };
+
+  const handleSelectChange = (e) => {
+    const selectedEntryId = e.target.value;
+    const selectedEntry = staticEntries.find((entry) => entry.id === parseInt(selectedEntryId));
+    setNewStaticEntry((prev) => ({
+      ...prev,
+      id: selectedEntryId,
+      title: selectedEntry ? selectedEntry.title : '',
+    }));
   };
 
   const handleChange = (e, field) => {
@@ -112,9 +164,7 @@ export const EditAddStaticEntries = () => {
     });
   };
 
-  const unitsWithUser = [
-    /*{ id: my_unit_id, name: 'Your Unit' }, ...units*/
-  ];
+  const unitsWithUser = [{ id: my_unit_id, name: 'Your Unit' }, ...units];
 
   return (
     <Box p={4}>
@@ -131,24 +181,36 @@ export const EditAddStaticEntries = () => {
               ) : (
                 <>
                   <div className="p-field">
-                    <label htmlFor="title">Title</label>
-
+                    <label htmlFor="titleSelect">Select an Entry</label>
                     <Select
-                      id="title"
-                      value={newStaticEntry.title} /*fetch for existing static*/
-                      onChange={(e) => handleChange(e, 'title')}
+                      id="titleSelect"
+                      value={newStaticEntry.id || ''}
+                      onChange={handleSelectChange}
                       placeholder="Existing Entries"
                     >
-                      {staticEntries.map((staticEntries) => (
-                        <option
-                          key={staticEntries.id}
-                          value={staticEntries.id}
-                          className="dropdown-option"
-                        >
-                          {staticEntries.title}
-                        </option>
-                      ))}
+                      {staticEntries && staticEntries.length > 0 ? (
+                        staticEntries.map((staticEntry) => (
+                          <option
+                            key={staticEntry.id}
+                            value={staticEntry.id}
+                            className="dropdown-option"
+                          >
+                            {staticEntry.title}
+                          </option>
+                        ))
+                      ) : (
+                        <option>No entries found</option>
+                      )}
                     </Select>
+                  </div>
+                  <div className="p-field">
+                    <label htmlFor="newTitle">New Title</label>
+                    <Input
+                      id="newTitle"
+                      value={newStaticEntry.title}
+                      onChange={(e) => handleChange(e, 'title')}
+                      placeholder="Enter New Title"
+                    />
                   </div>
                   <div className="p-field">
                     <label htmlFor="my_unit_id">Unit</label>
@@ -160,23 +222,23 @@ export const EditAddStaticEntries = () => {
                     >
                       {units == []
                         ? my_unit_id
-                        : units.map((unitOption) => (
+                        : units.map((unitsWithUser) => (
                             <option
-                              key={unitOption.id}
-                              value={unitOption.id}
+                              key={unitsWithUser.id}
+                              value={unitsWithUser.id}
                               className="dropdown-option"
                             >
-                              {unitOption.unit_name}
+                              {unitsWithUser.unit_name}
                             </option>
                           ))}
                     </Select>
                   </div>
                   <div className="p-field">
-                    <label htmlFor="owner_id">Owner</label>
+                    <label htmlFor="input_owner_id">Owner</label>
                     <Select
-                      id="owner_id"
-                      value={newStaticEntry.owner_id} /*fetch for existing users*/
-                      onChange={(e) => handleChange(e, 'owner_id')}
+                      id="input_owner_id"
+                      value={newStaticEntry.input_owner_id} /*fetch for existing users*/
+                      onChange={(e) => handleChange(e, 'input_owner_id')}
                       placeholder="Owner"
                     >
                       {owners.map((owners) => (
@@ -202,11 +264,11 @@ export const EditAddStaticEntries = () => {
                     </Select>
                   </div>
                   <div className="p-field">
-                    <label htmlFor="notes">Notes</label>
+                    <label htmlFor="misc_notes">Notes</label>
                     <Textarea
                       id="notes"
-                      value={newStaticEntry.notes}
-                      onChange={(e) => handleChange(e, 'notes')}
+                      value={newStaticEntry.misc_notes}
+                      onChange={(e) => handleChange(e, 'misc_notes')}
                       rows={5}
                       placeholder="Enter notes"
                     />
@@ -226,9 +288,14 @@ export const EditAddStaticEntries = () => {
                       ))}
                     </Select>
                   </div>
-                  <Button onClick={handleAddEntry} mt={2}>
-                    Update Entry
-                  </Button>{' '}
+                  <>
+                    <Button onClick={handleEditEntry} mt={2}>
+                      Update Entry
+                    </Button>{' '}
+                    <Button onClick={handleDeleteEntry} mt={2}>
+                      Delete Entry
+                    </Button>{' '}
+                  </>
                 </>
               )}
             </>
@@ -257,20 +324,24 @@ export const EditAddStaticEntries = () => {
               >
                 {units == []
                   ? my_unit_id
-                  : units.map((unitOption) => (
-                      <option key={unitOption.id} value={unitOption.id} className="dropdown-option">
-                        {unitOption.unit_name}
+                  : units.map((unitsWithUser) => (
+                      <option
+                        key={unitsWithUser.id}
+                        value={unitsWithUser.id}
+                        className="dropdown-option"
+                      >
+                        {unitsWithUser.unit_name}
                       </option>
                     ))}
               </Select>
             </div>
 
             <div className="p-field">
-              <label htmlFor="owner_id">Owner</label>
+              <label htmlFor="input_owner_id">Owner</label>
               <Select
-                id="owner_id"
-                value={newStaticEntry.owner_id}
-                onChange={(e) => handleChange(e, 'owner_id')}
+                id="input_owner_id"
+                value={newStaticEntry.input_owner_id}
+                onChange={(e) => handleChange(e, 'input_owner_id')}
                 placeholder="Owner"
               >
                 {owners.map((owner) => (
@@ -298,11 +369,11 @@ export const EditAddStaticEntries = () => {
             </div>
 
             <div className="p-field">
-              <label htmlFor="notes">Notes</label>
+              <label htmlFor="misc_notes">Notes</label>
               <Textarea
                 id="notes"
-                value={newStaticEntry.notes}
-                onChange={(e) => handleChange(e, 'notes')}
+                value={newStaticEntry.misc_notes}
+                onChange={(e) => handleChange(e, 'misc_notes')}
                 rows={5}
                 placeholder="Enter notes"
               />
