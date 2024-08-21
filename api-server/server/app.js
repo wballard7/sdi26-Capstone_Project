@@ -374,13 +374,45 @@ app.patch('/static-entries/:id', async (req, res) => {
   }
 });
 
+app.put('/static-entries/:id', async (req, res) => {
+  try {
+    const updatedEntry = await db('static_entries')
+      .where('id', req.params.id)
+      .update(req.body)
+      .returning('*');
+    if (updatedEntry.length === 0) {
+      return res.status(404).json({ error: 'Static entry not found' });
+    }
+    res.json(updatedEntry[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Delete a static entry
 // how to delete: http://localhost:8080/static_entries/48 <--- Change to ID wanting to delete
+// app.delete('/static-entries/:id', async (req, res) => {
+//   try {
+//     await db('static_entries').where('id', req.params.id).del();
+//     res.status(204).json({ message: 'Entry deleted' });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 app.delete('/static-entries/:id', async (req, res) => {
+  const trx = await db.transaction();
   try {
-    await db('static_entries').where('id', req.params.id).del();
-    res.status(204).json({ message: 'Entry deleted' });
+    // First, delete related entries in join_audience table
+    await trx('join_audience').where('static_id', req.params.id).del();
+
+    // Then delete the static entry
+    await trx('static_entries').where('id', req.params.id).del();
+
+    await trx.commit();
+    res.status(204).json({ message: 'Entry and related records deleted' });
   } catch (error) {
+    await trx.rollback();
     res.status(500).json({ error: error.message });
   }
 });
@@ -456,6 +488,20 @@ app.patch('/dynamic-entries/:id', async (req, res) => {
   }
 });
 
+app.put('/dynamic-entries/:id', async (req, res) => {
+  try {
+    const updatedEntry = await db('dynamic_entries')
+      .where('id', req.params.id)
+      .update(req.body)
+      .returning('*');
+    if (updatedEntry.length === 0) {
+      return res.status(404).json({ error: 'Dynamic entry not found' });
+    }
+    res.json(updatedEntry[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Delete a dynamic entry
 // how to delete: http://localhost:8080/dynamic_entries/27 <--- replace with ID to delete
 app.delete('/dynamic-entries/:id', async (req, res) => {

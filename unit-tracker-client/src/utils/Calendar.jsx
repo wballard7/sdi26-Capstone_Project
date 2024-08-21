@@ -55,7 +55,7 @@ const MyCalendar = () => {
   const tileClassName = ({ date }) => {
     if (startDate && endDate) {
       if (date >= startDate && date <= endDate) {
-        return 'highlight'; // Add custom CSS class for highlighted dates
+        return 'highlight';
       }
     }
     return null;

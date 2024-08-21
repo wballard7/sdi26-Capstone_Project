@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { postFetch, getFetch, putFetch } from '../utils/Fetches';
+import { postFetch, getFetch, deleteFetch, putFetch } from '../utils/Fetches';
 // import { SupervisorContext } from '../context/SupervisorContext';
 import { UserContext } from '../context/UserContext';
 import {
@@ -22,12 +22,16 @@ var reported = [];
 export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({
+    id: null,
     title: '',
     my_unit_id: 0,
     input_owner_id: '',
     category_id: 0,
     misc_notes: '',
     tag_id: 0,
+  });
+  const [newTag, setNewTag] = useState({
+    tag_name: '',
   });
 
   const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
@@ -55,12 +59,7 @@ export const EditAddStaticEntries = () => {
     fetchCategories();
     fetchTags();
   }, []);
-  // const fetchStaticEntries = async () => {
-  //   // console.log('inside static fetch');
-  //   const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
-  //   // console.log('fetched static entries:', fetchedStaticEntries);
-  //   setFilteredStaticEntries(fetchedStaticEntries);
-  // };
+
   useEffect(() => {
     const fetchTitles = async () => {
       console.log();
@@ -85,6 +84,10 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     if (supervisor) {
+      setNewTag((prev) => ({
+        ...prev,
+      }));
+
       setNewStaticEntry((prev) => ({
         ...prev,
         input_owner_id: userId,
@@ -98,7 +101,7 @@ export const EditAddStaticEntries = () => {
         ...newStaticEntry,
         input_owner_id: userId,
       });
-      console.log('Entry submitte successfully:', response);
+      console.log('Entry submitted successfully:', response);
     } catch (error) {
       console.error('Error adding entry:', error);
     }
@@ -112,8 +115,43 @@ export const EditAddStaticEntries = () => {
       });
       console.log('Entry submitted successfully:', response);
     } catch (error) {
+      console.error('Error editing entry:', error);
+    }
+  };
+
+  const handleDeleteEntry = async () => {
+    if (newStaticEntry.id) {
+      const deleteId = Number(newStaticEntry.id);
+      console.log('type of delete', typeof deleteId);
+      console.log('deleteID', deleteId);
+      try {
+        const response = await deleteFetch(`static-entries/${deleteId}`, {});
+        console.log('Entry deleted successfully:', response);
+      } catch (error) {
+        console.error('Error deleting entry:', error);
+      }
+    }
+  };
+
+  const handlecreateTag = async () => {
+    try {
+      const response = await postFetch('tags', {
+        ...newTag,
+      });
+      console.log('Entry submitted successfully:', response);
+    } catch (error) {
       console.error('Error adding entry:', error);
     }
+  };
+
+  const handleSelectChange = (e) => {
+    const selectedEntryId = e.target.value;
+    const selectedEntry = staticEntries.find((entry) => entry.id === parseInt(selectedEntryId));
+    setNewStaticEntry((prev) => ({
+      ...prev,
+      id: selectedEntryId,
+      title: selectedEntry ? selectedEntry.title : '',
+    }));
   };
 
   const handleChange = (e, field) => {
@@ -128,13 +166,6 @@ export const EditAddStaticEntries = () => {
 
   const unitsWithUser = [{ id: my_unit_id, name: 'Your Unit' }, ...units];
 
-  useEffect(() => {
-    console.log('staticEntries', staticEntries);
-    console.log('owners', owners);
-    console.log('units', units);
-    console.log('categories', categories);
-    console.log('tags', tags);
-  }, [staticEntries, units, owners, categories, tags]);
   return (
     <Box p={4}>
       <Tabs index={activeIndex} onChange={(index) => setActiveIndex(index)}>
@@ -150,12 +181,11 @@ export const EditAddStaticEntries = () => {
               ) : (
                 <>
                   <div className="p-field">
-                    <label htmlFor="title">Title</label>
-
+                    <label htmlFor="titleSelect">Select an Entry</label>
                     <Select
-                      id="title"
-                      value={newStaticEntry.title}
-                      onChange={(e) => handleChange(e, 'title')}
+                      id="titleSelect"
+                      value={newStaticEntry.id || ''}
+                      onChange={handleSelectChange}
                       placeholder="Existing Entries"
                     >
                       {staticEntries && staticEntries.length > 0 ? (
@@ -176,10 +206,10 @@ export const EditAddStaticEntries = () => {
                   <div className="p-field">
                     <label htmlFor="newTitle">New Title</label>
                     <Input
-                      id="title"
+                      id="newTitle"
                       value={newStaticEntry.title}
                       onChange={(e) => handleChange(e, 'title')}
-                      placeholder="Title (required)"
+                      placeholder="Enter New Title"
                     />
                   </div>
                   <div className="p-field">
@@ -258,9 +288,14 @@ export const EditAddStaticEntries = () => {
                       ))}
                     </Select>
                   </div>
-                  <Button onClick={handleEditEntry} mt={2}>
-                    Update Entry
-                  </Button>{' '}
+                  <>
+                    <Button onClick={handleEditEntry} mt={2}>
+                      Update Entry
+                    </Button>{' '}
+                    <Button onClick={handleDeleteEntry} mt={2}>
+                      Delete Entry
+                    </Button>{' '}
+                  </>
                 </>
               )}
             </>
