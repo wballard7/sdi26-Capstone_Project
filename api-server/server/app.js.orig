@@ -131,6 +131,32 @@ app.get('/users', async (req, res) => {
 // });
 
 // Get unit supervisors
+<<<<<<< HEAD
+// how to search: http://localhost:8080/users/unit_supervisors/16
+app.get('/users/unit-supervisors/:unit_id', async (req, res) => {
+  try {
+    const supervisors = await db('users')
+      .where('my_unit_id', req.params.unit_id)
+      .andWhere('supervisor', true);
+    res.json(supervisors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get non-supervisors in a unit
+// how to search: http://localhost:8080/users/unit_nonsupervisors/16
+app.get('/users/unit-nonsupervisors/:unit_id', async (req, res) => {
+  try {
+    const nonsupervisors = await db('users')
+      .where('my_unit_id', req.params.unit_id)
+      .andWhere('supervisor', false);
+    res.json(nonsupervisors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+=======
 // // how to search: http://localhost:8080/users/unit_supervisors/16
 // app.get('/users/unit_supervisors/:unit_id', async (req, res) => {
 //   try {
@@ -155,6 +181,7 @@ app.get('/users', async (req, res) => {
 //     res.status(500).json({ error: error.message });
 //   }
 // });
+>>>>>>> 6d204dede2b36f73e01e5efcfefa85be0381b942
 
 // Get personnel by ID
 // how to search: http://localhost:8080/users/personnel/d89d71e2-4012-43f8-a324-b9bffc4edd4d
@@ -211,6 +238,8 @@ app.get('/users', async (req, res) => {
 //       return res.status(400).json({ error: 'Invalid username or password' });
 //     }
 
+<<<<<<< HEAD
+=======
 //     // If the password matches, return the user data or a token
 //     res.json({ message: 'Login successful', user });
 //   } catch (error) {
@@ -218,6 +247,7 @@ app.get('/users', async (req, res) => {
 //   }
 // });
 
+>>>>>>> 6d204dede2b36f73e01e5efcfefa85be0381b942
 // Units Routes
 
 // Get all units

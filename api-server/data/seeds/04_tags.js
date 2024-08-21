@@ -29,7 +29,6 @@ exports.seed = async function (knex) {
     { tag_name: 'hand-to-hand combat' },
     { tag_name: 'ranger qualified' },
     { tag_name: 'water survival' },
-
     { tag_name: 'physical fitness training' },
     { tag_name: 'counterintelligence' },
     { tag_name: 'chemical warfare' },

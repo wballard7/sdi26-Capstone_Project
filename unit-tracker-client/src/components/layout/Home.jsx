@@ -367,6 +367,25 @@ export const Home = () => {
   }, [setStartDate, setEndDate]);
 
   //========fetch = static_entries, dynamic_entries, categories========
+  useEffect(() => {
+    const fetchStaticEntries = async () => {
+      try {
+        const fetchedStaticEntries = await getFetch(`static_entries/owner/${Userid}`);
+        // so this should work assuming that the user is import works and you are logged in to a user with statics
+        setStaticEntries(fetchedStaticEntries);
+      } catch (err) {}
+    };
+    fetchStaticEntries();
+  }, []);
+
+  useEffect(() => {
+    const fetchDynamicEntries = async () => {
+      const fetchedDynamicEntries = await getFetch('dynamic_entries');
+      setDynamicEntries(fetchedDynamicEntries);
+    };
+    fetchDynamicEntries();
+  }, []);
+
   //api/fetch call = select from static and dynamic. where id matches and start time and end time
   //join/select static name, dyna
   //when calendar time changes, send a call to this fetch
@@ -596,9 +615,13 @@ export const Home = () => {
                   </ModalContent>
                 </Modal>
               </div>
-
               {categories.map((cat) => (
                 <button className="categoryTabs">{cat.category_name}</button>
+              ))}{' '}
+              {categories.map((cat) => (
+                <button key={cat.id} className="categoryTabs">
+                  {cat.category_name}
+                </button>
               ))}
             </div>
 
@@ -607,6 +630,12 @@ export const Home = () => {
                 <h1 className="currentTab">Current Tab</h1>
                 {filteredStaticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
+                    {entry.title} BERG MADE CHANGE
+                  </h1>
+                ))}{' '}
+                {dates.map((dateElement, index) => (
+                  <h1 key={index} className="staticEntry">
+                    {dateElement.toDateString()}
                     {entry.title}
                   </h1>
                 ))}
