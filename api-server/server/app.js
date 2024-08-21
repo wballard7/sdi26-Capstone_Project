@@ -107,6 +107,7 @@ app.get('/', (req, res) => {
 // Users Routes
 
 // Get all users
+// how to search: http://localhost:8080/users/
 app.get('/users', async (req, res) => {
   try {
     const users = await db('users').select('*'); // Using the imported db instance
