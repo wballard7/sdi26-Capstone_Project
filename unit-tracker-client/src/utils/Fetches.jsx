@@ -9,6 +9,22 @@ const getFetch = async (arg1) => {
   }
 };
 
+// const postFetch = async (arg1, arg2) => {
+//   try {
+//     const res = await fetch(`http://localhost:8080/${arg1}`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(arg2), // Corrected: arg2 should be passed directly, not within an object
+//     });
+//     const data = await res.json();
+//     console.log(`Your POST request for ${arg1} returned`, data);
+//     return data;
+//   } catch (err) {
+//     console.log(`Error with your POST fetch to ${arg1}`, err);
+//   }
+// };
 const postFetch = async (arg1, arg2) => {
   try {
     const res = await fetch(`http://localhost:8080/${arg1}`, {
@@ -16,15 +32,17 @@ const postFetch = async (arg1, arg2) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(arg2), // Corrected: arg2 should be passed directly, not within an object
+      body: JSON.stringify(arg2),
     });
-    const data = await res.json();
-    console.log(`Your POST request for ${arg1} returned`, data);
-    return data;
+
+    // Instead of returning the JSON data, return the full response object
+    return res;
   } catch (err) {
     console.log(`Error with your POST fetch to ${arg1}`, err);
+    throw err; // Rethrow the error to handle it in the calling function
   }
 };
+
 
 const deleteFetch = async (arg1) => {
   try {

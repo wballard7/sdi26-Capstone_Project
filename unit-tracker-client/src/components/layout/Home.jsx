@@ -13,7 +13,8 @@ import {
 import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../../utils/Fetches';
 import '../../styles/Home.css';
-import { MyCalendar } from '../../utils/Calendar';
+// import { MyCalendar } from '../../utils/Calendar';
+import MyCalendar from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
 
 export const Home = () => {
@@ -164,7 +165,7 @@ export const Home = () => {
     return (
       <VStack spacing={1}>
         {dynamicEntries.map((entry, index) => (
-          <div className="dynamicEntries">
+          <div key={entry.id} className="dynamicEntries">
             <Box
               key={entry.id}
               onDrop={(e) => onDrop(e, index)}
@@ -225,9 +226,13 @@ export const Home = () => {
                 </Modal>
               </div>
 
-              {categories.map((cat) => (
+              {/* {categories.map((cat) => ( BERG MADE CHANGE
                 <button className="categoryTabs">{cat.category_name}</button>
-              ))}
+              ))} */}
+              {categories.map((cat) => (
+  <button key={cat.id} className="categoryTabs">{cat.category_name}</button>
+))}
+
             </div>
 
             <div className="bodyGrid">
@@ -236,7 +241,7 @@ export const Home = () => {
                 {console.log('my start date:', startDate)}
                 {/* {staticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
-                    {entry.title}
+                    {entry.title} BERG MADE CHANGE
                   </h1>
                 ))} */}
                 {dates.map((dateElement, index) => (
