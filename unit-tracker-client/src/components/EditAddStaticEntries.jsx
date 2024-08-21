@@ -40,15 +40,15 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchOwners = async () => {
-      const data = await getFetch('users');
+      const data = await getFetch('/users');
       setOwners(data);
     };
     const fetchCategories = async () => {
-      const data = await getFetch('categories');
+      const data = await getFetch('/categories');
       setCategories(data);
     };
     const fetchTags = async () => {
-      const data = await getFetch('tags');
+      const data = await getFetch('/tags');
       setTags(data);
     };
     fetchOwners();
@@ -58,7 +58,7 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchTitles = async () => {
-      const data = await getFetch(`static_entries/owner/${userId}`);
+      const data = await getFetch(`static-entries/owner/${userId}`);
       console.log(userId);
       setStaticEntries(data);
     };
@@ -67,7 +67,7 @@ export const EditAddStaticEntries = () => {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      var data = await getFetch(`units`);
+      var data = await getFetch(`/units`);
       console.log('data in units', data);
       let reported = data.filter((entry) => entry.reports_to === my_unit_id);
       console.log('data for reports to fetch', units);
@@ -92,7 +92,10 @@ export const EditAddStaticEntries = () => {
       .map((a) => a.trim())
       .filter((a) => a);
     try {
-      const response = await postFetch('static_entries', newStaticEntry);
+      const response = await postFetch('/static-entries', {
+        ...newStaticEntry,
+        input_owner_id: userId,
+      });
       console.log('Entry added successfully:', response);
     } catch (error) {
       console.error('Error adding entry:', error);

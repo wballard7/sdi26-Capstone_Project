@@ -319,10 +319,10 @@ import {
 import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../../utils/Fetches';
 import '../../styles/Home.css';
-// import { MyCalendar } from '../../utils/Calendar';
 import MyCalendar from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
 import { UserContext } from '../../context/UserContext';
+//map is breaking-maybe fixed
 
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState([]);
@@ -337,11 +337,11 @@ export const Home = () => {
   //const [allEntries, setAllEntries] = useState([]);
   const [staticToDynamic, setStaticToDynamic] = useState({ staticLocation: 0, dynamicLocation: 0 });
 
+  // useEffect(() => {
+  //   console.log('Updated filtered dynamic entries:', filteredDynamicEntries);
+  // }, [filteredDynamicEntries]);
   useEffect(() => {
-    console.log('Updated filtered dynamic entries:', filteredDynamicEntries);
-  }, [filteredDynamicEntries]);
-  useEffect(() => {
-    console.log('Updated filtered static entries:', filteredStaticEntries);
+    console.log('filtered static entries:', filteredStaticEntries);
   }, [filteredStaticEntries]);
   //==============calendar stuff===================
   const openCalendar = () => {
@@ -367,40 +367,75 @@ export const Home = () => {
   }, [setStartDate, setEndDate]);
 
   //========fetch = static_entries, dynamic_entries, categories========
+  //api/fetch call = select from static and dynamic. where id matches and start time and end time
+  //join/select static name, dyna
+  //when calendar time changes, send a call to this fetch
+  //   useEffect(() => {
+  //     fetch('http://localhost:8080/')
+  //         .then(response => response.json())
+  //         .then(data => setItems(data))
+  //         .catch(error => console.error('Error fetching data:', error));
+  // }, []);
+
+  const fetchStaticEntries = async () => {
+    console.log('inside static fetch');
+    const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
+    console.log('fetched static entries:', fetchedStaticEntries);
+    setFilteredStaticEntries(fetchedStaticEntries);
+  };
+  const fetchDynamicEntries = async () => {
+    const fetchedDynamicEntries = await getFetch('dynamic-entries');
+    setFilteredDynamicEntries(fetchedDynamicEntries);
+  };
+  const fetchCategories = async () => {
+    const fetchedCategories = await getFetch(`categories`);
+    setCategories(fetchedCategories);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const [fetchedStaticEntries, fetchedDynamicEntries, fetchedCategories] = await Promise.all([
-          getFetch(`static_entries`),
-          getFetch('dynamic_entries'),
-          getFetch('categories'),
-        ]);
-        setStaticEntries(fetchedStaticEntries);
-        setDynamicEntries(fetchedDynamicEntries);
-        setCategories(fetchedCategories);
+    try {
+      fetchCategories();
+      fetchStaticEntries();
+      fetchDynamicEntries();
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const [fetchedStaticEntries, fetchedDynamicEntries, fetchedCategories] = await Promise.all([
+  //         getFetch(`/static-entries`),
+  //         getFetch('/dynamic-entries'),
+  //         getFetch('/categories'),
+  //       ]);
+  //       setStaticEntries(fetchedStaticEntries);
+  //       setDynamicEntries(fetchedDynamicEntries);
+  //       setCategories(fetchedCategories);
 
-        const filteredStatic = fetchedStaticEntries.filter(
-          (entry) => entry.input_owner_id === Userid,
-        );
-        setFilteredStaticEntries(filteredStatic);
+  //       const filteredStatic = fetchedStaticEntries.filter(
+  //         (entry) => entry.input_owner_id === Userid,
+  //       );
+  //       setFilteredStaticEntries(filteredStatic);
 
-        const staticIds = filteredStatic.map((entry) => entry.id);
-        console.log('Static entry IDs:', staticIds);
+  //       const staticIds = filteredStatic.map((entry) => entry.id);
+  //       console.log('Static entry IDs:', staticIds);
 
-        const filteredDynamic = fetchedDynamicEntries.filter((entry) =>
-          staticIds.includes(entry.input_id),
-        );
-        console.log('Filtered dynamic entries:', filteredDynamic);
-        setFilteredDynamicEntries(filteredDynamic);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [Userid]);
+  //       const filteredDynamic = fetchedDynamicEntries.filter((entry) =>
+  //         staticIds.includes(entry.input_id),
+  //       );
+  //       console.log('Filtered dynamic entries:', filteredDynamic);
+  //       setFilteredDynamicEntries(filteredDynamic);
+  //     } catch (err) {
+  //       console.error('Error fetching data:', err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [Userid]);
 
   if (isLoading) {
     return <Box>Loading...</Box>;
@@ -496,20 +531,13 @@ export const Home = () => {
       e.preventDefault();
     };
     return (
-      <VStack spacing={1}>
-        {dynamicEntries.map((entry, index) => (
-          <div key={entry.id} className="dynamicEntries">
-            <Box
-              key={entry.id}
-              onDrop={(e) => onDrop(e, index)}
-              onDragOver={onDragOver}
-              width="100%"
-            >
-              <DraggableButton id={entry.id} onDragStart={onDragStart}>
-                {entry.name}
-              </DraggableButton>
-            </Box>
-          </div>
+      <VStack spacing={1} align="stretch">
+        {entries.map((entry, index) => (
+          <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
+            <DraggableButton id={entry.id} onDragStart={onDragStart} width="100%">
+              {entry.name}
+            </DraggableButton>
+          </Box>
         ))}
       </VStack>
     );
@@ -569,13 +597,9 @@ export const Home = () => {
                 </Modal>
               </div>
 
-              {/* {categories.map((cat) => ( BERG MADE CHANGE
-                <button className="categoryTabs">{cat.category_name}</button>
-              ))} */}
               {categories.map((cat) => (
-  <button key={cat.id} className="categoryTabs">{cat.category_name}</button>
-))}
-
+                <button className="categoryTabs">{cat.category_name}</button>
+              ))}
             </div>
 
             <div className="bodyGrid">
@@ -583,12 +607,7 @@ export const Home = () => {
                 <h1 className="currentTab">Current Tab</h1>
                 {filteredStaticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
-                    {entry.title} BERG MADE CHANGE
-                  </h1>
-                ))} */}
-                {dates.map((dateElement, index) => (
-                  <h1 key={index} className="staticEntry">
-                    {dateElement.toDateString()}
+                    {entry.title}
                   </h1>
                 ))}
               </div>
