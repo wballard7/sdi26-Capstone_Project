@@ -322,8 +322,8 @@ import '../../styles/Home.css';
 import MyCalendar from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
 import { UserContext } from '../../context/UserContext';
-//map is breaking-maybe fixed
-
+//fixing the calendar
+// copy
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState([]);
   const [dynamicEntries, setDynamicEntries] = useState([]);
@@ -340,9 +340,9 @@ export const Home = () => {
   // useEffect(() => {
   //   console.log('Updated filtered dynamic entries:', filteredDynamicEntries);
   // }, [filteredDynamicEntries]);
-  useEffect(() => {
-    console.log('filtered static entries:', filteredStaticEntries);
-  }, [filteredStaticEntries]);
+  // useEffect(() => {
+  //   console.log('filtered static entries:', filteredStaticEntries);
+  // }, [filteredStaticEntries]);
   //==============calendar stuff===================
   const openCalendar = () => {
     setIsCalendarOpen(true);
@@ -358,7 +358,7 @@ export const Home = () => {
       start.setDate(today.getDate() - dayOfWeek + 1);
       const end = new Date(start);
       end.setDate(start.getDate() + 6);
-      console.log('userid:', Userid);
+      // console.log('userid:', Userid);
 
       setStartDate(start);
       setEndDate(end);
@@ -367,25 +367,6 @@ export const Home = () => {
   }, [setStartDate, setEndDate]);
 
   //========fetch = static_entries, dynamic_entries, categories========
-  useEffect(() => {
-    const fetchStaticEntries = async () => {
-      try {
-        const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
-        // so this should work assuming that the user is import works and you are logged in to a user with statics
-        setStaticEntries(fetchedStaticEntries);
-      } catch (err) {}
-    };
-    fetchStaticEntries();
-  }, []);
-
-  useEffect(() => {
-    const fetchDynamicEntries = async () => {
-      const fetchedDynamicEntries = await getFetch('dynamic-entries');
-      setDynamicEntries(fetchedDynamicEntries);
-    };
-    fetchDynamicEntries();
-  }, []);
-
   //api/fetch call = select from static and dynamic. where id matches and start time and end time
   //join/select static name, dyna
   //when calendar time changes, send a call to this fetch
@@ -397,9 +378,9 @@ export const Home = () => {
   // }, []);
 
   const fetchStaticEntries = async () => {
-    console.log('inside static fetch');
+    // console.log('inside static fetch');
     const fetchedStaticEntries = await getFetch(`static-entries/owner/${Userid}`);
-    console.log('fetched static entries:', fetchedStaticEntries);
+    // console.log('fetched static entries:', fetchedStaticEntries);
     setFilteredStaticEntries(fetchedStaticEntries);
   };
   const fetchDynamicEntries = async () => {
@@ -619,11 +600,6 @@ export const Home = () => {
               {categories.map((cat) => (
                 <button className="categoryTabs">{cat.category_name}</button>
               ))}
-              {categories.map((cat) => (
-                <button key={cat.id} className="categoryTabs">
-                  {cat.category_name}
-                </button>
-              ))}
             </div>
 
             <div className="bodyGrid">
@@ -632,11 +608,6 @@ export const Home = () => {
                 {filteredStaticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
                     {entry.title}
-                  </h1>
-                ))}{' '}
-                {dates.map((dateElement, index) => (
-                  <h1 key={index} className="staticEntry">
-                    {dateElement.toDateString()}
                   </h1>
                 ))}
               </div>

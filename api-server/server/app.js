@@ -44,7 +44,7 @@ app.post('/units', unitRoutes.createUnit);
 
 // app.get('/static_entries/', staticRoutes.getAllEntries);
 // app.get('/static_entries/:id', staticRoutes.getEntryById);
-app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
+app.get('/static-entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
 // app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
 // app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
 // app.get('/static_entries/category/:category', staticRoutes.getEntryByCategory);
@@ -56,7 +56,7 @@ app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntri
 
 // app.get('/dynamic_entries/', dynamicRoutes.getAllEntries);
 // app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById);
-app.get('/dynamic_entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
+app.get('/dynamic-entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
 // app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
 // app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
 // app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);

@@ -63,7 +63,7 @@ export const EditAddStaticEntries = () => {
       setStaticEntries(data);
     };
     fetchTitles();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -75,7 +75,7 @@ export const EditAddStaticEntries = () => {
       setUnits(reported);
     };
     fetchUnits();
-  }, []);
+  }, [my_unit_id]);
 
   useEffect(() => {
     if (supervisor) {
