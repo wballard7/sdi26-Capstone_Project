@@ -122,6 +122,7 @@ export const Home = () => {
       e.preventDefault();
     };
     return (
+<<<<<<< HEAD
       <VStack spacing={1}>
         {dynamicEntries.map((entry, index) => (
           <div key={entry.id} className="dynamicEntries">
@@ -136,6 +137,15 @@ export const Home = () => {
               </DraggableButton>
             </Box>
           </div>
+=======
+      <VStack spacing={1} align="stretch">
+        {entries.map((entry, index) => (
+          <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
+            <DraggableButton id={entry.id} onDragStart={onDragStart} width="100%">
+              {entry.name}
+            </DraggableButton>
+          </Box>
+>>>>>>> main
         ))}
       </VStack>
     );
@@ -210,11 +220,6 @@ export const Home = () => {
                 {staticEntries.map((entry) => (
                   <h1 key={entry.id} className="staticEntry">
                     {entry.title} BERG MADE CHANGE
-                  </h1>
-                ))} */}
-                {dates.map((dateElement, index) => (
-                  <h1 key={index} className="staticEntry">
-                    {dateElement.toDateString()}
                   </h1>
                 ))}
               </div>

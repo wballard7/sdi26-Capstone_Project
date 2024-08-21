@@ -301,7 +301,11 @@ export const Login = () => {
       position="relative"
     >
       <Image
+<<<<<<< HEAD
+        src="/assets/logo2.png"
+=======
         src="/assets/LogoFORBLACK.png"
+>>>>>>> main
         alt="Background"
         // position="absolute"
         mt={'50%'}
