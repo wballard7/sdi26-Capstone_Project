@@ -79,7 +79,7 @@ async function loginUser(req, res) {
 
 async function getAllUnitSupervisors(req, res) {
   const { id } = req.params;
-  console.log(`Line 82, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
+  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => user.supervisor);
 
@@ -89,25 +89,29 @@ async function getAllUnitSupervisors(req, res) {
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
   console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
-  console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
   const allSupervisors = await User.getByUnit(id);
-  const nonSupervisors = allSupervisors.filter((user) => user.supervisor === false);
-
-  return res.send(nonSupervisors);
+  const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
+  return res.send(unitSupervisors);
 }
 
 async function getMyPersonnel(req, res) {
-  const { id } = req.params;
-  console.log(`Line 100, getMyPersonnel, routes/users id: ${id} was passed in`);
-  const allUsers = await User.all();
-  const myPersonnel = allUsers.filter((user) => user.id === id);
+  try {
+    const id = req.params.id;
+    console.log(`Line 74, getMyPersonnel, routes/users id: ${id} was passed in`);
+
+    // Fetch all users
+    const allUsers = await User.all();
+    console.log(`Fetched ${allUsers.length} users`);
+
+    // Filter personnel based on supervisor_id
+    const myPersonnel = allUsers.filter((user) => user.supervisor_id === id);
 
     if (myPersonnel.length === 0) {
       console.log('No personnel found for this supervisor.');
       return res.status(404).json({ message: 'No personnel found for this supervisor.' });
     }
 
-    console.log(`Found ${myPersonnel.length} personnel for supervisor with id: ${supervisor_id}`);
+    console.log(`Found ${myPersonnel.length} personnel for supervisor with id: ${id}`);
     return res.json(myPersonnel);
   } catch (error) {
     console.error('Error in getMyPersonnel:', error);

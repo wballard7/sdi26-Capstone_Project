@@ -175,7 +175,6 @@
 //   );
 // };
 
-
 import { Button, Link, Input, Box, Heading, Image } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
 import { getFetch, postFetch } from '../utils/Fetches';
@@ -215,7 +214,6 @@ export const Login = () => {
       alert('Error during login. Please try again later.');
     }
   };
-
 
   const fetchSupervisor = async (sup_Id) => {
     console.log(personnel);

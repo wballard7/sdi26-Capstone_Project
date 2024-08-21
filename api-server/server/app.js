@@ -1,47 +1,50 @@
-// const express = require('express');
-// const cors = require('cors');
-// const bodyParser = require('body-parser');
-// const app = express();
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const app = express();
+const db = require('./db');
 
-// app.use(cors());
-// app.use(bodyParser.json());
-// app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res.status(200).send('app is working');
-// });
+app.get('/', (req, res) => {
+  res.status(200).send('app is working');
+});
 
-// const userRoutes = require('./routes/users');
-// const unitRoutes = require('./routes/units');
-// const staticRoutes = require('./routes/static_entries');
-// const dynamicRoutes = require('./routes/dynamic_entries');
+const userRoutes = require('./routes/users');
+const unitRoutes = require('./routes/units');
+const staticRoutes = require('./routes/static_entries');
+const dynamicRoutes = require('./routes/dynamic_entries');
 // const categoryRoutes = require('./routes/categories');
 // const tagRoutes = require('./routes/tags');
 // const audienceRoutes = require('./routes/join_audience');
 
-// app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
-// app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
-// app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
-// app.get('/users/unit_supervisors/:unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
-// app.get('/users/unit_nonsupervisors/:unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
-// app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
-// app.post('/users', userRoutes.createUser);
-// app.post('/users/login', userRoutes.loginUser);
+app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
+app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
+app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
+app.get('/users/unit_supervisors/:unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
+app.get('/users/unit_nonsupervisors/:unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
+app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
+app.post('/users', userRoutes.createUser);
+app.post('/users/login', userRoutes.loginUser);
 
 // // ${apiURL}/units/${userData.my_unit_id}
 // // getFetch('units')
 
 // // postFetch('units', newUnit)
-// app.get('/units', unitRoutes.getAllUnits);
-// app.get('/units/:id', unitRoutes.getUnitsId);
-// app.post('/units', unitRoutes.createUnit);
+app.get('/units', unitRoutes.getAllUnits);
+app.get('/units/:id', unitRoutes.getUnitsId);
+app.post('/units', unitRoutes.createUnit);
 // app.patch('/units', unitRoutes.updateUnit);
 
 // // postFetch(''dynamic_entries', newStaticEntry);
 // // getFetch('dynamic_entries');
 // // postFetch('static_entries', newStaticEntry);
+
 // app.get('/static_entries/', staticRoutes.getAllEntries);
 // app.get('/static_entries/:id', staticRoutes.getEntryById);
+app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
 // app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
 // app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
 // app.get('/static_entries/category/:category', staticRoutes.getEntryByCategory);
@@ -53,6 +56,7 @@
 
 // app.get('/dynamic_entries/', dynamicRoutes.getAllEntries);
 // app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById);
+app.get('/dynamic_entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
 // app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
 // app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
 // app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
@@ -85,23 +89,9 @@
 // app.get('/join_audience', audienceRoutes.deleteAudience);
 // module.exports = app;
 
-const express = require('express');
-const knex = require('../knexfile');
-const bcrypt = require('bcryptjs');
-const app = express();
-const db = require('./db');
-const cors = require('cors');
-
-app.use(cors());
-app.use(express.json());
-
 app.use((req, res, next) => {
   console.log('Incoming Request Body:', req.body);
   next();
-});
-
-app.get('/', (req, res) => {
-  res.status(200).send('app is working');
 });
 
 // Users Routes
@@ -117,64 +107,64 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// Get user by ID
-// how to search: http://localhost:8080/users/id/d89d71e2-4012-43f8-a324-b9bffc4edd4d
-app.get('/users/id/:id', async (req, res) => {
-  try {
-    const user = await db('users').where('id', req.params.id).first();
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// // Get user by ID
+// // how to search: http://localhost:8080/users/id/d89d71e2-4012-43f8-a324-b9bffc4edd4d
+// app.get('/users/id/:id', async (req, res) => {
+//   try {
+//     const user = await db('users').where('id', req.params.id).first();
+//     res.json(user);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Get user by username
 // how to search: http://localhost:8080/users/username/nerf_herder
-app.get('/users/username/:username', async (req, res) => {
-  try {
-    const user = await db('users').where('username', req.params.username).first();
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.get('/users/username/:username', async (req, res) => {
+//   try {
+//     const user = await db('users').where('username', req.params.username).first();
+//     res.json(user);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Get unit supervisors
-// how to search: http://localhost:8080/users/unit_supervisors/16
-app.get('/users/unit_supervisors/:unit_id', async (req, res) => {
-  try {
-    const supervisors = await db('users')
-      .where('my_unit_id', req.params.unit_id)
-      .andWhere('supervisor', true);
-    res.json(supervisors);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// // how to search: http://localhost:8080/users/unit_supervisors/16
+// app.get('/users/unit_supervisors/:unit_id', async (req, res) => {
+//   try {
+//     const supervisors = await db('users')
+//       .where('my_unit_id', req.params.unit_id)
+//       .andWhere('supervisor', true);
+//     res.json(supervisors);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Get non-supervisors in a unit
 // how to search: http://localhost:8080/users/unit_nonsupervisors/16
-app.get('/users/unit_nonsupervisors/:unit_id', async (req, res) => {
-  try {
-    const nonsupervisors = await db('users')
-      .where('my_unit_id', req.params.unit_id)
-      .andWhere('supervisor', false);
-    res.json(nonsupervisors);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.get('/users/unit_nonsupervisors/:unit_id', async (req, res) => {
+//   try {
+//     const nonsupervisors = await db('users')
+//       .where('my_unit_id', req.params.unit_id)
+//       .andWhere('supervisor', false);
+//     res.json(nonsupervisors);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Get personnel by ID
 // how to search: http://localhost:8080/users/personnel/d89d71e2-4012-43f8-a324-b9bffc4edd4d
-app.get('/users/personnel/:id', async (req, res) => {
-  try {
-    const personnel = await db('users').where('id', req.params.id).first();
-    res.json(personnel);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.get('/users/personnel/:id', async (req, res) => {
+//   try {
+//     const personnel = await db('users').where('id', req.params.id).first();
+//     res.json(personnel);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Create a new user
 /* how to create request: http://localhost:8080/users
@@ -192,65 +182,64 @@ app.get('/users/personnel/:id', async (req, res) => {
   "supervisor": true
 }
 */
-app.post('/users', async (req, res) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    req.body.password = await bcrypt.hash(req.body.password, salt);
-    const newUser = await db('users').insert(req.body).returning('*');
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.post('/users', async (req, res) => {
+//   try {
+//     const salt = await bcrypt.genSalt(10);
+//     req.body.password = await bcrypt.hash(req.body.password, salt);
+//     const newUser = await db('users').insert(req.body).returning('*');
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // User login
-app.post('/users/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+// app.post('/users/login', async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
 
-    // Check if the user exists in the database
-    const user = await db('users').where('username', username).first();
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
+//     // Check if the user exists in the database
+//     const user = await db('users').where('username', username).first();
+//     if (!user) {
+//       return res.status(400).json({ error: 'Invalid username or password' });
+//     }
 
-    // Compare the provided password with the stored hashed password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
+//     // Compare the provided password with the stored hashed password
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).json({ error: 'Invalid username or password' });
+//     }
 
-    // If the password matches, return the user data or a token
-    res.json({ message: 'Login successful', user });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
+//     // If the password matches, return the user data or a token
+//     res.json({ message: 'Login successful', user });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Units Routes
 
 // Get all units
 // how to search: http://localhost:8080/units
-app.get('/units', async (req, res) => {
-  try {
-    const units = await db('units').select('*');
-    res.json(units);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.get('/units', async (req, res) => {
+//   try {
+//     const units = await db('units').select('*');
+//     res.json(units);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Get unit by ID
 // how to search: http://localhost:8080/units/15
-app.get('/units/:id', async (req, res) => {
-  try {
-    const unit = await db('units').where('id', req.params.id).first();
-    res.json(unit);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.get('/units/:id', async (req, res) => {
+//   try {
+//     const unit = await db('units').where('id', req.params.id).first();
+//     res.json(unit);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Create a new unit
 /* how to create request: http://localhost:8080/units
@@ -261,14 +250,14 @@ app.get('/units/:id', async (req, res) => {
   "reports_to": 12
 }
 */
-app.post('/units', async (req, res) => {
-  try {
-    const newUnit = await db('units').insert(req.body).returning('*');
-    res.status(201).json(newUnit);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// app.post('/units', async (req, res) => {
+//   try {
+//     const newUnit = await db('units').insert(req.body).returning('*');
+//     res.status(201).json(newUnit);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // Update a unit
 /* how to create request: http://localhost:8080/units/48  <---change id to what you want changed
@@ -556,4 +545,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-

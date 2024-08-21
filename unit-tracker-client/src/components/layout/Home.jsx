@@ -53,7 +53,7 @@ export const Home = () => {
     const fetchStaticEntries = async () => {
       try {
         const fetchedStaticEntries = await getFetch(`static_entries/owner/${Userid}`);
-// so this should work assuming that the user is import works and you are logged in to a user with statics
+        // so this should work assuming that the user is import works and you are logged in to a user with statics
         setStaticEntries(fetchedStaticEntries);
       } catch (err) {}
     };
@@ -199,9 +199,10 @@ export const Home = () => {
                 <button className="categoryTabs">{cat.category_name}</button>
               ))} */}
               {categories.map((cat) => (
-  <button key={cat.id} className="categoryTabs">{cat.category_name}</button>
-))}
-
+                <button key={cat.id} className="categoryTabs">
+                  {cat.category_name}
+                </button>
+              ))}
             </div>
 
             <div className="bodyGrid">
@@ -211,7 +212,8 @@ export const Home = () => {
                   <h1 key={entry.id} className="staticEntry">
                     {entry.title} BERG MADE CHANGE
                   </h1>
-                ))} */}
+                ))}{' '}
+                */}
                 {dates.map((dateElement, index) => (
                   <h1 key={index} className="staticEntry">
                     {dateElement.toDateString()}
