@@ -63,6 +63,7 @@ async function getAllPersonnelEntries(req, res) {
   const user_id = req.params.user_id;
 
   try {
+    // Fetch relevant personnel data from the personnelContext
     const personnelEntries = await Join_audience.getAllByUserID(user_id);
 
     if (!personnelEntries || personnelEntries.length === 0) {
@@ -75,14 +76,16 @@ async function getAllPersonnelEntries(req, res) {
     // Retrieve dynamic entries for each personnel entry using async/await
     const dynamicEntriesAssociated = await Promise.all(
       personnelEntries.map(async (data) => {
-        return await Dynamic_entry.getByInputId(data.id);
+        return await Dynamic_entry.getByInputId(data.static_id);
       }),
     );
 
-    // console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
+    console.log(`Dynamic Entries: ${JSON.stringify(dynamicEntriesAssociated)}`);
 
-    // Flatten the result in case it is nested arrays
-    const flattenedDynamicEntries = dynamicEntriesAssociated.flat();
+    // Flatten the result and filter out any null entries
+    const flattenedDynamicEntries = dynamicEntriesAssociated
+      .flat()
+      .filter((entry) => entry !== null);
 
     return res.json(flattenedDynamicEntries);
   } catch (error) {

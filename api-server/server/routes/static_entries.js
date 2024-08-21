@@ -79,19 +79,16 @@ async function getAllPersonnelEntries(req, res) {
       `Received ${JSON.stringify(personnelEntries)} for join IDs on Line 65 routes/static`,
     );
 
-    // Retrieve static entries for each personnel entry using async/await
-    const staticEntriesAssociated = await Promise.all(
-      personnelEntries.map(async (data) => {
-        return await Static_entry.getByInputId(data.static_id);
-      }),
-    );
+    // Extract all static IDs
+    const statIDs = personnelEntries.map((entry) => entry.static_id);
+    console.log(`Static IDs: ${statIDs}`);
+
+    // Fetch all associated static entries using your existing getByInputId function
+    const staticEntriesAssociated = await Static_entry.getByInputId(statIDs);
 
     console.log(`Static Entries: ${JSON.stringify(staticEntriesAssociated)}`);
 
-    // Flatten the result in case it is nested arrays
-    const flattenedStaticEntries = staticEntriesAssociated.flat();
-
-    return res.json(flattenedStaticEntries);
+    return res.json(staticEntriesAssociated);
   } catch (error) {
     console.error('Error fetching static entries:', error);
     return res.status(500).json({ error: 'Internal server error' });
