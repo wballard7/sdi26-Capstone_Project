@@ -20,7 +20,7 @@ const dynamicRoutes = require('./routes/dynamic_entries');
 // const tagRoutes = require('./routes/tags');
 // const audienceRoutes = require('./routes/join_audience');
 
-app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
+// app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
 app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
 app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
 app.get('/users/unit_supervisors/:my_unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
@@ -98,6 +98,7 @@ app.use((req, res, next) => {
 
 // Get all users
 // how to search: http://localhost:8080/users/
+
 app.get('/users', async (req, res) => {
   try {
     const users = await db('users').select('*'); // Using the imported db instance
