@@ -1,4 +1,7 @@
-/* In a global CSS file or CSS module */
+/* EditAddStaticEntries.css */
 .dropdown-option {
-  color: black !important; /* Force black text color */
+  color: #ffffff !important;
+  background-color: #3282b8 !important;
 }
+
+/* Any other elements can follow the same colors */

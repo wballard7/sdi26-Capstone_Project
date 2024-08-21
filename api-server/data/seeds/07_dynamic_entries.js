@@ -2,6 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('dynamic_entries').del();
@@ -40,6 +41,7 @@ exports.seed = async function (knex) {
     },
     {
       name: 'JQS',
+
       input_id: input_id[3].id,
       audience_id: audience_id[3].id,
       start_date: 20241001,
