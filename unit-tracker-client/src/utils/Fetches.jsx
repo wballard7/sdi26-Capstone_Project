@@ -43,7 +43,6 @@ const postFetch = async (arg1, arg2) => {
   }
 };
 
-
 const deleteFetch = async (arg1) => {
   try {
     const res = await fetch(`http://localhost:8080/${arg1}`, {
