@@ -322,8 +322,8 @@ import '../../styles/Home.css';
 import MyCalendar from '../../utils/Calendar';
 import { CalendarContext } from '../../context/CalendarContext';
 import { UserContext } from '../../context/UserContext';
-//map is breaking-maybe fixed
-
+//fixing the calendar
+// copy
 export const Home = () => {
   const [staticEntries, setStaticEntries] = useState([]);
   const [dynamicEntries, setDynamicEntries] = useState([]);
