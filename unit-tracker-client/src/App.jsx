@@ -12,7 +12,7 @@ import { ReportGeneration } from './components/ReportGeneration';
 import './styles/App.css';
 import { Layout } from './components/layout/Layout';
 import { Box, Button, Link, Heading } from '@chakra-ui/react';
-import MyCalendar from './utils/Calendar';
+import { MyCalendar } from './utils/Calendar';
 import React, { useContext } from 'react';
 import { UserContext } from './context/UserContext';
 import { CalendarProvider } from './context/CalendarContext';
