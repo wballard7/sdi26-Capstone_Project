@@ -118,7 +118,7 @@ export const Login = () => {
       position="relative"
     >
       <Image
-        src="/assets/DRAFT6BLACK.png"
+        src="/assets/LogoFORBLACK.png"
         alt="Background"
         // position="absolute"
         mt={'50%'}
