@@ -20,11 +20,11 @@ const dynamicRoutes = require('./routes/dynamic_entries');
 // const tagRoutes = require('./routes/tags');
 // const audienceRoutes = require('./routes/join_audience');
 
-app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
+// app.get('/users', userRoutes.getAllUsers); //TESTED GOOD
 app.get('/users/id/:id', userRoutes.getUserById); //TESTED GOOD
 app.get('/users/username/:username', userRoutes.getUserByUsername); //TESTED GOOD
-app.get('/users/unit_supervisors/:unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
-app.get('/users/unit_nonsupervisors/:unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
+app.get('/users/unit_supervisors/:my_unit_id', userRoutes.getAllUnitSupervisors); //:id = my_unit_id/ unit.id
+app.get('/users/unit_nonsupervisors/:my_unit_id', userRoutes.getAllUnitNonSupervisors); //what the actual fu
 app.get('/users/personnel/:id', userRoutes.getMyPersonnel);
 app.post('/users', userRoutes.createUser);
 app.post('/users/login', userRoutes.loginUser);
@@ -44,7 +44,7 @@ app.post('/units', unitRoutes.createUnit);
 
 // app.get('/static_entries/', staticRoutes.getAllEntries);
 // app.get('/static_entries/:id', staticRoutes.getEntryById);
-app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
+app.get('/static-entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntries);
 // app.get('/static_entries/title/:title', staticRoutes.getEntryByTitle);
 // app.get('/static_entries/owner/:id', staticRoutes.getEntryByOwner);
 // app.get('/static_entries/category/:category', staticRoutes.getEntryByCategory);
@@ -56,7 +56,7 @@ app.get('/static_entries/supervisor/:user_id', staticRoutes.getAllPersonnelEntri
 
 // app.get('/dynamic_entries/', dynamicRoutes.getAllEntries);
 // app.get('/dynamic_entries/:id', dynamicRoutes.getEntryById);
-app.get('/dynamic_entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
+app.get('/dynamic-entries/supervisor/:user_id', dynamicRoutes.getAllPersonnelEntries);
 // app.get('/dynamic_entries/name/:name', dynamicRoutes.getEntryByName);
 // app.get('/dynamic_entries/owner/:id', dynamicRoutes.getEntryByOwner);
 // app.get('/dynamic_entries/category/:id', dynamicRoutes.getEntryByCategory);
@@ -98,6 +98,7 @@ app.use((req, res, next) => {
 
 // Get all users
 // how to search: http://localhost:8080/users/
+
 app.get('/users', async (req, res) => {
   try {
     const users = await db('users').select('*'); // Using the imported db instance
@@ -284,7 +285,7 @@ app.patch('/units/:id', async (req, res) => {
 
 // Get all static entries
 // how to search: http://localhost:8080/static_entries
-app.get('/static_entries', async (req, res) => {
+app.get('/static-entries', async (req, res) => {
   try {
     const entries = await db('static_entries').select('*');
     res.json(entries);
@@ -295,7 +296,7 @@ app.get('/static_entries', async (req, res) => {
 
 // Get static entry by ID
 // http://localhost:8080/static_entries/5
-app.get('/static_entries/:id', async (req, res) => {
+app.get('/static-entries/:id', async (req, res) => {
   try {
     const entry = await db('static_entries').where('id', req.params.id).first();
     res.json(entry);
@@ -306,7 +307,7 @@ app.get('/static_entries/:id', async (req, res) => {
 
 // Get static entry by title
 // how to search: http://localhost:8080/static_entries/title/PFC%20Snuffy
-app.get('/static_entries/title/:title', async (req, res) => {
+app.get('/static-entries/title/:title', async (req, res) => {
   try {
     const entry = await db('static_entries').where('title', req.params.title).first();
     res.json(entry);
@@ -317,7 +318,7 @@ app.get('/static_entries/title/:title', async (req, res) => {
 
 // Get static entries by owner ID
 // how to search: http://localhost:8080/static_entries/owner/a46d1c98-9107-4664-bffc-a6a481efa2a6
-app.get('/static_entries/owner/:id', async (req, res) => {
+app.get('/static-entries/owner/:id', async (req, res) => {
   try {
     const entries = await db('static_entries').where('input_owner_id', req.params.id);
     res.json(entries);
@@ -339,7 +340,7 @@ app.get('/static_entries/owner/:id', async (req, res) => {
   "misc_notes": "Needs to see the First Shirt for being a bad boii"
 }
 */
-app.post('/static_entries', async (req, res) => {
+app.post('/static-entries', async (req, res) => {
   try {
     const newEntry = await db('static_entries').insert(req.body).returning('*');
     res.status(201).json(newEntry);
@@ -361,7 +362,7 @@ app.post('/static_entries', async (req, res) => {
   "misc_notes": "Bergy Boii is in jail, GREAT TROOP!"
 }
 */
-app.patch('/static_entries/:id', async (req, res) => {
+app.patch('/static-entries/:id', async (req, res) => {
   try {
     const updatedEntry = await db('static_entries')
       .where('id', req.params.id)
@@ -375,7 +376,7 @@ app.patch('/static_entries/:id', async (req, res) => {
 
 // Delete a static entry
 // how to delete: http://localhost:8080/static_entries/48 <--- Change to ID wanting to delete
-app.delete('/static_entries/:id', async (req, res) => {
+app.delete('/static-entries/:id', async (req, res) => {
   try {
     await db('static_entries').where('id', req.params.id).del();
     res.status(204).json({ message: 'Entry deleted' });
@@ -388,7 +389,7 @@ app.delete('/static_entries/:id', async (req, res) => {
 
 // Get all dynamic entries
 // how to search: http://localhost:8080/dynamic_entries
-app.get('/dynamic_entries', async (req, res) => {
+app.get('/dynamic-entries', async (req, res) => {
   try {
     const entries = await db('dynamic_entries').select('*');
     res.json(entries);
@@ -399,7 +400,7 @@ app.get('/dynamic_entries', async (req, res) => {
 
 // Get dynamic entry by ID
 // how to search: http://localhost:8080/dynamic_entries/9
-app.get('/dynamic_entries/:id', async (req, res) => {
+app.get('/dynamic-entries/:id', async (req, res) => {
   try {
     const entry = await db('dynamic_entries').where('id', req.params.id).first();
     res.json(entry);
@@ -426,7 +427,7 @@ app.get('/dynamic_entries/:id', async (req, res) => {
   "notes": "test dynamic entry"
 }
 */
-app.post('/dynamic_entries', async (req, res) => {
+app.post('/dynamic-entries', async (req, res) => {
   try {
     const newEntry = await db('dynamic_entries').insert(req.body).returning('*');
     res.status(201).json(newEntry);
@@ -443,7 +444,7 @@ app.post('/dynamic_entries', async (req, res) => {
   "notes": "Updated notes for the dynamic entry"
 }
 */
-app.patch('/dynamic_entries/:id', async (req, res) => {
+app.patch('/dynamic-entries/:id', async (req, res) => {
   try {
     const updatedEntry = await db('dynamic_entries')
       .where('id', req.params.id)
@@ -457,7 +458,7 @@ app.patch('/dynamic_entries/:id', async (req, res) => {
 
 // Delete a dynamic entry
 // how to delete: http://localhost:8080/dynamic_entries/27 <--- replace with ID to delete
-app.delete('/dynamic_entries/:id', async (req, res) => {
+app.delete('/dynamic-entries/:id', async (req, res) => {
   try {
     await db('dynamic_entries').where('id', req.params.id).del();
     res.status(204).json({ message: 'Entry deleted' });
@@ -518,7 +519,7 @@ app.get('/categories/:id', async (req, res) => {
 
 // Get all audiences
 // how to search: http://localhost:8080/join_audience
-app.get('/join_audience', async (req, res) => {
+app.get('/join-audience', async (req, res) => {
   try {
     const audiences = await db('join_audience').select('*');
     res.json(audiences);
@@ -529,7 +530,7 @@ app.get('/join_audience', async (req, res) => {
 
 // Get audience by ID
 // how to search: http://localhost:8080/join_audience/1
-app.get('/join_audience/:id', async (req, res) => {
+app.get('/join-audience/:id', async (req, res) => {
   try {
     const audience = await db('join_audience').where('id', req.params.id).first();
     res.json(audience);

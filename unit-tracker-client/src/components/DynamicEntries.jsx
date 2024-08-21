@@ -20,7 +20,7 @@ export const DynamicEntries = () => {
   useEffect(() => {
     const fetchDynamicEntries = async () => {
       try {
-        const fetchedDynamicEntries = await getFetch('dynamic_entries');
+        const fetchedDynamicEntries = await getFetch('/dynamic-entries');
         const fetchedOwners = await getFetch('users');
         const fetchedTags = await getFetch('tags');
         const fetchedAudience = await getFetch('join_audience');

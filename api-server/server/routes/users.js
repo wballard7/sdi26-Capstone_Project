@@ -66,7 +66,7 @@ async function loginUser(req, res) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       console.log('Passwords do not match! Authentication failed.');
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ error: 'Invalid username or password' });
     }
     console.log('Passwords match! User logged in.');
     // Return the user data
@@ -78,9 +78,10 @@ async function loginUser(req, res) {
 }
 
 async function getAllUnitSupervisors(req, res) {
-  const { id } = req.params;
-  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${req.params.id} was passed in`);
-  const allSupervisors = await User.getByUnit(id);
+  const { my_unit_id } = req.params;
+  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${my_unit_id} was passed in`);
+  const allSupervisors = await User.getByUnit(my_unit_id);
+  console.log(allSupervisors);
   const unitSupervisors = allSupervisors.filter((user) => user.supervisor);
 
   return res.send(unitSupervisors);
@@ -89,7 +90,7 @@ async function getAllUnitSupervisors(req, res) {
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
   console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
-  const allSupervisors = await User.getByUnit(id);
+  // const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
   return res.send(unitSupervisors);
 }

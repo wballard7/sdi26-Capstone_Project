@@ -29,9 +29,9 @@ const ReportGeneration = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const staticData = await getFetch(`static_entries/supervisor/${id}`);
+        const staticData = await getFetch(`static-entries/supervisor/${id}`);
         setStaticEntries(staticData);
-        const dynamicData = await getFetch(`dynamic_entries/supervisor/${id}`);
+        const dynamicData = await getFetch(`dynamic-entries/supervisor/${id}`);
         setReports(dynamicData);
         setFilteredReports(dynamicData);
         setDynamicList(dynamicData);
