@@ -77,6 +77,7 @@ const putFetch = async (arg1, arg2) => {
   }
 };
 
+<<<<<<< HEAD
 const patchFetch = async (arg1, arg2) => {
   try {
     const res = await fetch(`http://localhost:8080/${arg1}`, {
@@ -91,6 +92,28 @@ const patchFetch = async (arg1, arg2) => {
     return data;
   } catch (err) {
     console.log(`Error with your PATCH fetch to ${arg1}`, err);
+=======
+const patchFetch = async (endpoint, payload) => {
+  try {
+    const res = await fetch(`http://localhost:8080/${endpoint}`, {
+      method: 'PATCH', // Using PATCH, which is correct for partial updates
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload), // Passing the payload directly
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to PATCH data. Status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    console.log(`Your PATCH request to ${endpoint} returned`, data);
+    return data;
+  } catch (err) {
+    console.error(`Error with your PATCH fetch to ${endpoint}:`, err);
+    throw err; // Optionally rethrow the error if you want the calling code to handle it
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
   }
 };
 

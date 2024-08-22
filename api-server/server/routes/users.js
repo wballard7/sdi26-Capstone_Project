@@ -77,11 +77,19 @@ async function loginUser(req, res) {
   }
 }
 
+async function getAllUsersByUnit(req, res) {
+  const { my_unit_id } = req.params;
+  // console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${my_unit_id} was passed in`);
+  const allUsersByUnit = await User.getByUnit(my_unit_id);
+
+  return res.send(allUsersByUnit);
+}
+
 async function getAllUnitSupervisors(req, res) {
   const { my_unit_id } = req.params;
-  console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${my_unit_id} was passed in`);
+  // console.log(`Line 70, getAllUnitSupervisors, routes/users id: ${my_unit_id} was passed in`);
   const allSupervisors = await User.getByUnit(my_unit_id);
-  console.log(allSupervisors);
+  // console.log(allSupervisors);
   const unitSupervisors = allSupervisors.filter((user) => user.supervisor);
 
   return res.send(unitSupervisors);
@@ -89,8 +97,8 @@ async function getAllUnitSupervisors(req, res) {
 
 async function getAllUnitNonSupervisors(req, res) {
   const { id } = req.params;
-  console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
-  // const allSupervisors = await User.getByUnit(id);
+  // console.log(`Line 91, getAllUnitNonSupervisors, routes/users id: ${req.params.id} was passed in`);
+  const allSupervisors = await User.getByUnit(id);
   const unitSupervisors = allSupervisors.filter((user) => !user.supervisor);
   return res.send(unitSupervisors);
 }
@@ -102,7 +110,7 @@ async function getMyPersonnel(req, res) {
 
     // Fetch all users
     const allUsers = await User.all();
-    console.log(`Fetched ${allUsers.length} users`);
+    // console.log(`Fetched ${allUsers.length} users`);
 
     // Filter personnel based on supervisor_id
     const myPersonnel = allUsers.filter((user) => user.supervisor_id === id);
@@ -112,15 +120,40 @@ async function getMyPersonnel(req, res) {
       return res.status(404).json({ message: 'No personnel found for this supervisor.' });
     }
 
-    console.log(`Found ${myPersonnel.length} personnel for supervisor with id: ${id}`);
+    // console.log(`Found ${myPersonnel.length} personnel for supervisor with id: ${id}`);
     return res.json(myPersonnel);
   } catch (error) {
     console.error('Error in getMyPersonnel:', error);
     return res.status(500).json({ error: 'An error occurred while fetching personnel.' });
   }
 }
+async function putUser(req, res) {
+  try {
+    const { id } = req.params; // Extract the ID from the URL
+    const updatedData = req.body; // Get the updated user data from the request body
+
+    console.log(`recieved id ${req.params.id} and req.body ${updatedData}`);
+    // Validate that all required fields are present in the PUT request
+    if (!updatedData.first_name || !updatedData.last_name || !updatedData.username) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    // Pass the extracted ID and updated data to the update function
+    const updatedUser = await User.update({ id, ...updatedData });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error); // Log any errors
+    return res.status(500).json({ message: 'Failed to update user' }); // Respond with an error message if something goes wrong
+  }
+}
 
 module.exports = {
+  putUser,
   getAllUsers,
   getUserById,
   getUserByUsername,
@@ -129,4 +162,5 @@ module.exports = {
   loginUser,
   getAllUnitSupervisors,
   getAllUnitNonSupervisors,
+  getAllUsersByUnit,
 };

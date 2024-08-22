@@ -42,37 +42,85 @@ exports.seed = async function (knex) {
     {
       title: 'PFC Snuffy',
       my_unit_id: 12,
+<<<<<<< HEAD
       category_id: 7,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      category_id: 5,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 1,
       misc_notes: 'Needs to train on radios',
     },
     {
       title: 'SGT Slaughter',
       my_unit_id: 12,
+<<<<<<< HEAD
       category_id: 7,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      category_id: 1,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 2,
       misc_notes: 'Static line airborne jump deadline approaching',
     },
     {
       title: 'A1C Damp',
       my_unit_id: 12,
+<<<<<<< HEAD
       category_id: 7,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      category_id: 5,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 3,
       misc_notes: 'FP Exercise Selectee',
     },
     {
       title: 'SSG Rambo',
       my_unit_id: 12,
+<<<<<<< HEAD
       category_id: 7,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      category_id: 6,
+      input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 4,
       misc_notes: 'Needs to do his post-deployment assessment',
     },
     {
+<<<<<<< HEAD
       title: 'SPC Hawk',
+=======
+      title: 'IT Support Overview',
+      my_unit_id: 11,
+      category_id: 1,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      tag_id: 12,
+      misc_notes: 'Setup secure network communications',
+    },
+    {
+      title: 'Reconnaissance Patrol',
+      my_unit_id: 13,
+      category_id: 4,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      tag_id: 10,
+      misc_notes: 'Conduct patrols at night',
+    },
+    {
+      title: 'Aircraft Maintenance',
+      my_unit_id: 14,
+      category_id: 3,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      tag_id: 4,
+      misc_notes: 'Ensure all helicopters are mission-ready',
+    },
+    {
+      title: 'Transport Convoy Planning',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       my_unit_id: 12,
       category_id: 7,
       input_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
@@ -226,8 +274,13 @@ exports.seed = async function (knex) {
     {
       title: 'Field Operations Drill',
       my_unit_id: 11,
+<<<<<<< HEAD
       category_id: 7,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+=======
+      category_id: 4,
+      input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 28,
       misc_notes: 'Simulated field mission focusing on real-time communication and logistics',
     },
