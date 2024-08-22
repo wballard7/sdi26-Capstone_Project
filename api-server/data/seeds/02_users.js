@@ -31,7 +31,7 @@ exports.seed = async function (knex) {
       my_unit_id: 11,
       supervisor_id: '0c49ad8f-a23e-4379-a920-96af872449b8',
       availability: true,
-      admin: false,
+      admin: true,
       supervisor: true,
     },
     {
@@ -43,7 +43,7 @@ exports.seed = async function (knex) {
       my_unit_id: 11,
       supervisor_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       availability: true,
-      admin: true,
+      admin: false,
       supervisor: true,
     },
     {

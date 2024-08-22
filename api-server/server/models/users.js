@@ -39,13 +39,26 @@ async function create(data) {
   return results[0];
 }
 
-async function update(data) {
-  const results = await knex('users').insert(data).returning('*');
-  return results[0];
-}
+const update = async (data) => {
+  const { id, ...fieldsToUpdate } = data; // Extract the ID and separate fields to update
+
+  // Check if ID is provided
+  if (!id) {
+    throw new Error('User ID is required for updating');
+  }
+
+  // Perform the update operation
+  const results = await knex('users')
+    .where({ id }) // Use the ID to target the correct record
+    .update(fieldsToUpdate) // Update all the fields provided in the request body
+    .returning('*'); // Return the updated record
+
+  return results[0]; // Return the updated user
+};
 
 module.exports = {
   all,
+
   update,
   create,
   remove,
