@@ -42,7 +42,7 @@ exports.seed = async function (knex) {
     {
       title: 'PFC Snuffy',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 5,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 1,
       misc_notes: 'Needs to road test the LMTV',
@@ -50,7 +50,7 @@ exports.seed = async function (knex) {
     {
       title: 'SGT Slaughter',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 1,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 2,
       misc_notes: 'Static line airborne jump on 24 SEP 24',
@@ -58,7 +58,7 @@ exports.seed = async function (knex) {
     {
       title: 'A1C Damp',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 5,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 3,
       misc_notes: 'needs to work on sec+ approved networks',
@@ -66,7 +66,7 @@ exports.seed = async function (knex) {
     {
       title: 'SSG Rambo',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 6,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 4,
       misc_notes: 'needs to do his post-deployment assessment',
@@ -74,7 +74,7 @@ exports.seed = async function (knex) {
     {
       title: 'IT Support Overview',
       my_unit_id: 11,
-      category_id: 7,
+      category_id: 1,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 12,
       misc_notes: 'Setup secure network communications',
@@ -226,7 +226,7 @@ exports.seed = async function (knex) {
     {
       title: 'Field Operations Drill',
       my_unit_id: 11,
-      category_id: 7,
+      category_id: 4,
       input_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
       tag_id: 28,
       misc_notes: 'Simulated field mission focusing on real-time communication and logistics',
@@ -266,7 +266,7 @@ exports.seed = async function (knex) {
     {
       title: 'Emergency Evacuation Procedures',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 3,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 41,
       misc_notes: 'Plan and execute evacuation drills for various emergency scenarios',
@@ -370,7 +370,7 @@ exports.seed = async function (knex) {
     {
       title: 'Emergency Response Drill',
       my_unit_id: 12,
-      category_id: 7,
+      category_id: 1,
       input_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 19,
       misc_notes: 'Simulated drills for responding to emergencies in the field',

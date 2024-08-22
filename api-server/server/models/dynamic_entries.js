@@ -15,7 +15,7 @@ async function getByName(name) {
 
 async function getByInputId(static_id) {
   return knex('dynamic_entries')
-    .where({ input_id: static_id }) // Ensure you filter by `input_id` instead of `static_id`
+    .where({ static_id }) // Ensure you filter by `input_id` instead of `static_id`
     .select('*'); // Select all columns; this returns an array of dynamic entries
 }
 

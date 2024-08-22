@@ -6,6 +6,29 @@ import { PersonnelContext } from '../context/PersonnelContext';
 import { Pie, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
+// exports.up = function (knex) {
+//   return knex.schema.createTable('dynamic_entries', (table) => {
+//     table.increments().primary();
+//     table.string('title').notNullable();
+//     table.integer('static_id');
+//     table.integer('audience_id');
+//     table.date('start_date').notNullable();
+//     table.date('end_date').notNullable();
+//     table.date('complete_date');
+//     table.string('recurrence').notNullable();
+//     table.uuid('completed_by_id');
+//     table.uuid('event_owner_id');
+//     table.integer('tag_id');
+//     table.string('notes');
+
+//     table.foreign('static_id').references('id').inTable('static_entries').onDelete('SET NULL');
+//     table.foreign('audience_id').references('id').inTable('join_audience').onDelete('SET NULL');
+//     table.foreign('event_owner_id').references('id').inTable('users').onDelete('SET NULL');
+//     table.foreign('completed_by_id').references('id').inTable('users').onDelete('SET NULL');
+//     table.foreign('tag_id').references('id').inTable('tags').onDelete('SET NULL');
+//   });
+// };
+
 const ReportGeneration = () => {
   const [reports, setReports] = useState([]);
   const [filteredReports, setFilteredReports] = useState([]);
@@ -14,7 +37,7 @@ const ReportGeneration = () => {
   const [tags, setTags] = useState([]);
   const [filter, setFilter] = useState({
     completed: '',
-    name: '',
+    title: '',
     personnel: '',
   });
   const [loading, setLoading] = useState(true);
@@ -69,9 +92,9 @@ const ReportGeneration = () => {
         filtered = filtered.filter((report) => report.completed === (filter.completed === 'true'));
       }
 
-      if (filter.name !== '') {
+      if (filter.title !== '') {
         filtered = filtered.filter((report) =>
-          report.name.toLowerCase().includes(filter.name.toLowerCase()),
+          report.title.toLowerCase().includes(filter.title.toLowerCase()),
         );
       }
 
@@ -124,7 +147,7 @@ const ReportGeneration = () => {
     });
 
     filteredReports.forEach((report) => {
-      const staticEntry = staticEntries.find((entry) => entry.id === report.input_id);
+      const staticEntry = staticEntries.find((entry) => entry.id === report.static_id);
       if (staticEntry) {
         const categoryName = getCategoryName(staticEntry.category_id);
         categoryCounts[categoryName].total += 1;
@@ -197,7 +220,7 @@ const ReportGeneration = () => {
       <Input
         placeholder="Filter by Report Name"
         name="name"
-        value={filter.name}
+        value={filter.title}
         onChange={handleFilterChange}
         mb="4"
       />
@@ -226,11 +249,11 @@ const ReportGeneration = () => {
         </Heading>
         {filteredReports.length > 0 ? (
           filteredReports.map((report) => {
-            const staticEntry = staticEntries.find((entry) => entry.id === report.input_id);
+            const staticEntry = staticEntries.find((entry) => entry.id === report.static_id);
             return (
               <Box key={report.id} borderWidth="1px" borderRadius="lg" padding="4" mb="4">
                 <p>
-                  <strong>{report.name}</strong>
+                  <strong>{report.title}</strong>
                 </p>
                 <p>Start Date: {report.start_date}</p>
                 <p>End Date: {report.end_date}</p>

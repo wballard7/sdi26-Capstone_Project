@@ -18,7 +18,7 @@ export const CreateAccount = () => {
     first_name: '',
     last_name: '',
     my_unit_id: '',
-    supervisor_id: '',
+    supervisor_id: null,
     availability: true,
     admin: false,
     supervisor: false,
