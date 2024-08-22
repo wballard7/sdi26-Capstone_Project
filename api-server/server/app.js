@@ -538,6 +538,19 @@ app.get('/tags/:id', async (req, res) => {
   }
 });
 
+app.post('/tags', async (req, res) => {
+  try {
+    const { tag_name } = req.body;
+    if (!tag_name || typeof tag_name !== 'string') {
+      return res.status(400).json({ error: 'Invalid tag_name' });
+    }
+    const newEntry = await db('tags').insert({ tag_name }).returning('*');
+    res.status(201).json(newEntry);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while creating the tag.' });
+  }
+});
+
 // Categories Routes
 
 // Get all categories

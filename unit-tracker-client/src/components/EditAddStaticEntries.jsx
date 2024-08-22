@@ -13,9 +13,17 @@ import {
   TabPanels,
   Textarea,
   Box,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useToast,
 } from '@chakra-ui/react';
 import '../styles/EditAddStaticEntries.css';
-var reported = [];
 
 // Chakra does not have ====> import { MultiSelect } from 'primereact/multiselect';
 
@@ -30,17 +38,15 @@ export const EditAddStaticEntries = () => {
     misc_notes: '',
     tag_id: 0,
   });
-  const [newTag, setNewTag] = useState({
-    tag_name: '',
-  });
-
+  const [newTag, setNewTag] = useState('');
   const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
-  // const { supervisor_id: me } = useContext(SupervisorContext);
   const [staticEntries, setStaticEntries] = useState([]);
   const [owners, setOwners] = useState([]);
   const [units, setUnits] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchOwners = async () => {
@@ -102,8 +108,22 @@ export const EditAddStaticEntries = () => {
         input_owner_id: userId,
       });
       console.log('Entry submitted successfully:', response);
+      toast({
+        title: 'Entry Added',
+        description: 'The entry has been successfully added.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error('Error adding entry:', error);
+      toast({
+        title: 'Error',
+        description: 'There was an error adding the entry.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -114,8 +134,22 @@ export const EditAddStaticEntries = () => {
         input_owner_id: userId,
       });
       console.log('Entry submitted successfully:', response);
+      toast({
+        title: 'Entry Updated',
+        description: 'The entry has been successfully updated.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error('Error editing entry:', error);
+      toast({
+        title: 'Error',
+        description: 'There was an error updating the entry.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -127,20 +161,49 @@ export const EditAddStaticEntries = () => {
       try {
         const response = await deleteFetch(`static-entries/${deleteId}`, {});
         console.log('Entry deleted successfully:', response);
+        toast({
+          title: 'Entry Deleted',
+          description: 'The entry has been successfully deleted.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
       } catch (error) {
         console.error('Error deleting entry:', error);
+        toast({
+          title: 'Error',
+          description: 'There was an error deleting the entry.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
       }
     }
   };
 
-  const handlecreateTag = async () => {
+  const handleCreateTag = async () => {
     try {
-      const response = await postFetch('tags', {
-        ...newTag,
-      });
+      const response = await postFetch('tags', { tag_name: newTag });
       console.log('Entry submitted successfully:', response);
+      toast({
+        title: 'Tag Created',
+        description: 'The tag has been successfully created.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setNewTag('');
+      onClose();
     } catch (error) {
-      console.error('Error adding entry:', error);
+      console.error('Error adding tag:', error);
+
+      toast({
+        title: 'Error',
+        description: 'There was an error creating the tag.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -172,6 +235,9 @@ export const EditAddStaticEntries = () => {
         <TabList>
           <Tab>Edit Entries</Tab>
           <Tab>Add New Entry</Tab>
+          <Button onClick={onOpen} colorScheme="teal" ml={4}>
+            Add Tag
+          </Button>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -401,6 +467,28 @@ export const EditAddStaticEntries = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent bg="gray.800" color="white">
+          <ModalHeader>Create New Tag</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              placeholder="Enter new tag name"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={handleCreateTag}>
+              Create Tag
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

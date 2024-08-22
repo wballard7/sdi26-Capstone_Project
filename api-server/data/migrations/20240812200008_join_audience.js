@@ -6,10 +6,10 @@ exports.up = function (knex) {
   return knex.schema.createTable('join_audience', (table) => {
     table.increments('id').primary();
     table.uuid('user_id');
-    table.integer('static_id').notNullable();
+    table.integer('static_id');
 
-    table.foreign('user_id').references('id').inTable('users');
-    table.foreign('static_id').references('id').inTable('static_entries');
+    table.foreign('user_id').references('id').inTable('users').onDelete('SET NULL');
+    table.foreign('static_id').references('id').inTable('static_entries').onDelete('SET NULL');
   });
 };
 

@@ -11,18 +11,19 @@ exports.up = async function (knex) {
     table.string('last_name').notNullable();
     table.string('username').notNullable().unique();
     table.string('password').notNullable();
-    table.uuid('supervisor_id').nullable();
-    table.integer('my_unit_id').notNullable();
+    table.uuid('supervisor_id');
+    table.integer('my_unit_id');
     table.boolean('availability').notNullable();
     table.boolean('admin').notNullable();
     table.boolean('supervisor').notNullable();
 
-    table.foreign('my_unit_id').references('id').inTable('units');
-    table.foreign('supervisor_id').references('id').inTable('users');
+    table.foreign('my_unit_id').references('id').inTable('units').onDelete('SET NULL');
+    table.foreign('supervisor_id').references('id').inTable('users').onDelete('SET NULL');
   });
 };
 
 /**
+ *
  *
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
