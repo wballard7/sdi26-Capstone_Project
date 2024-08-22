@@ -20,10 +20,10 @@ export const DynamicEntries = () => {
   useEffect(() => {
     const fetchDynamicEntries = async () => {
       try {
-        const fetchedDynamicEntries = await getFetch('/dynamic-entries');
+        const fetchedDynamicEntries = await getFetch('dynamic-entries');
         const fetchedOwners = await getFetch('users');
         const fetchedTags = await getFetch('tags');
-        const fetchedAudience = await getFetch('join_audience');
+        const fetchedAudience = await getFetch('join-audience');
 
         const enrichedEntries = fetchedDynamicEntries.map((entry) => ({
           ...entry,
@@ -34,6 +34,7 @@ export const DynamicEntries = () => {
             fetchedAudience.find((aud) => aud.id === entry.audience_id)?.audience_name ||
             'Not inputed',
         }));
+
         setDynamicEntries(enrichedEntries);
       } catch (err) {
         console.log(err);

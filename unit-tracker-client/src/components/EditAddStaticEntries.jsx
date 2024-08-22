@@ -25,8 +25,6 @@ import {
 } from '@chakra-ui/react';
 import '../styles/EditAddStaticEntries.css';
 
-// Chakra does not have ====> import { MultiSelect } from 'primereact/multiselect';
-
 export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newStaticEntry, setNewStaticEntry] = useState({

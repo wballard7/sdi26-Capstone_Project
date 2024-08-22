@@ -336,7 +336,6 @@ import {
   Link,
   Box,
   Heading,
-  useDisclosure,
   VStack,
   Modal,
   ModalOverlay,
@@ -362,9 +361,6 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filteredStaticEntries, setFilteredStaticEntries] = useState([]);
   const [staticToDynamicArray, setStaticToDynamicArray] = useState([]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedEntry, setSelectedEntry] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
 
   //==============calendar stuff===================
@@ -387,7 +383,7 @@ export const Home = () => {
       setEndDate(end);
     };
     initializeWeekDates();
-  }, [setStartDate, setEndDate]);
+  }, []);
 
   //========fetch = static_entries, dynamic_entries, categories========
   const fetchStaticEntries = async () => {
@@ -453,7 +449,7 @@ export const Home = () => {
 
       setStaticToDynamicArray(newStaticToDynamicArray);
     }
-  }, [filteredStaticEntries, dates, dynamicEntries]);
+  }, [startDate, dynamicEntries]);
 
   useEffect(() => {
     try {
@@ -471,30 +467,47 @@ export const Home = () => {
   }
 
   //==================dragging functionality====================
-  const DraggableButton = ({ id, children, onDragStart }) => (
-    <Button
-      draggable
-      onDragStart={(e) => onDragStart(e, id)}
-      bg="blue.500"
-      color="white"
-      _hover={{ bg: 'blue.400' }}
-      width="100%"
-      onClick={() => {
-        setSelectedEntry(id);
-        onOpen();
-      }}
-    >
-      {children}
-    </Button>
-  );
+  const DraggableButton = ({ id, children, onDragStart, onClick }) => {
+    const handleDragStart = (e) => {
+      // Ensure e.dataTransfer is not undefined and set data correctly
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', id); // Use 'text/plain' as a standard type
+        onDragStart(e, id);
+      } else {
+        console.error("Drag event's dataTransfer is undefined.");
+      }
+    };
+
+    const handleClick = (e) => {
+      e.preventDefault(); // Prevent default behavior
+      onClick(e);
+    };
+
+    return (
+      <Button
+        draggable
+        onDragStart={handleDragStart} // Use handleDragStart for drag event
+        onClick={handleClick} // Use handleClick for click event
+        bg="blue.500"
+        color="white"
+        _hover={{ bg: 'blue.400' }}
+        width="100%"
+      >
+        {children}
+      </Button>
+    );
+  };
+
   const DragDropContainer = ({ entries }) => {
+    const [completedEntryId, setCompletedEntryId] = useState(null);
+
     const onDragStart = (e, id) => {
-      e.dataTransfer.setData('id', id);
+      e.dataTransfer.setData('text/plain', id);
     };
 
     const onDrop = (e, dropIndex) => {
       e.preventDefault();
-      const draggedId = e.dataTransfer.getData('id');
+      const draggedId = e.dataTransfer.getData('text/plain');
       const draggedIndex = entries.findIndex((entry) => entry.id === Number(draggedId));
 
       if (draggedIndex === dropIndex) return;
@@ -511,54 +524,34 @@ export const Home = () => {
       e.preventDefault();
     };
 
+    const handleButtonClick = (id) => {
+      console.log('clicked'); // Log click event
+      setCompletedEntryId(id); // Set the completed entry ID to the clicked button's ID
+    };
+
     return (
       <VStack spacing={1} align="stretch">
         {entries.map((entry, index) => (
           <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
-            <DraggableButton id={entry.id} onDragStart={onDragStart}>
+            <DraggableButton
+              id={entry.id}
+              onDragStart={onDragStart}
+              onClick={() => handleButtonClick(entry.id)}
+            >
               {entry.name}
             </DraggableButton>
+            {completedEntryId === entry.id && ( // Show the checkbox if this entry was clicked
+              <Box mt={2}>
+                <Checkbox iconColor="blue.400" iconSize="1rem">
+                  Completed
+                </Checkbox>
+              </Box>
+            )}
           </Box>
         ))}
       </VStack>
     );
   };
-  // const DragDropContainer = ({ entries }) => {
-  //   const onDragStart = (e, id) => {
-  //     e.dataTransfer.setData('id', id);
-  //   };
-  //   const onDrop = (e, dropIndex) => {
-  //     e.preventDefault();
-  //     const draggedId = e.dataTransfer.getData('id');
-  //     const draggedIndex = entries.findIndex((entry) => entry.id === Number(draggedId));
-
-  //     if (draggedIndex === dropIndex) return; // No need to swap if the dragged and dropped position are the same
-
-  //     const newEntries = [...entries];
-
-  //     // Swap logic
-  //     const placeholder = newEntries[dropIndex];
-  //     newEntries[dropIndex] = newEntries[draggedIndex];
-  //     newEntries[draggedIndex] = placeholder;
-
-  //     setDynamicEntries(newEntries);
-  //   };
-
-  //   const onDragOver = (e) => {
-  //     e.preventDefault();
-  //   };
-  //   return (
-  //     <VStack spacing={1} align="stretch">
-  //       {entries.map((entry, index) => (
-  //         <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
-  //           <DraggableButton id={entry.id} onDragStart={onDragStart} width="100%">
-  //             {entry.name}
-  //           </DraggableButton>
-  //         </Box>
-  //       ))}
-  //     </VStack>
-  //   );
-  // };
   // can click on one of the dynamics. then a pop up with a comment and check box "completed"
   // when the check box is clicked it will send it to the api to patch the completed
   // maybe also have a checker to see if a task is already completed for the dynamics
@@ -600,42 +593,54 @@ export const Home = () => {
                 <button className="categoryTabs">{cat.category_name}</button>
               ))}
             </div>
-            <div className="bodyGrid">
+            <div className="mainGridContainer">
               <div className="staticGroup">
-                <h1 className="currentTab">Current Tab</h1>
+                <h5 className="currentTab">Current Tab</h5>
                 {filteredStaticEntries.map((staticEntry) => (
                   <h1 key={staticEntry.id} className="staticEntry">
                     {staticEntry.title}
                   </h1>
                 ))}
               </div>
-
-              <div className="dynamicGroup">
-                {matchedDates.map((item, index) => (
-                  <div key={index}>
-                    <h1 className="dynamicTime">{item.date.toDateString()}</h1>
-                  </div>
-                ))}
-                {dates.map((date, j) => (
-                  <div key={j} className="dateRow">
-                    {filteredStaticEntries.map((staticEntry, i) => {
-                      const dynamicArray =
-                        staticToDynamicArray &&
-                        staticToDynamicArray[i] &&
-                        staticToDynamicArray[i][j]
-                          ? staticToDynamicArray[i][j]
-                          : [];
-                      return (
-                        <div key={staticEntry.id} className="dynamicEntry">
-                          {dynamicArray.map((entry, k) => (
-                            <DragDropContainer key={entry.id} entries={[entry]} />
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
+              <Box sx={{ '& > *': { marginTop: '0 !important' } }}>
+                <div className="dynamicGroup">
+                  {matchedDates.map((item, index) => (
+                    <div key={index}>
+                      <h1 className="dynamicTime">{item.date.toDateString()}</h1>
+                    </div>
+                  ))}
+                  {dates.map((date, j) => (
+                    <div
+                      key={j}
+                      className="dynamicEntry"
+                      sx={{
+                        '& > *': {
+                          paddingtop: '15 !important',
+                          paddingleft: '15 !important',
+                          paddingright: '15 !important',
+                          paddingbottom: '15 !important',
+                        },
+                      }}
+                    >
+                      {filteredStaticEntries.map((staticEntry, i) => {
+                        const dynamicArray =
+                          staticToDynamicArray &&
+                          staticToDynamicArray[i] &&
+                          staticToDynamicArray[i][j]
+                            ? staticToDynamicArray[i][j]
+                            : [];
+                        return (
+                          <div key={staticEntry.id}>
+                            {dynamicArray.map((entry, k) => (
+                              <DragDropContainer key={entry.id} entries={[entry]} />
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </Box>
             </div>
           </>
         ) : (
@@ -653,7 +658,7 @@ export const Home = () => {
           <div className="tasksButton">
             <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
               <Button width="full" colorScheme="teal" size="lg">
-                Task
+                Tasks
               </Button>
             </Link>
           </div>
