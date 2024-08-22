@@ -7,7 +7,7 @@
 
 .categoryTabs {
   padding: 10px;
-  background-color: #1e5f74; /* Teal blue */
+  background-color: #1e5f74;
   color: #ffffff;
   border-radius: 8px;
   text-align: center;
@@ -15,7 +15,7 @@
 }
 
 .categoryTabs:hover {
-  background-color: #46006e; /* Soft orange */
+  background-color: #46006e;
   color: #ffffff;
 }
 
@@ -23,7 +23,7 @@
 .calanderButton {
   width: 305px;
   text-align: center;
-  background-color: #3282b8; /* Light navy */
+  background-color: #3282b8;
   padding: 10px;
   border-radius: 8px;
   color: #ffffff;
@@ -35,87 +35,24 @@
   color: #ffffff;
 }
 
-.bodyGrid {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 1rem;
-  font-weight: bold;
-}
-
-/* Static group (left section) */
-.staticGroup {
-  background-color: rgb(121, 42, 5);
-  padding: 9px;
-  border-radius: 8px;
-  color: #ffffff;
-  width: 300px;
-  box-sizing: border-box;
-}
-
-.currentTab {
-  background-color: #46006e;
-  padding: 10px;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 2px solid #3282b8; /* Light navy */
-}
-
-.staticEntry {
-  background-color: rgba(255, 233, 233, 0.3);
-  padding: 8px;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: bold;
-  border: 2px solid #1e5f74;
-  width: 280px;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  margin-bottom: 2px;
-}
-
-/* Dynamic group (right section) */
-.dynamicGroup {
-  background-color: #02133d; /* Dark navy */
-  padding: 15px;
-  border-radius: 8px;
-  width: 87vw;
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-}
-
-.dynamicEntries {
-  background-color: #032368; /* Muted blue */
-  padding: 10px;
-  border-radius: 5px;
-  color: #ffffff;
-  text-align: center;
-}
-
 .dynamicTime {
   color: #ffffff;
-  text-align: center;
+  text-align: left;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  height: 40px;
 }
-
-.dragDropContainer {
-  grid-column: 1 / -1;
-  background-color: #01101a;
-  border-radius: 10px;
+.currentTab {
+  background-color: #46006e;
   padding: 15px;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
 }
 
 .bottomButtons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 180px;
 }
 
 .entriesButton,
@@ -133,4 +70,97 @@
 .tasksButton:hover {
   background-color: #46006e;
   color: #ffffff;
+}
+.event {
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #333;
+  cursor: move;
+  padding: 5px;
+}
+
+/* .resize-handle {
+  width: 10px;
+  height: 100%;
+  background-color: #333;
+  cursor: ew-resize;
+} */
+
+/* Main container that wraps both static and dynamic groups */
+.mainGridContainer {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Static group on the left, dynamic group on the right */
+  gap: 10px;
+  width: 100%;
+  align-items: start; /* Align items to the start of the grid */
+}
+
+/* Static group (left section) */
+.staticGroup {
+  display: grid;
+  grid-template-rows: repeat(23, 1fr); /* 23 equal rows for static entries */
+  background-color: rgb(121, 42, 5);
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  border-radius: 8px;
+  color: #ffffff;
+
+  height: 500px;
+  gap: 1px;
+}
+
+.dynamicGroup {
+  background-color: #02133d; /* Dark navy */
+  padding-top: 5px; /* Adjust the top padding */
+  padding-right: 15px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  border-radius: 8px;
+  width: 87vw;
+  grid-column: 2;
+  align-items: top;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  height: 100%;
+}
+
+/* Static Entry (Orange Buttons) */
+.staticEntry {
+  background-color: rgba(255, 233, 233, 0.3);
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 6px;
+  padding-left: 15px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+
+  margin: 0;
+}
+
+.dynamicEntries {
+  background-color: #032368;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  text-align: left;
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

@@ -1,13 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { postFetch, getFetch } from '../utils/Fetches';
-import { Select, Input, Button, Box, Heading, Link, Checkbox } from '@chakra-ui/react';
+import {
+  Select,
+  Input,
+  Button,
+  Box,
+  Heading,
+  Link,
+  Checkbox,
+  FormControl,
+  FormErrorMessage,
+} from '@chakra-ui/react';
 import Tree from 'react-d3-tree';
 import { useNavigate } from 'react-router-dom';
-// Import User context
 import { UserContext } from '../context/UserContext';
 
 export const CreateAccount = () => {
-  const { admin, loggedIn } = useContext(UserContext); // Assume loggedIn is available in the context
+  const { admin, loggedIn } = useContext(UserContext);
   const [newOrg, setNewOrg] = useState(false);
   const [listOfSups, setListOfSups] = useState([]);
   const [loadingUnits, setLoadingUnits] = useState(true);
@@ -18,7 +27,7 @@ export const CreateAccount = () => {
     first_name: '',
     last_name: '',
     my_unit_id: '',
-    supervisor_id: '',
+    supervisor_id: null,
     availability: true,
     admin: false,
     supervisor: false,
@@ -27,6 +36,14 @@ export const CreateAccount = () => {
   const [newUnit, setNewUnit] = useState({
     unit_name: '',
     reports_to: '',
+  });
+  const [errors, setErrors] = useState({
+    username: '',
+    password: '',
+    first_name: '',
+    last_name: '',
+    my_unit_id: '',
+    supervisor_id: '',
   });
   const navigate = useNavigate();
 
@@ -62,6 +79,11 @@ export const CreateAccount = () => {
       ...prev,
       [name]: value,
     }));
+    // Clear the error when the user starts typing
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
+    }));
   };
 
   const handleUnitChange = async (e) => {
@@ -75,12 +97,54 @@ export const CreateAccount = () => {
     }
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      username: '',
+      password: '',
+      first_name: '',
+      last_name: '',
+      my_unit_id: '',
+      supervisor_id: '',
+    };
+
+    if (!userDetails.username.trim()) {
+      newErrors.username = 'Username is required';
+      isValid = false;
+    }
+
+    if (!userDetails.password.trim()) {
+      newErrors.password = 'Password is required';
+      isValid = false;
+    }
+
+    if (!userDetails.first_name.trim()) {
+      newErrors.first_name = 'First name is required';
+      isValid = false;
+    }
+
+    if (!userDetails.last_name.trim()) {
+      newErrors.last_name = 'Last name is required';
+      isValid = false;
+    }
+
+    if (!userDetails.my_unit_id) {
+      newErrors.my_unit_id = 'Unit selection is required';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newOrg) {
-      await handleAddUnit();
+    if (validateForm()) {
+      if (newOrg) {
+        await handleAddUnit();
+      }
+      await handleCreateAccount();
     }
-    await handleCreateAccount();
   };
 
   const toggleNewOrg = () => {
@@ -109,53 +173,58 @@ export const CreateAccount = () => {
   };
 
   const renderUnitSelect = () => (
-    <Select
-      name="my_unit_id"
-      value={userDetails.my_unit_id}
-      onChange={handleUnitChange}
-      placeholder="Your Unit"
-      mb="4"
-      bg="black"
-      color="white"
-      _placeholder={{ color: 'white' }}
-      sx={{
-        '& > option': {
-          bg: 'black',
-          color: 'white',
-        },
-      }}
-    >
-      {units.map((unit) => (
-        <option key={unit.id} value={unit.id}>
-          {unit.unit_name}
-        </option>
-      ))}
-    </Select>
+    <FormControl isInvalid={!!errors.my_unit_id} isRequired>
+      <Select
+        name="my_unit_id"
+        value={userDetails.my_unit_id}
+        onChange={handleUnitChange}
+        placeholder="Your Unit"
+        mb="4"
+        bg="black"
+        color="white"
+        _placeholder={{ color: 'white' }}
+        sx={{
+          '& > option': {
+            bg: 'black',
+            color: 'white',
+          },
+        }}
+      >
+        {units.map((unit) => (
+          <option key={unit.id} value={unit.id}>
+            {unit.unit_name}
+          </option>
+        ))}
+      </Select>
+      <FormErrorMessage>{errors.my_unit_id}</FormErrorMessage>
+    </FormControl>
   );
 
   const renderSupervisorSelect = () => (
-    <Select
-      name="supervisor_id"
-      value={userDetails.supervisor_id}
-      onChange={(e) => handleChange(e, setUserDetails)}
-      placeholder="Unit Supervisors"
-      mb="4"
-      bg="black"
-      color="white"
-      _placeholder={{ color: 'white' }}
-      sx={{
-        '& > option': {
-          bg: 'black',
-          color: 'white',
-        },
-      }}
-    >
-      {listOfSups.map((supervisor) => (
-        <option key={supervisor.id} value={supervisor.id}>
-          {supervisor.first_name} {supervisor.last_name}
-        </option>
-      ))}
-    </Select>
+    <FormControl isInvalid={!!errors.supervisor_id} isRequired>
+      <Select
+        name="supervisor_id"
+        value={userDetails.supervisor_id}
+        onChange={(e) => handleChange(e, setUserDetails)}
+        placeholder="Unit Supervisors"
+        mb="4"
+        bg="black"
+        color="white"
+        _placeholder={{ color: 'white' }}
+        sx={{
+          '& > option': {
+            bg: 'black',
+            color: 'white',
+          },
+        }}
+      >
+        {listOfSups.map((supervisor) => (
+          <option key={supervisor.id} value={supervisor.id}>
+            {supervisor.first_name} {supervisor.last_name}
+          </option>
+        ))}
+      </Select>
+    </FormControl>
   );
 
   const renderReportsToSelect = () => (
@@ -183,7 +252,6 @@ export const CreateAccount = () => {
     </Select>
   );
 
-  // Custom node component for the tree
   const renderCustomNodeElement = ({ nodeDatum }) => (
     <g>
       <circle r={10} fill="#2d3748" />
@@ -192,46 +260,59 @@ export const CreateAccount = () => {
       </text>
     </g>
   );
+
   return (
-    <Box>
+    <Box as="form" onSubmit={handleSubmit}>
       <Link href="/">
         <Button>Go Back</Button>
       </Link>
       <Heading as="h1" mb="4">
         Account Information
       </Heading>
-      <Input
-        type="text"
-        name="username"
-        value={userDetails.username}
-        onChange={(e) => handleChange(e, setUserDetails)}
-        placeholder="Username"
-        mb="4"
-      />
-      <Input
-        name="password"
-        value={userDetails.password}
-        onChange={(e) => handleChange(e, setUserDetails)}
-        placeholder="Password"
-        type="password"
-        mb="4"
-      />
-      <Input
-        type="text"
-        name="first_name"
-        value={userDetails.first_name}
-        onChange={(e) => handleChange(e, setUserDetails)}
-        placeholder="First Name"
-        mb="4"
-      />
-      <Input
-        type="text"
-        name="last_name"
-        value={userDetails.last_name}
-        onChange={(e) => handleChange(e, setUserDetails)}
-        placeholder="Last Name"
-        mb="4"
-      />
+      <FormControl isInvalid={!!errors.username} isRequired>
+        <Input
+          type="text"
+          name="username"
+          value={userDetails.username}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="Username"
+          mb="4"
+        />
+        <FormErrorMessage>{errors.username}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={!!errors.password} isRequired>
+        <Input
+          name="password"
+          value={userDetails.password}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="Password"
+          type="password"
+          mb="4"
+        />
+        <FormErrorMessage>{errors.password}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={!!errors.first_name} isRequired>
+        <Input
+          type="text"
+          name="first_name"
+          value={userDetails.first_name}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="First Name"
+          mb="4"
+        />
+        <FormErrorMessage>{errors.first_name}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={!!errors.last_name} isRequired>
+        <Input
+          type="text"
+          name="last_name"
+          value={userDetails.last_name}
+          onChange={(e) => handleChange(e, setUserDetails)}
+          placeholder="Last Name"
+          mb="4"
+        />
+        <FormErrorMessage>{errors.last_name}</FormErrorMessage>
+      </FormControl>
       {admin && (
         <Checkbox
           type="checkbox"
@@ -336,7 +417,7 @@ export const CreateAccount = () => {
             </>
           )}
 
-          <Button colorScheme="blue" onClick={handleSubmit} m="4">
+          <Button colorScheme="blue" type="submit" m="4">
             {newOrg ? 'Submit Account Creation and Organization' : 'Create Account'}
           </Button>
           <Button colorScheme="gray" onClick={toggleNewOrg} m="4">
@@ -345,12 +426,10 @@ export const CreateAccount = () => {
         </>
       )}
 
-      {!loggedIn ? (
-        <Button colorScheme="blue" onClick={handleSubmit} m="4">
+      {!loggedIn && (
+        <Button colorScheme="blue" type="submit" m="4">
           Create Account
         </Button>
-      ) : (
-        <></>
       )}
     </Box>
   );

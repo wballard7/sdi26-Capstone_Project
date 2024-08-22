@@ -1,12 +1,14 @@
 import { Link, Button, Box, Flex, Text, Heading, Table } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
+import { UserContext } from '../context/UserContext';
 import '../styles/StaticEntries.css';
 
 const apiURL = 'http://localhost:8080';
 
 export const StaticEntries = () => {
   const [staticEntries, setStaticEntries] = useState([]);
+  const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
   // title: '',
   // my_unit_id: 0,
   // category_id: 0,
@@ -20,8 +22,8 @@ export const StaticEntries = () => {
     const fetchStaticEntries = async () => {
       try {
         console.log('in fetch');
-        const fetchedStaticEntries = await getFetch(`static-entries`);
-        console.log(fetchedStaticEntries);
+        const fetchedStaticEntries = await getFetch(`static-entries/owner/${userId}`);
+        console.log('fetched static entries', fetchedStaticEntries);
         const fetchedTags = await getFetch(`tags`);
         const fetchedUnits = await getFetch(`units`);
         const fetchedCategories = await getFetch(`categories`);
@@ -36,7 +38,8 @@ export const StaticEntries = () => {
             fetchedCategories.find((cat) => cat.id === entry.category_id)?.category_name ||
             'Not inputed',
           owner:
-            fetchedOwners.find((owner) => owner.id === entry.owner_id)?.username || 'Not inputed',
+            fetchedOwners.find((owner) => owner.id === entry.input_owner_id)?.username ||
+            'Not inputed',
         }));
         setStaticEntries(enrichedEntries);
       } catch (err) {
@@ -46,7 +49,7 @@ export const StaticEntries = () => {
     console.log('after fetch');
 
     fetchStaticEntries();
-  }, []);
+  }, [userId]);
 
   //   return (
   //     <Box className="container">

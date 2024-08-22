@@ -336,6 +336,7 @@ exports.seed = async function (knex) {
       notes: 'Retraining may be needed',
     },
     {
+<<<<<<< HEAD
       title: 'Weapons Qual',
       static_id: static_id[9].id,
       audience_id: audience_id[1].id,
@@ -343,10 +344,20 @@ exports.seed = async function (knex) {
       end_date: 20240917,
       recurrence: 'yearly',
       event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      title: 'JQS',
+      static_id: static_id[3].id,
+      audience_id: audience_id[3].id,
+      start_date: 20241001,
+      end_date: 20250401,
+      recurrence: 'daily',
+      event_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 2,
       notes: 'Retraining may be needed',
     },
     {
+<<<<<<< HEAD
       title: 'Medical Pre-Deployment Checks',
       static_id: static_id[9].id,
       audience_id: audience_id[1].id,
@@ -354,6 +365,17 @@ exports.seed = async function (knex) {
       end_date: 20240919,
       recurrence: 'bi-annual',
       event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
+=======
+      title: 'LMTV Road Test',
+      static_id: static_id[4].id,
+      audience_id: audience_id[4].id,
+      start_date: 20241001,
+      end_date: 20241007,
+      complete_date: 20241007,
+      recurrence: 'bi-annual',
+      completed_by_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+      event_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       tag_id: 1,
       notes: 'Mandatory no-fail task',
     },
@@ -403,6 +425,7 @@ exports.seed = async function (knex) {
       notes: 'Critical for upcoming missions',
     },
     {
+<<<<<<< HEAD
       title: 'Static Line Airborne Jump',
       static_id: static_id[6].id,
       audience_id: audience_id[1].id,
@@ -411,6 +434,18 @@ exports.seed = async function (knex) {
       recurrence: 'once',
       event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       notes: 'Needed to maintain jump status',
+=======
+      title: 'Night Recon Patrol',
+      static_id: static_id[9].id,
+      audience_id: audience_id[9].id,
+      start_date: 20240822,
+      end_date: 20240823,
+      complete_date: 20240823,
+      recurrence: 'once',
+      completed_by_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      event_owner_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+      notes: 'Stealth required',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
     },
     {
       title: 'Helicopter Readiness Check',
@@ -424,10 +459,17 @@ exports.seed = async function (knex) {
     },
     {
       title: 'Convoy Logistics Planning',
+<<<<<<< HEAD
       static_id: static_id[8].id,
       audience_id: audience_id[1].id,
       start_date: 20240918,
       end_date: 20240919,
+=======
+      static_id: static_id[11].id,
+      audience_id: audience_id[11].id,
+      start_date: 20240827,
+      end_date: 20240828,
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       recurrence: 'monthly',
       event_owner_id: 'd89d71e2-4012-43f8-a324-b9bffc4edd4d',
       tag_id: 7,
@@ -540,9 +582,12 @@ exports.seed = async function (knex) {
       start_date: 20240818,
       end_date: 20240820,
       complete_date: 20240820,
-      complete_date: 20240820,
       recurrence: 'none',
+<<<<<<< HEAD
       completed_by_id: '0c49ad8f-a23e-4379-a926-96af872449b8',
+=======
+      completed_by_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
+>>>>>>> c37858cac65c4cf9d270b2a497faed1cbfa796ee
       event_owner_id: 'a46d1c98-9107-4664-bffc-a6a481efa2a6',
       tag_id: 36,
       notes: 'Specialized training on setting up drop zones and landing sites',

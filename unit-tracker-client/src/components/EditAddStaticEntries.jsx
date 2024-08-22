@@ -29,15 +29,7 @@ import '../styles/EditAddStaticEntries.css';
 
 export const EditAddStaticEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [newStaticEntry, setNewStaticEntry] = useState({
-    id: null,
-    title: '',
-    my_unit_id: 0,
-    input_owner_id: '',
-    category_id: 0,
-    misc_notes: '',
-    tag_id: 0,
-  });
+  const [newStaticEntry, setNewStaticEntry] = useState([]);
   const [newTag, setNewTag] = useState('');
   const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
   const [staticEntries, setStaticEntries] = useState([]);

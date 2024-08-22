@@ -1,29 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getFetch } from '../utils/Fetches';
 import { Link, Button, Box, Text, Heading, Table, Flex } from '@chakra-ui/react';
 import '../styles/StaticEntries.css';
+import { UserContext } from '../context/UserContext';
 
 export const DynamicEntries = () => {
-  const [dynamicEntries, setDynamicEntries] = useState({
-    // name: '',
-    // input_id: 0,
-    // audicence_id: {},
-    // start_date: '',
-    // end_date: '',
-    // completed_on_date: '',
-    // compeleted_by_id: '',
-    // reccurence: '',
-    // event_owner_id: '',
-    // tag_id: {},
-    // notes: '',
-  });
+  const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
+  const [dynamicEntries, setDynamicEntries] = useState([]);
+  // name: '',
+  // input_id: 0,
+  // audience_id: {},
+  // start_date: '',
+  // end_date: '',
+  // completed_on_date: '',
+  // compeleted_by_id: '',
+  // reccurence: '',
+  // event_owner_id: '',
+  // tag_id: {},
+  // notes: '',
   useEffect(() => {
+    console.log('user id', userId);
     const fetchDynamicEntries = async () => {
       try {
-        const fetchedDynamicEntries = await getFetch('/dynamic-entries');
+        const fetchedDynamicEntries = await getFetch(`dynamic-entries/owner/${userId}`);
+        // const filteredDynamicEntries = fetchedDynamicEntries.filter((dynamicEntry) => {
+        //   console.log('user id', userId);
+
+        console.log('fetchedDynamicEntries', fetchedDynamicEntries);
+        //   dynamicEntry.event_owner_id === userId;
+        // });
+        // console.log('filtered', filteredDynamicEntries);
+
         const fetchedOwners = await getFetch('users');
         const fetchedTags = await getFetch('tags');
-        const fetchedAudience = await getFetch('join_audience');
+        const fetchedAudience = await getFetch('join-audience');
 
         const enrichedEntries = fetchedDynamicEntries.map((entry) => ({
           ...entry,
@@ -34,13 +44,14 @@ export const DynamicEntries = () => {
             fetchedAudience.find((aud) => aud.id === entry.audience_id)?.audience_name ||
             'Not inputed',
         }));
+
         setDynamicEntries(enrichedEntries);
       } catch (err) {
         console.log(err);
       }
     };
     fetchDynamicEntries();
-  }, []);
+  }, [userId]);
 
   //   return (
   //     <>
@@ -85,9 +96,9 @@ export const DynamicEntries = () => {
                 <th>
                   <span>Tag</span>
                 </th>
-                <th>
+                {/* <th>
                   <span>Audience</span>
-                </th>
+                </th> */}
                 <th>
                   <span>Notes</span>
                 </th>
@@ -95,13 +106,13 @@ export const DynamicEntries = () => {
               <tbody>
                 {dynamicEntries.map((entry) => (
                   <tr key={entry.id} mb={2}>
-                    <td>{entry.name}</td>
+                    <td>{entry.title}</td>
                     <td>{entry.start_date}</td>
                     <td>{entry.end_date}</td>
                     <td>{entry.recurrence}</td>
                     <td>{entry.owner}</td>
                     <td>{entry.tag}</td>
-                    <td>{entry.audience}</td>
+                    {/* <td>{entry.audience}</td> */}
                     <td>{entry.notes}</td>
                   </tr>
                 ))}
