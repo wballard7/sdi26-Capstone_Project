@@ -1,136 +1,123 @@
-.topRow {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
+/* .event {
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #333;
+  cursor: move;
+  padding: 5px;
 }
 
-.categoryTabs {
-  padding: 10px;
-  background-color: #1e5f74; /* Teal blue */
-  color: #ffffff;
-  border-radius: 8px;
-  text-align: center;
+.delete-event-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0 6px;
   cursor: pointer;
+  font-size: 12px;
 }
 
-.categoryTabs:hover {
-  background-color: #46006e; /* Soft orange */
-  color: #ffffff;
-}
+.resize-handle {
+  width: 10px;
+  height: 100%;
+  background-color: #333;
+  cursor: ew-resize;
+} */
 
-.calanderButtonGroup,
-.calanderButton {
-  width: 305px;
-  text-align: center;
-  background-color: #3282b8; /* Light navy */
-  padding: 10px;
-  border-radius: 8px;
-  color: #ffffff;
-  cursor: pointer;
-}
 
-.calanderButton:hover {
-  background-color: #46006e;
-  color: #ffffff;
-}
-
-.bodyGrid {
+/* Main container that wraps both static and dynamic groups */
+.mainGridContainer {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 300px 1fr; /* Static group on the left, dynamic group on the right */
   gap: 1rem;
-  font-weight: bold;
+  width: 100%;
+  align-items: start; /* Align items to the start of the grid */
 }
 
 /* Static group (left section) */
 .staticGroup {
+  display: grid;
+  grid-template-rows: repeat(23, 1fr); /* 23 equal rows for static entries */
   background-color: rgb(121, 42, 5);
-  padding: 9px;
+  padding-top: 10px; /* Adjust the top padding */
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
   border-radius: 8px;
   color: #ffffff;
-  width: 300px;
   box-sizing: border-box;
-}
-
-.currentTab {
-  background-color: #46006e;
-  padding: 10px;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 2px solid #3282b8; /* Light navy */
-}
-
-.staticEntry {
-  background-color: rgba(255, 233, 233, 0.3);
-  padding: 8px;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: bold;
-  border: 2px solid #1e5f74;
-  width: 280px;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  margin-bottom: 2px;
+  height: 100%;
+  gap: 0;
 }
 
 /* Dynamic group (right section) */
+/* .dynamicGroup {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(23, 1fr);
+  gap: 10px;
+  background-color: #02133d;
+  padding: 9px;
+  border-radius: 8px;
+} */
 .dynamicGroup {
   background-color: #02133d; /* Dark navy */
-  padding: 15px;
+  padding-top: 50px; /* Adjust the top padding */
+  padding-right: 15px;
+  padding-bottom: 20px;
+  padding-left: 15px;
   border-radius: 8px;
   width: 87vw;
   grid-column: 2;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+  height: 100%;
 }
 
+/* Static Entry (Orange Buttons) */
+.staticEntry {
+  background-color: rgba(255, 233, 233, 0.3);
+  padding-top: 15px; /* Adjust the top padding */
+  padding-right: 5px;
+  padding-bottom: 15px;
+  padding-left: 5px;
+  border-radius: 8px; /* Consistent border radius */
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.9rem; /* Font size for button text */
+  border: 0px solid #1e5f74;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Set width to fill the grid cell */
+  height: 38px; /* Fixed height for all buttons */
+  margin: 0;
+}
+
+
+
+/* Dynamic Entry (Blue Buttons) */
+/* .dynamicEntry {
+  background-color: #0055a5;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  border: 2px solid #1e5f74;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+} */
 .dynamicEntries {
   background-color: #032368; /* Muted blue */
   padding: 10px;
   border-radius: 5px;
   color: #ffffff;
   text-align: center;
-}
-
-.dynamicTime {
-  color: #ffffff;
-  text-align: center;
-  padding: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  height: 40px;
-}
-
-.dragDropContainer {
-  grid-column: 1 / -1;
-  background-color: #01101a;
-  border-radius: 10px;
-  padding: 15px;
-}
-
-.bottomButtons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.entriesButton,
-.tasksButton {
-  width: 100%;
-  padding: 12px;
-  background-color: #3282b8;
-  border-radius: 8px;
-  color: #ffffff;
-  text-align: center;
-  cursor: pointer;
-}
-
-.entriesButton:hover,
-.tasksButton:hover {
-  background-color: #46006e;
-  color: #ffffff;
 }
