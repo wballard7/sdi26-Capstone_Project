@@ -133,11 +133,6 @@ export const CreateAccount = () => {
       isValid = false;
     }
 
-    if (!userDetails.supervisor_id) {
-      newErrors.supervisor_id = 'Supervisor selection is required';
-      isValid = false;
-    }
-
     setErrors(newErrors);
     return isValid;
   };
@@ -229,7 +224,6 @@ export const CreateAccount = () => {
           </option>
         ))}
       </Select>
-      <FormErrorMessage>{errors.supervisor_id}</FormErrorMessage>
     </FormControl>
   );
 
