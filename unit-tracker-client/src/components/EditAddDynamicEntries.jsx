@@ -26,22 +26,11 @@ import {
 
 export const EditAddDynamicEntries = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [newDynamicEntry, setNewDynamicEntry] = useState({
-    id: null,
-    title: '',
-    static_id: 0,
-    audience_id: 0,
-    start_date: '',
-    end_date: '',
-    completed_on_date: '',
-    completed_by_id: '',
-    reccurence: '',
-    event_owner_id: '',
-    tag_id: 0,
-    notes: '',
-  });
+  const [newDynamicEntry, setNewDynamicEntry] = useState([]);
 
   const [dynamicEntries, setDynamicEntries] = useState([]);
+  const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
+  const [staticEntries, setStaticEntries] = useState([]);
   const [owners, setOwners] = useState([]);
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState('');
@@ -64,22 +53,25 @@ export const EditAddDynamicEntries = () => {
   }, []);
 
   useEffect(() => {
+    const fetchStatics = async () => {
+      console.log();
+      const data = await getFetch(`static-entries/owner/${userId}`);
+      console.log(userId);
+      setStaticEntries(data);
+    };
     const fetchTitles = async () => {
       console.log();
       const data = await getFetch(`dynamic-entries/owner/${userId}`);
       console.log(userId);
       setDynamicEntries(data);
     };
+    fetchStatics();
     fetchTitles();
   }, [userId]);
 
   useEffect(() => {
     if (supervisor) {
-      setNewTag((prev) => ({
-        ...prev,
-      }));
-
-      setNewDynEntry((prev) => ({
+      setNewDynamicEntry((prev) => ({
         ...prev,
         event_owner_id: userId,
       }));
@@ -89,7 +81,7 @@ export const EditAddDynamicEntries = () => {
   const handleAddEntry = async () => {
     try {
       const response = await postFetch('dynamic-entries', {
-        ...newDynEntry,
+        ...newDynamicEntry,
         event_owner_id: userId,
       });
       console.log('Entry submitted successfully:', response);
@@ -114,8 +106,8 @@ export const EditAddDynamicEntries = () => {
 
   const handleEditEntry = async () => {
     try {
-      const response = await putFetch(`dynamic-entries/${newDynEntry.id}`, {
-        ...newDynEntry,
+      const response = await putFetch(`dynamic-entries/${newDynamicEntry.id}`, {
+        ...newDynamicEntry,
         event_owner_id: userId,
       });
       console.log('Entry submitted successfully:', response);
@@ -138,8 +130,8 @@ export const EditAddDynamicEntries = () => {
     }
   };
   const handleDeleteEntry = async () => {
-    if (newDynEntry.id) {
-      const deleteId = Number(newDynEntry.id);
+    if (newDynamicEntry.id) {
+      const deleteId = Number(newDynamicEntry.id);
       console.log('type of delete', typeof deleteId);
       console.log('deleteID', deleteId);
       try {
@@ -191,8 +183,8 @@ export const EditAddDynamicEntries = () => {
 
   const handleSelectChange = (e) => {
     const selectedEntryId = e.target.value;
-    const selectedEntry = dynEntries.find((entry) => entry.id === parseInt(selectedEntryId));
-    setNewDynEntry((prev) => ({
+    const selectedEntry = dynamicEntries.find((entry) => entry.id === parseInt(selectedEntryId));
+    setNewDynamicEntry((prev) => ({
       ...prev,
       id: selectedEntryId,
       title: selectedEntry ? selectedEntry.title : '',
@@ -201,7 +193,7 @@ export const EditAddDynamicEntries = () => {
 
   const handleChange = (e, field) => {
     const { value } = e.target;
-    setNewDynEntry((prev) => {
+    setNewDynamicEntry((prev) => {
       if (field === 'tag_id' || field === 'static_id' || field === 'audience_id') {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
@@ -289,13 +281,51 @@ export const EditAddDynamicEntries = () => {
                     </Select>
                   </div>
 
-                  {/* audience-Id, start date, end date, completed by date, completed by id, recurrence,  */}
+                  <div className="p-field">
+                    <label htmlFor="audience_id">Audience</label>
+                    <Input
+                      id="audience_id"
+                      value={newDynamicEntry.audience_id}
+                      onChange={(e) => handleChange(e, 'audience_id')}
+                      placeholder="Audience"
+                    ></Input>
+                  </div>
+
+                  <div className="p-field">
+                    <label htmlFor="start_date">Start Date</label>
+                    <Input
+                      id="start_date"
+                      value={newDynamicEntry.start_date}
+                      onChange={(e) => handleChange(e, 'start_date')}
+                      placeholder="Please type your start date as: YYYYMMDD"
+                    />
+                  </div>
+
+                  <div className="p-field">
+                    <label htmlFor="end_date">End Date</label>
+                    <Input
+                      id="end_date"
+                      value={newDynamicEntry.end_date}
+                      onChange={(e) => handleChange(e, 'end_date')}
+                      placeholder="Please type your end date as: YYYYMMDD"
+                    />
+                  </div>
+
+                  <div className="p-field">
+                    <label htmlFor="recurrence">Recurrence</label>
+                    <Input
+                      id="recurrence"
+                      value={newDynamicEntry.recurrence}
+                      onChange={(e) => handleChange(e, 'recurrence')}
+                      placeholder="Frequency of Event."
+                    />
+                  </div>
 
                   <div className="p-field">
                     <label htmlFor="event_owner_id">Owner</label>
                     <Select
                       id="event_owner_id"
-                      value={newDynamicEntry.input_owner_id} /*fetch for existing users*/
+                      value={newDynamicEntry.input_owner_id}
                       onChange={(e) => handleChange(e, 'event_owner_id')}
                       placeholder="Owner"
                     >
@@ -305,17 +335,6 @@ export const EditAddDynamicEntries = () => {
                         </option>
                       ))}
                     </Select>
-                  </div>
-
-                  <div className="p-field">
-                    <label htmlFor="misc_notes">Notes</label>
-                    <Textarea
-                      id="notes"
-                      value={newDynamicEntry.misc_notes}
-                      onChange={(e) => handleChange(e, 'misc_notes')}
-                      rows={5}
-                      placeholder="Enter notes"
-                    />
                   </div>
                   <div className="p-field">
                     <label htmlFor="tag_id">Tags</label>
@@ -333,19 +352,14 @@ export const EditAddDynamicEntries = () => {
                     </Select>
                   </div>
                   <div className="p-field">
-                    <label htmlFor="category_id">Category</label>
-                    <Select
-                      id="category_id"
-                      value={newDynamicEntry.category_id}
-                      onChange={(e) => handleChange(e, 'category_id')}
-                      placeholder="Select a category"
-                    >
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id} className="dropdown-option">
-                          {category.category_name}
-                        </option>
-                      ))}
-                    </Select>
+                    <label htmlFor="notes">Notes</label>
+                    <Textarea
+                      id="notes"
+                      value={newDynamicEntry.notes}
+                      onChange={(e) => handleChange(e, 'notes')}
+                      rows={5}
+                      placeholder="Enter notes"
+                    />
                   </div>
                   <>
                     <Button onClick={handleEditEntry} mt={2}>
@@ -372,35 +386,69 @@ export const EditAddDynamicEntries = () => {
                 placeholder="Title (required)"
               />
             </div>
-
             <div className="p-field">
-              <label htmlFor="my_unit_id">Unit</label>
+              <label htmlFor="static_id">Static ID</label>
               <Select
-                id="my_unit_id"
-                value={newDynamicEntry.my_unit_id}
-                onChange={(e) => handleChange(e, 'my_unit_id')}
-                placeholder="Select a unit"
+                id="static_id"
+                value={newDynamicEntry.static_id}
+                onChange={(e) => handleChange(e, 'static_id')}
+                placeholder="Select a Static Entry Parent"
               >
-                {units == []
-                  ? my_unit_id
-                  : units.map((unitsWithUser) => (
-                      <option
-                        key={unitsWithUser.id}
-                        value={unitsWithUser.id}
-                        className="dropdown-option"
-                      >
-                        {unitsWithUser.unit_name}
-                      </option>
-                    ))}
+                {staticEntries && staticEntries.length > 0 ? (
+                  staticEntries.map((staticEntry) => (
+                    <option key={staticEntry.id} value={staticEntry.id} className="dropdown-option">
+                      {staticEntry.title}
+                    </option>
+                  ))
+                ) : (
+                  <option>No entries found</option>
+                )}
               </Select>
+            </div>
+            <div className="p-field">
+              <label htmlFor="audience_id">Audience</label>
+              <Input
+                id="audience_id"
+                value={newDynamicEntry.audience_id} /*fetch for existing users*/
+                onChange={(e) => handleChange(e, 'audience_id')}
+                placeholder="Audience"
+              ></Input>
+            </div>
+            <div className="p-field">
+              <label htmlFor="start_date">Start Date</label>
+              <Input
+                id="start_date"
+                value={newDynamicEntry.start_date}
+                onChange={(e) => handleChange(e, 'start_date')}
+                placeholder="Please type your start date as: YYYYMMDD"
+              />
             </div>
 
             <div className="p-field">
-              <label htmlFor="input_owner_id">Owner</label>
+              <label htmlFor="end_date">End Date</label>
+              <Input
+                id="end_date"
+                value={newDynamicEntry.end_date}
+                onChange={(e) => handleChange(e, 'end_date')}
+                placeholder="Please type your end date as: YYYYMMDD"
+              />
+            </div>
+            <div className="p-field">
+              <label htmlFor="recurrence">recurrence</label>
+              <Input
+                id="recurrence"
+                value={newDynamicEntry.recurrence} /*fetch for existing users*/
+                onChange={(e) => handleChange(e, 'recurrence')}
+                placeholder="recurrence"
+              ></Input>
+            </div>
+
+            <div className="p-field">
+              <label htmlFor="event_owner_id">Owner</label>
               <Select
-                id="input_owner_id"
-                value={newDynamicEntry.input_owner_id}
-                onChange={(e) => handleChange(e, 'input_owner_id')}
+                id="event_owner_id"
+                value={newDynamicEntry.event_owner_id}
+                onChange={(e) => handleChange(e, 'event_owner_id')}
                 placeholder="Owner"
               >
                 {owners.map((owner) => (
@@ -412,27 +460,11 @@ export const EditAddDynamicEntries = () => {
             </div>
 
             <div className="p-field">
-              <label htmlFor="category_id">Category</label>
-              <Select
-                id="category_id"
-                value={newDynamicEntry.category_id}
-                onChange={(e) => handleChange(e, 'category_id')}
-                placeholder="Select a category"
-              >
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id} className="dropdown-option">
-                    {category.category_name}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="p-field">
-              <label htmlFor="misc_notes">Notes</label>
+              <label htmlFor="notes">Notes</label>
               <Textarea
                 id="notes"
-                value={newDynamicEntry.misc_notes}
-                onChange={(e) => handleChange(e, 'misc_notes')}
+                value={newDynamicEntry.notes}
+                onChange={(e) => handleChange(e, 'notes')}
                 rows={5}
                 placeholder="Enter notes"
               />
@@ -485,84 +517,3 @@ export const EditAddDynamicEntries = () => {
     </Box>
   );
 };
-
-{
-  /* <div>
-<Input
-  placeholder="Name"
-  value={entryDetails.name}
-  onChange={(e) => handleEntryChange('name', e.target.value)}
-/>
-<div>
-  <Input
-    placeholder="Start Date"
-    value={entryDetails.start_date}
-    onChange={(e) => handleEntryChange('startDate', e.value)}
-  />
-  <Input
-    placeholder="End Date"
-    value={entryDetails.endDate}
-    onChange={(e) => handleEntryChange('endDate', e.value)}
-  />
-  <Textarea
-    placeholder="Misc. Notes"
-    value={entryDetails.notes}
-    onChange={(e) => handleEntryChange('notes', e.target.value)}
-  />
-</div>
-<Input
-  placeholder="Repeat every __ days"
-  value={entryDetails.repeatEvery}
-  onValueChange={(e) => handleEntryChange('repeatEvery', e.value)}
-/>
-<Input
-  placeholder="Event Owner"
-  value={entryDetails.eventOwner}
-  onChange={(e) => handleEntryChange('eventOwner', e.target.value)}
-/>
-<Select
-  placeholder="Attach to Static Entries"
-  value={entryDetails.attachedStaticEntries}
-  options={[]} //fetch static
-  onChange={(e) => handleEntryChange('attachedStaticEntries', e.value)}
-/>
-</div> */
-}
-
-{
-  /* <div>
-          <div>
-            <h3>Tags</h3>
-            <div>
-              {tags.map((tag, index) => (
-                <Input key={index} label={tag} />
-              ))}
-            </div>
-            <div>
-              <Input
-                placeholder="New Tag"
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-              />
-              <Button label="Add Tag" onClick={addTag} />
-            </div>
-          </div>
-
-          <div className="audience-section">
-            <h3>Audience</h3>
-            <div className="audience-list">
-              {audiences.map((audience, index) => (
-                <Input key={index} label={audience} />
-              ))}
-            </div>
-            <div className="add-audience">
-              <Input
-                placeholder="New Audience"
-                value={newAudience}
-                onChange={(e) => setNewAudience(e.target.value)}
-              />
-              <Button label="Add Audience" onClick={addAudience} />
-            </div>
-          </div>
-        </div> */
-}

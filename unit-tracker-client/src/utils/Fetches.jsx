@@ -76,4 +76,21 @@ const putFetch = async (arg1, arg2) => {
   }
 };
 
-export { postFetch, getFetch, deleteFetch, putFetch };
+const patchFetch = async (arg1, arg2) => {
+  try {
+    const res = await fetch(`http://localhost:8080/${arg1}`, {
+      method: 'PATCH', // Corrected: should be PUT, not POST
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(arg2), // Corrected: arg2 should be passed directly, not within an object
+    });
+    const data = await res.json();
+    console.log(`Your PATCH request for ${arg1} returned`, data);
+    return data;
+  } catch (err) {
+    console.log(`Error with your PATCH fetch to ${arg1}`, err);
+  }
+};
+
+export { postFetch, getFetch, deleteFetch, putFetch, patchFetch };

@@ -441,6 +441,15 @@ app.get('/dynamic-entries/:id', async (req, res) => {
   }
 });
 
+app.get('/dynamic-entries/owner/:id', async (req, res) => {
+  try {
+    const entries = await db('dynamic_entries').where('event_owner_id', req.params.id);
+    res.json(entries);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Create a new dynamic entry
 /* how to create request: http://localhost:8080/dynamic_entries
     under headers input the following: key: Content-Type   Value: application/json
