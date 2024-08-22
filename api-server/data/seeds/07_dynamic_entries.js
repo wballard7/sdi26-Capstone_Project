@@ -6,12 +6,12 @@
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('dynamic_entries').del();
-  const input_id = await knex('static_entries').select('id');
+  const static_id = await knex('static_entries').select('id');
   const audience_id = await knex('join_audience').select('id');
   await knex('dynamic_entries').insert([
     {
-      name: 'medical-deployment task for Unit 11',
-      input_id: input_id[0].id,
+      title: 'medical-deployment task for Unit 11',
+      static_id: static_id[0].id,
       audience_id: audience_id[0].id,
       start_date: 20240814,
       end_date: 20240815,
@@ -20,8 +20,8 @@ exports.seed = async function (knex) {
       notes: 'Get this done by next week',
     },
     {
-      name: 'Motorpool task for Unit 11',
-      input_id: input_id[1].id,
+      title: 'Motorpool task for Unit 11',
+      static_id: static_id[1].id,
       audience_id: audience_id[1].id,
       start_date: 20240814,
       end_date: 20240815,
@@ -30,8 +30,8 @@ exports.seed = async function (knex) {
       notes: 'Needs to road test the LMTV',
     },
     {
-      name: 'Weapons Qual',
-      input_id: input_id[2].id,
+      title: 'Weapons Qual',
+      static_id: static_id[2].id,
       audience_id: audience_id[2].id,
       start_date: 20240814,
       end_date: 20240815,
@@ -40,9 +40,9 @@ exports.seed = async function (knex) {
       notes: 'Pew pew learning',
     },
     {
-      name: 'JQS',
+      title: 'JQS',
 
-      input_id: input_id[3].id,
+      static_id: static_id[3].id,
       audience_id: audience_id[3].id,
       start_date: 20241001,
       end_date: 20250401,
@@ -52,8 +52,8 @@ exports.seed = async function (knex) {
       notes: 'Training starts 01OCT24',
     },
     {
-      name: 'LMTV Road Test',
-      input_id: input_id[4].id,
+      title: 'LMTV Road Test',
+      static_id: static_id[4].id,
       audience_id: audience_id[4].id,
       start_date: 20241001,
       end_date: 20241007,
@@ -63,8 +63,8 @@ exports.seed = async function (knex) {
       notes: 'Give to PFC Snuffy',
     },
     {
-      name: 'Static Line Airborne Jump',
-      input_id: input_id[5].id,
+      title: 'Static Line Airborne Jump',
+      static_id: static_id[5].id,
       audience_id: audience_id[5].id,
       start_date: 20240924,
       end_date: 20240924,
@@ -74,8 +74,8 @@ exports.seed = async function (knex) {
       notes: 'Give to SGT Slaughter',
     },
     {
-      name: 'Unit Server check',
-      input_id: input_id[6].id,
+      title: 'Unit Server check',
+      static_id: static_id[6].id,
       audience_id: audience_id[6].id,
       start_date: 20240814,
       end_date: 20240821,
@@ -85,8 +85,8 @@ exports.seed = async function (knex) {
       notes: 'Needs to work on sec+ approved networks',
     },
     {
-      name: 'Post Deployment Health assessment',
-      input_id: input_id[7].id,
+      title: 'Post Deployment Health assessment',
+      static_id: static_id[7].id,
       audience_id: audience_id[7].id,
       start_date: 20240814,
       end_date: 20241030,
@@ -96,8 +96,8 @@ exports.seed = async function (knex) {
       notes: 'Deployed earlier this year',
     },
     {
-      name: 'Secure Network Setup',
-      input_id: input_id[8].id,
+      title: 'Secure Network Setup',
+      static_id: static_id[8].id,
       audience_id: audience_id[8].id,
       start_date: 20240820,
       end_date: 20240821,
@@ -106,8 +106,8 @@ exports.seed = async function (knex) {
       notes: 'Critical for upcoming missions',
     },
     {
-      name: 'Night Recon Patrol',
-      input_id: input_id[9].id,
+      title: 'Night Recon Patrol',
+      static_id: static_id[9].id,
       audience_id: audience_id[9].id,
       start_date: 20240822,
       end_date: 20240823,
@@ -116,8 +116,8 @@ exports.seed = async function (knex) {
       notes: 'Stealth required',
     },
     {
-      name: 'Helicopter Readiness Check',
-      input_id: input_id[10].id,
+      title: 'Helicopter Readiness Check',
+      static_id: static_id[10].id,
       audience_id: audience_id[10].id,
       start_date: 20240824,
       end_date: 20240825,
@@ -126,8 +126,8 @@ exports.seed = async function (knex) {
       notes: 'Prepare for high-altitude ops',
     },
     {
-      name: 'Convoy Logistics Planning',
-      input_id: input_id[11].id,
+      title: 'Convoy Logistics Planning',
+      static_id: static_id[11].id,
       audience_id: audience_id[11].id,
       start_date: 20240826,
       end_date: 20240828,
@@ -137,8 +137,8 @@ exports.seed = async function (knex) {
       notes: 'Coordinate with supply units',
     },
     {
-      name: 'Physical Training Schedule for Unit 11',
-      input_id: input_id[12].id,
+      title: 'Physical Training Schedule for Unit 11',
+      static_id: static_id[12].id,
       audience_id: audience_id[12].id,
       start_date: 20240801,
       end_date: 20240831,
@@ -147,8 +147,8 @@ exports.seed = async function (knex) {
       notes: 'PT every Monday, Wednesday, and Friday at 0600',
     },
     {
-      name: 'Chemical Warfare Drill',
-      input_id: input_id[13].id,
+      title: 'Chemical Warfare Drill',
+      static_id: static_id[13].id,
       audience_id: audience_id[13].id,
       start_date: 20240915,
       end_date: 20240916,
@@ -157,8 +157,8 @@ exports.seed = async function (knex) {
       notes: 'Mandatory for all personnel',
     },
     {
-      name: 'Urban Warfare Tactics Training',
-      input_id: input_id[14].id,
+      title: 'Urban Warfare Tactics Training',
+      static_id: static_id[14].id,
       audience_id: audience_id[14].id,
       start_date: 20240901,
       end_date: 20240905,
@@ -168,8 +168,8 @@ exports.seed = async function (knex) {
       notes: 'Close-quarters combat drills in a simulated urban environment',
     },
     {
-      name: 'Advanced Reconnaissance Mission Brief',
-      input_id: input_id[15].id,
+      title: 'Advanced Reconnaissance Mission Brief',
+      static_id: static_id[15].id,
       audience_id: audience_id[15].id,
       start_date: 20240825,
       end_date: 20240825,
@@ -178,8 +178,8 @@ exports.seed = async function (knex) {
       notes: 'Detailed briefing on the upcoming recon mission',
     },
     {
-      name: 'Leadership Development Course',
-      input_id: input_id[16].id,
+      title: 'Leadership Development Course',
+      static_id: static_id[16].id,
       audience_id: audience_id[16].id,
       start_date: 20240820,
       end_date: 20240920,
@@ -189,8 +189,8 @@ exports.seed = async function (knex) {
       notes: 'Focus on tactical leadership skills and decision-making',
     },
     {
-      name: 'Weapons Maintenance for Unit 11',
-      input_id: input_id[17].id,
+      title: 'Weapons Maintenance for Unit 11',
+      static_id: static_id[17].id,
       audience_id: audience_id[17].id,
       start_date: 20240812,
       end_date: 20240813,
@@ -199,8 +199,8 @@ exports.seed = async function (knex) {
       notes: 'Regular maintenance for all unit weapons systems',
     },
     {
-      name: 'Force Protection Exercise',
-      input_id: input_id[18].id,
+      title: 'Force Protection Exercise',
+      static_id: static_id[18].id,
       audience_id: audience_id[18].id,
       start_date: 20240910,
       end_date: 20240912,
@@ -210,8 +210,8 @@ exports.seed = async function (knex) {
       notes: 'Drills for securing critical assets and personnel',
     },
     {
-      name: 'Search and Rescue Training',
-      input_id: input_id[19].id,
+      title: 'Search and Rescue Training',
+      static_id: static_id[19].id,
       audience_id: audience_id[19].id,
       start_date: 20240901,
       end_date: 20240903,
@@ -221,8 +221,8 @@ exports.seed = async function (knex) {
       notes: 'Focus on rapid response and disaster recovery operations',
     },
     {
-      name: 'Explosives Handling and Disposal Course',
-      input_id: input_id[20].id,
+      title: 'Explosives Handling and Disposal Course',
+      static_id: static_id[20].id,
       audience_id: audience_id[20].id,
       start_date: 20240829,
       end_date: 20240830,
@@ -231,8 +231,8 @@ exports.seed = async function (knex) {
       notes: 'Training on safely handling and disposing of explosive devices',
     },
     {
-      name: 'Pathfinder Operations Training',
-      input_id: input_id[21].id,
+      title: 'Pathfinder Operations Training',
+      static_id: static_id[21].id,
       audience_id: audience_id[21].id,
       start_date: 20240818,
       end_date: 20240820,
@@ -242,8 +242,8 @@ exports.seed = async function (knex) {
       notes: 'Specialized training on setting up drop zones and landing sites',
     },
     {
-      name: 'Emergency Evacuation Drill',
-      input_id: input_id[22].id,
+      title: 'Emergency Evacuation Drill',
+      static_id: static_id[22].id,
       audience_id: audience_id[22].id,
       start_date: 20240822,
       end_date: 20240822,
@@ -253,8 +253,8 @@ exports.seed = async function (knex) {
       notes: 'Simulated evacuation for various emergency scenarios',
     },
     {
-      name: 'Mountaineering Operations',
-      input_id: input_id[23].id,
+      title: 'Mountaineering Operations',
+      static_id: static_id[23].id,
       audience_id: audience_id[23].id,
       start_date: 20240830,
       end_date: 20240902,
@@ -264,8 +264,8 @@ exports.seed = async function (knex) {
       notes: 'Training in high-altitude and rugged terrain',
     },
     {
-      name: 'Urban Warfare Operations',
-      input_id: input_id[24].id,
+      title: 'Urban Warfare Operations',
+      static_id: static_id[24].id,
       audience_id: audience_id[24].id,
       start_date: 20240820,
       end_date: 20240822,
@@ -275,8 +275,8 @@ exports.seed = async function (knex) {
       notes: 'Focus on close-quarters combat in urban settings',
     },
     {
-      name: 'Radio Communications Protocol Training',
-      input_id: input_id[25].id,
+      title: 'Radio Communications Protocol Training',
+      static_id: static_id[25].id,
       audience_id: audience_id[25].id,
       start_date: 20240821,
       end_date: 20240822,

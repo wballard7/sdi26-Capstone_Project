@@ -6,16 +6,16 @@ exports.up = function (knex) {
   return knex.schema.createTable('static_entries', (table) => {
     table.increments().primary();
     table.string('title').notNullable();
-    table.integer('my_unit_id').notNullable();
-    table.integer('category_id').notNullable();
-    table.uuid('input_owner_id').notNullable();
+    table.integer('my_unit_id');
+    table.integer('category_id');
+    table.uuid('input_owner_id');
     table.integer('tag_id');
     table.string('misc_notes');
 
-    table.foreign('my_unit_id').references('id').inTable('units');
-    table.foreign('category_id').references('id').inTable('categories');
-    table.foreign('input_owner_id').references('id').inTable('users');
-    table.foreign('tag_id').references('id').inTable('tags');
+    table.foreign('my_unit_id').references('id').inTable('units').onDelete('SET NULL');
+    table.foreign('category_id').references('id').inTable('categories').onDelete('SET NULL');
+    table.foreign('input_owner_id').references('id').inTable('users').onDelete('SET NULL');
+    table.foreign('tag_id').references('id').inTable('tags').onDelete('SET NULL');
   });
 };
 
