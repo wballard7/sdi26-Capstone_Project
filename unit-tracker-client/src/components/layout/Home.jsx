@@ -482,12 +482,10 @@ export const Home = () => {
         console.error("Drag event's dataTransfer is undefined.");
       }
     };
-
     const handleClick = (e) => {
       e.preventDefault();
       onClick(e);
     };
-
     return (
       <Button
         draggable
@@ -502,7 +500,6 @@ export const Home = () => {
       </Button>
     );
   };
-
   const DragDropContainer = ({ entries }) => {
     //checkbox + initialize it
     const [visibleCheckboxId, setVisibleCheckboxId] = useState(null);
@@ -515,30 +512,41 @@ export const Home = () => {
       setCheckboxStates(initialCheckboxStates);
     }, [entries]);
     //end initialize
-
-    const onDragStart = (e, id) => {
-      e.dataTransfer.setData('text/plain', id);
+    //added
+    const onDragStart = (e, rowIndex, colIndex) => {
+      e.dataTransfer.setData('text/plain', JSON.stringify({ rowIndex, colIndex }));
     };
-
+    // const onDragStart = (e, id) => {
+    //   e.dataTransfer.setData('text/plain', id);
+    // };
+    //added
+    // const onDrop = (e, targetRowIndex, targetColIndex) => {
+    //   e.preventDefault();
+    //   const { rowIndex, colIndex } = JSON.parse(e.dataTransfer.getData('text/plain'));
+    //   if (rowIndex === targetRowIndex && colIndex === targetColIndex) return; // No swap if dropped in the same position
+    //   // Swap the entries
+    //   setStaticToDynamicArray((prevArray) => {
+    //     const newArray = [...prevArray];
+    //     const temp = newArray[rowIndex][colIndex];
+    //     newArray[rowIndex][colIndex] = newArray[targetRowIndex][targetColIndex];
+    //     newArray[targetRowIndex][targetColIndex] = temp;
+    //     return newArray;
+    //   });
+    // };
     const onDrop = (e, dropIndex) => {
       e.preventDefault();
       const draggedId = e.dataTransfer.getData('text/plain');
       const draggedIndex = entries.findIndex((entry) => entry.id === Number(draggedId));
-
       if (draggedIndex === dropIndex) return;
-
       const newEntries = [...entries];
       const placeholder = newEntries[dropIndex];
       newEntries[dropIndex] = newEntries[draggedIndex];
       newEntries[draggedIndex] = placeholder;
-
       setDynamicEntries(newEntries);
     };
-
     const onDragOver = (e) => {
       e.preventDefault();
     };
-
     const handleButtonClick = (id) => {
       setVisibleCheckboxId((prevId) => (prevId === id ? null : id));
     };
@@ -547,42 +555,18 @@ export const Home = () => {
         ...prevStates,
         [entryId]: isChecked,
       }));
-
       if (isChecked) {
         setVisibleCheckboxId(null);
       }
-
       const updatedData = {
         completed_by_id: isChecked ? Userid : null,
         complete_date: isChecked ? new Date().toISOString().split('T')[0] : null,
       };
-
       await handleCompletion(entryId, updatedData);
-
-      // Re-fetch the dynamic entries to reflect the changes
+      // fetch the dynamic entries to reflect the changes
       const updatedEntries = await getFetch('dynamic-entries');
       setDynamicEntries(updatedEntries);
     };
-    // const handleCheckboxChange = async (entryId, isChecked) => {
-    //   setCheckboxStates((prevStates) => ({
-    //     ...prevStates,
-    //     [entryId]: isChecked,
-    //   }));
-
-    //   // Hide the checkbox if it is checked
-    //   if (isChecked) {
-    //     setVisibleCheckboxId(null);
-    //   }
-    //   const currentDate = new Date().toISOString().split('T')[0]; // Format the date as 'YYYY-MM-DD'
-
-    //   const updatedData = {
-    //     completed_by_id: isChecked ? Userid : null,
-    //     complete_date: isChecked ? currentDate : null,
-    //   };
-
-    //   await handleCompletion(entryId, updatedData);
-    // };
-
     const handleCompletion = async (entryId, updatedData) => {
       try {
         const response = await patchFetch(`dynamic-entries/${entryId}`, updatedData);
@@ -605,20 +589,15 @@ export const Home = () => {
         });
       }
     };
-    // const handleCheckboxChange = (id, isChecked) => {
-    //   setCheckboxStates((prevStates) => ({
-    //     ...prevStates,
-    //     [id]: isChecked,
-    //   }));
 
-    //   // Hide the checkbox if it is checked
-    //   if (isChecked) {
-    //     setVisibleCheckboxId(null);
-    //   }
-    // };
+    // can click on one of the dynamics. then a pop up with a comment and check box "completed"
+    // when the check box is clicked it will send it to the api to patch the completed
+    // maybe also have a checker to see if a task is already completed for the dynamics
+    // if and have that added to the dyntostatarr
+    // have rows stretch across (edited)
 
     return (
-      <VStack spacing={1} align="stretch" padding Top="20px">
+      <VStack spacing={1} align="stretch" padding Top="20px" mt={1} mb={1}>
         {entries.map((entry, index) => (
           <Box key={entry.id} onDrop={(e) => onDrop(e, index)} onDragOver={onDragOver} width="100%">
             <DraggableButton
@@ -653,124 +632,16 @@ export const Home = () => {
   // have rows stretch across
 
   // stretch cells
-  // return (
-  //   <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
-  //     <div>
-  //       <h1>{startDate ? startDate.toDateString() : 'N/A'}</h1>
-  //       {filteredStaticEntries.length > 0 ? (
-  //         <>
-  //           <div className="topRow">
-  //             <div className="calanderButtonGroup">
-  //               <Button
-  //                 className="calendarButton"
-  //                 colorScheme="teal"
-  //                 onClick={openCalendar}
-  //                 width="100%"
-  //                 height="auto"
-  //                 padding="10px"
-  //               >
-  //                 Calendar
-  //               </Button>
-
-  //               <Modal isOpen={isCalendarOpen} onClose={closeCalendar}>
-  //                 <ModalOverlay />
-  //                 <ModalContent>
-  //                   <ModalCloseButton />
-  //                   <ModalBody>
-  //                     <MyCalendar setStartDate={setStartDate} setEndDate={setEndDate}></MyCalendar>
-  //                   </ModalBody>
-  //                 </ModalContent>
-  //               </Modal>
-  //             </div>
-
-  //             {categories.map((cat) => (
-  //               <button className="categoryTabs">{cat.category_name}</button>
-  //             ))}
-  //           </div>
-  //           <div className="mainGridContainer">
-  //             <div className="staticGroup">
-  //               <h5 className="currentTab">Current Tab</h5>
-  //               {filteredStaticEntries.map((staticEntry) => (
-  //                 <h1 key={staticEntry.id} className="staticEntry">
-  //                   {staticEntry.title}
-  //                 </h1>
-  //               ))}
-  //             </div>
-
-  //             <Box sx={{ '& > *': { marginTop: '0 !important' } }}>
-  //               <div className="dynamicGroup">
-  //                 {matchedDates.map((item, index) => (
-  //                   <div key={index}>
-  //                     <h1 className="dynamicTime">{item.date.toDateString()}</h1>
-  //                   </div>
-  //                 ))}
-  //                 {dates.map((date, j) => (
-  //                   <div
-  //                     key={j}
-  //                     className="dynamicEntry"
-  //                     sx={{
-  //                       '& > *': {
-  //                         paddingtop: '50 !important',
-  //                         paddingleft: '15 !important',
-  //                         paddingright: '15 !important',
-  //                         paddingbottom: '15 !important',
-  //                       },
-  //                     }}
-  //                   >
-  //                     {filteredStaticEntries.map((staticEntry, i) => {
-  //                       const dynamicArray =
-  //                         staticToDynamicArray &&
-  //                         staticToDynamicArray[i] &&
-  //                         staticToDynamicArray[i][j]
-  //                           ? staticToDynamicArray[i][j]
-  //                           : [];
-  //                       return (
-  //                         <div key={staticEntry.id}>
-  //                           {dynamicArray.map((entry, k) => (
-  //                             <DragDropContainer key={entry.id} entries={[entry]} />
-  //                           ))}
-  //                         </div>
-  //                       );
-  //                     })}
-  //                   </div>
-  //                 ))}
-  //               </div>
-  //             </Box>
-  //           </div>
-  //         </>
-  //       ) : (
-  //         <p>No static entries found.</p>
-  //       )}
-
-  //       <div className="bottomButtons">
-  //         <div className="entriesButton">
-  //           <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
-  //             <Button width="full" colorScheme="teal" size="lg">
-  //               Entries
-  //             </Button>
-  //           </Link>
-  //         </div>
-  //         <div className="tasksButton">
-  //           <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
-  //             <Button width="full" colorScheme="teal" size="lg">
-  //               Tasks
-  //             </Button>
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </Box>
   return (
-    <Box maxW="md" mt="8" p="6" boxShadow="lg" borderRadius="lg">
-      <VStack spacing={4} align="stretch">
-        <Heading as="h1" size="lg">
-          {startDate ? startDate.toDateString() : 'N/A'}
-        </Heading>
+    <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
+      <div>
+        <h1>{startDate ? startDate.toDateString() : 'N/A'}</h1>
         {filteredStaticEntries.length > 0 ? (
           <>
-            <HStack className="topRow" spacing={4}>
-              <Box className="calendarButtonGroup">
+            <div className="topRow">
+              <div className="calanderButtonGroup">
                 <Button
+                  className="calendarButton"
                   colorScheme="teal"
                   onClick={openCalendar}
                   width="100%"
@@ -785,92 +656,88 @@ export const Home = () => {
                   <ModalContent>
                     <ModalCloseButton />
                     <ModalBody>
-                      <MyCalendar setStartDate={setStartDate} setEndDate={setEndDate} />
+                      <MyCalendar setStartDate={setStartDate} setEndDate={setEndDate}></MyCalendar>
                     </ModalBody>
                   </ModalContent>
                 </Modal>
-              </Box>
+              </div>
 
               {categories.map((cat) => (
-                <Button
-                  key={cat.category_name}
-                  className="categoryTabs"
-                  size="md"
-                  variant="outline"
-                >
-                  {cat.category_name}
-                </Button>
+                <button className="categoryTabs">{cat.category_name}</button>
               ))}
-            </HStack>
-
-            <Box className="mainGridContainer">
-              <Box className="staticGroup">
-                <Heading as="h5" size="sm" className="currentTab">
-                  Current Tab
-                </Heading>
+            </div>
+            <div className="mainGridContainer">
+              <div className="staticGroup">
+                <h5 className="currentTab">Current Tab</h5>
                 {filteredStaticEntries.map((staticEntry) => (
-                  <Text key={staticEntry.id} fontSize="xl" className="staticEntry">
+                  <h1 key={staticEntry.id} className="staticEntry">
                     {staticEntry.title}
-                  </Text>
+                  </h1>
                 ))}
-              </Box>
+              </div>
 
-              <Box className="dynamicGroup" sx={{ '& > *': { marginTop: '0 !important' } }}>
-                {matchedDates.map((item, index) => (
-                  <Heading key={index} size="md" className="dynamicTime">
-                    {item.date.toDateString()}
-                  </Heading>
-                ))}
-                {dates.map((date, j) => (
-                  <Box
-                    key={j}
-                    className="dynamicEntry"
-                    sx={{
-                      '& > *': {
-                        paddingTop: '50 !important',
-                        paddingLeft: '15 !important',
-                        paddingRight: '15 !important',
-                        paddingBottom: '15 !important',
-                      },
-                    }}
-                  >
-                    {filteredStaticEntries.map((staticEntry, i) => {
-                      const dynamicArray =
-                        staticToDynamicArray &&
-                        staticToDynamicArray[i] &&
-                        staticToDynamicArray[i][j]
-                          ? staticToDynamicArray[i][j]
-                          : [];
-                      return (
-                        <Box key={staticEntry.id}>
-                          {dynamicArray.map((entry, k) => (
-                            <DragDropContainer key={entry.id} entries={[entry]} />
-                          ))}
-                        </Box>
-                      );
-                    })}
-                  </Box>
-                ))}
+              <Box sx={{ '& > *': { marginTop: '0 !important' } }}>
+                <div className="dynamicGroup">
+                  {matchedDates.map((item, index) => (
+                    <div key={index}>
+                      <h1 className="dynamicTime">{item.date.toDateString()}</h1>
+                    </div>
+                  ))}
+                  {dates.map((date, j) => (
+                    <div
+                      key={j}
+                      className="dynamicEntry"
+                      sx={{
+                        '& > *': {
+                          paddingtop: '50 !important',
+                          paddingleft: '15 !important',
+                          paddingright: '15 !important',
+                          paddingbottom: '15 !important',
+                        },
+                      }}
+                    >
+                      {filteredStaticEntries.map((staticEntry, i) => {
+                        const dynamicArray =
+                          staticToDynamicArray &&
+                          staticToDynamicArray[i] &&
+                          staticToDynamicArray[i][j]
+                            ? staticToDynamicArray[i][j]
+                            : [];
+                        return (
+                          <div key={staticEntry.id}>
+                            {dynamicArray.map((entry, k) => (
+                              <DragDropContainer key={entry.id} entries={[entry]} />
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               </Box>
-            </Box>
+            </div>
           </>
         ) : (
-          <Text>No static entries found.</Text>
+          <p>No static entries found.</p>
         )}
 
-        <HStack className="bottomButtons" spacing={4}>
-          <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
-            <Button width="full" colorScheme="teal" size="lg">
-              Entries
-            </Button>
-          </Link>
-          <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
-            <Button width="full" colorScheme="teal" size="lg">
-              Tasks
-            </Button>
-          </Link>
-        </HStack>
-      </VStack>
+        <div className="bottomButtons">
+          <div className="entriesButton">
+            <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
+              <Button width="full" colorScheme="teal" size="lg">
+                Entries
+              </Button>
+            </Link>
+          </div>
+          <div className="tasksButton">
+            <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
+              <Button width="full" colorScheme="teal" size="lg">
+                Tasks
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </Box>
   );
 };
