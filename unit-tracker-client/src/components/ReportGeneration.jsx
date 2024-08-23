@@ -237,6 +237,12 @@ const ReportGeneration = () => {
         value={filter.completed}
         onChange={handleFilterChange}
         mb="6"
+        sx={{
+          '& > option': {
+            bg: 'white',
+            color: 'black',
+          },
+        }}
       >
         <option value="">All</option>
         <option value="true">Completed</option>

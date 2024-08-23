@@ -542,7 +542,7 @@ export const Home = () => {
       const placeholder = newEntries[dropIndex];
       newEntries[dropIndex] = newEntries[draggedIndex];
       newEntries[draggedIndex] = placeholder;
-      setDynamicEntries(newEntries);
+      // setDynamicEntries(newEntries); this breaks needs to be similar to above
     };
     const onDragOver = (e) => {
       e.preventDefault();
