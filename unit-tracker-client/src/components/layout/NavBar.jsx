@@ -32,7 +32,7 @@ export const NavBar = () => {
             <Image
               src="/assets/LogoFORBLACK.png"
               alt="Logo"
-              boxSize="60px" // Adjust size as needed
+              boxSize="200px" // Adjust size as needed
               objectFit="contain"
             />
             <Flex gap={4}>
