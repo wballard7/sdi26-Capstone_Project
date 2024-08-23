@@ -30,6 +30,7 @@ export const Admin = () => {
   const { org, id } = useContext(UserContext);
   const { personnelList } = useContext(PersonnelContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [refresh, setRefresh] = useState(false);
 
   const [loading, setLoading] = useState(false); // Loading state
   const [personBeingUpdated, setPersonBeingUpdated] = useState({
@@ -62,6 +63,7 @@ export const Admin = () => {
 
     const fetchUsers = async () => {
       setLoading(true); // Start loading
+      setRefresh(false);
       try {
         const users = await getFetch(`users/unit/${org.id}`);
         const data = users.filter((people) => people.id !== id);
@@ -70,12 +72,14 @@ export const Admin = () => {
         console.error('Error fetching unit users:', error);
       } finally {
         setLoading(false); // End loading
+        setRefresh(true);
       }
     };
 
     fetchUnitSupervisors();
     fetchUsers();
-  }, [org.id]);
+    setLoading(false);
+  }, [org.id, refresh, loading]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -226,7 +230,7 @@ export const Admin = () => {
                       color="black"
                     >
                       {listOfSups.map((sup) => (
-                        <option key={sup.id} value={sup.id}>
+                        <option key={sup.id} value={sup.id} color="black">
                           {sup.first_name} {sup.last_name}
                         </option>
                       ))}

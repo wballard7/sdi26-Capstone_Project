@@ -513,12 +513,12 @@ export const Home = () => {
     }, [entries]);
     //end initialize
     //added
-    const onDragStart = (e, rowIndex, colIndex) => {
-      e.dataTransfer.setData('text/plain', JSON.stringify({ rowIndex, colIndex }));
-    };
-    // const onDragStart = (e, id) => {
-    //   e.dataTransfer.setData('text/plain', id);
+    // const onDragStart = (e, rowIndex, colIndex) => {
+    //   e.dataTransfer.setData('text/plain', JSON.stringify({ rowIndex, colIndex }));
     // };
+    const onDragStart = (e, id) => {
+      e.dataTransfer.setData('text/plain', id);
+    };
     //added
     // const onDrop = (e, targetRowIndex, targetColIndex) => {
     //   e.preventDefault();
