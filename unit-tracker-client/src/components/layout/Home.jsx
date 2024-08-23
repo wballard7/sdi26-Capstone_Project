@@ -633,111 +633,116 @@ export const Home = () => {
 
   // stretch cells
   return (
-    <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
-      <div>
-        <h1>{startDate ? startDate.toDateString() : 'N/A'}</h1>
-        {filteredStaticEntries.length > 0 ? (
-          <>
-            <div className="topRow">
-              <div className="calanderButtonGroup">
-                <Button
-                  className="calendarButton"
-                  colorScheme="teal"
-                  onClick={openCalendar}
-                  width="100%"
-                  height="auto"
-                  padding="10px"
-                >
-                  Calendar
-                </Button>
+    <Box>
+      <Box maxW="md" /*mx="auto"*/ mt="8" p="6" boxShadow="lg" borderRadius="lg">
+        <div>
+          <h1>{startDate ? startDate.toDateString() : 'N/A'}</h1>
+          {filteredStaticEntries.length > 0 ? (
+            <>
+              <div className="topRow">
+                <div className="calanderButtonGroup">
+                  <Button
+                    className="calendarButton"
+                    colorScheme="teal"
+                    onClick={openCalendar}
+                    width="100%"
+                    height="auto"
+                    padding="10px"
+                  >
+                    Calendar
+                  </Button>
 
-                <Modal isOpen={isCalendarOpen} onClose={closeCalendar}>
-                  <ModalOverlay />
-                  <ModalContent>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      <MyCalendar setStartDate={setStartDate} setEndDate={setEndDate}></MyCalendar>
-                    </ModalBody>
-                  </ModalContent>
-                </Modal>
-              </div>
+                  <Modal isOpen={isCalendarOpen} onClose={closeCalendar}>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <MyCalendar
+                          setStartDate={setStartDate}
+                          setEndDate={setEndDate}
+                        ></MyCalendar>
+                      </ModalBody>
+                    </ModalContent>
+                  </Modal>
+                </div>
 
-              {categories.map((cat) => (
-                <button className="categoryTabs">{cat.category_name}</button>
-              ))}
-            </div>
-            <div className="mainGridContainer">
-              <div className="staticGroup">
-                <h5 className="currentTab">Current Tab</h5>
-                {filteredStaticEntries.map((staticEntry) => (
-                  <h1 key={staticEntry.id} className="staticEntry">
-                    {staticEntry.title}
-                  </h1>
+                {categories.map((cat) => (
+                  <button className="categoryTabs">{cat.category_name}</button>
                 ))}
               </div>
-
-              <Box sx={{ '& > *': { marginTop: '0 !important' } }}>
-                <div className="dynamicGroup">
-                  {matchedDates.map((item, index) => (
-                    <div key={index}>
-                      <h1 className="dynamicTime">{item.date.toDateString()}</h1>
-                    </div>
-                  ))}
-                  {dates.map((date, j) => (
-                    <div
-                      key={j}
-                      className="dynamicEntry"
-                      sx={{
-                        '& > *': {
-                          paddingtop: '50 !important',
-                          paddingleft: '15 !important',
-                          paddingright: '15 !important',
-                          paddingbottom: '15 !important',
-                        },
-                      }}
-                    >
-                      {filteredStaticEntries.map((staticEntry, i) => {
-                        const dynamicArray =
-                          staticToDynamicArray &&
-                          staticToDynamicArray[i] &&
-                          staticToDynamicArray[i][j]
-                            ? staticToDynamicArray[i][j]
-                            : [];
-                        return (
-                          <div key={staticEntry.id}>
-                            {dynamicArray.map((entry, k) => (
-                              <DragDropContainer key={entry.id} entries={[entry]} />
-                            ))}
-                          </div>
-                        );
-                      })}
-                    </div>
+              <div className="mainGridContainer">
+                <div className="staticGroup">
+                  <h5 className="currentTab">Current Tab</h5>
+                  {filteredStaticEntries.map((staticEntry) => (
+                    <h1 key={staticEntry.id} className="staticEntry">
+                      {staticEntry.title}
+                    </h1>
                   ))}
                 </div>
-              </Box>
-            </div>
-          </>
-        ) : (
-          <p>No static entries found.</p>
-        )}
 
-        <div className="bottomButtons">
-          <div className="entriesButton">
-            <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
-              <Button width="full" colorScheme="teal" size="lg">
-                Entries
-              </Button>
-            </Link>
-          </div>
-          <div className="tasksButton">
-            <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
-              <Button width="full" colorScheme="teal" size="lg">
-                Tasks
-              </Button>
-            </Link>
+                <Box sx={{ '& > *': { marginTop: '0 !important' } }}>
+                  <div className="dynamicGroup">
+                    {matchedDates.map((item, index) => (
+                      <div key={index}>
+                        <h1 className="dynamicTime">{item.date.toDateString()}</h1>
+                      </div>
+                    ))}
+                    {dates.map((date, j) => (
+                      <div
+                        key={j}
+                        className="dynamicEntry"
+                        sx={{
+                          '& > *': {
+                            paddingtop: '50 !important',
+                            paddingleft: '15 !important',
+                            paddingright: '15 !important',
+                            paddingbottom: '15 !important',
+                          },
+                        }}
+                      >
+                        {filteredStaticEntries.map((staticEntry, i) => {
+                          const dynamicArray =
+                            staticToDynamicArray &&
+                            staticToDynamicArray[i] &&
+                            staticToDynamicArray[i][j]
+                              ? staticToDynamicArray[i][j]
+                              : [];
+                          return (
+                            <div key={staticEntry.id}>
+                              {dynamicArray.map((entry, k) => (
+                                <DragDropContainer key={entry.id} entries={[entry]} />
+                              ))}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </Box>
+              </div>
+            </>
+          ) : (
+            <p>No static entries found.</p>
+          )}
+
+          <div className="bottomButtons">
+            <div className="entriesButton">
+              <Link href="/StaticEntries" style={{ textDecoration: 'none' }}>
+                <Button width="full" colorScheme="teal" size="lg">
+                  Entries
+                </Button>
+              </Link>
+            </div>
+            <div className="tasksButton">
+              <Link href="/DynamicEntries" style={{ textDecoration: 'none' }}>
+                <Button width="full" colorScheme="teal" size="lg">
+                  Tasks
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </Box>
     </Box>
   );
 };

@@ -228,6 +228,12 @@ export const Admin = () => {
                       value={personBeingUpdated.supervisor_id}
                       onChange={handleSupervisorChange}
                       color="black"
+                      sx={{
+                        '& > option': {
+                          bg: 'white',
+                          color: 'black',
+                        },
+                      }}
                     >
                       {listOfSups.map((sup) => (
                         <option key={sup.id} value={sup.id} color="black">
