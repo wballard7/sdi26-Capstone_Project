@@ -21,6 +21,7 @@ export const CreateAccount = () => {
   const [listOfSups, setListOfSups] = useState([]);
   const [loadingUnits, setLoadingUnits] = useState(true);
   const [loadingSups, setLoadingSups] = useState(false);
+  const [refresh, setRefresh] = useState(true);
   const [userDetails, setUserDetails] = useState({
     username: '',
     password: '',
@@ -58,19 +59,20 @@ export const CreateAccount = () => {
         setLoadingUnits(false);
       }
     };
-
     fetchUnits();
-  }, []);
+  }, [refresh]);
 
   const handleCreateAccount = async () => {
     await postFetch('users', userDetails);
-    admin ? navigate('/Home') : navigate('/');
+    admin ? navigate('/CreateAccount') : navigate('/');
   };
 
   const handleAddUnit = async () => {
+    setRefresh(false);
     const addedUnit = await postFetch('units', newUnit);
     setUnits((prevUnits) => [...prevUnits, addedUnit]);
-    navigate('/Home');
+    setRefresh(true);
+    navigate('/CreateAccount');
   };
 
   const handleChange = (e, setter) => {

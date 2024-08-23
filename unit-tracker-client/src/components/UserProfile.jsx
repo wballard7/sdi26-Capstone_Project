@@ -94,6 +94,15 @@ export const UserProfile = () => {
                     <Avatar name={`${person.first_name} ${person.last_name}`} />
                     <Box>
                       <Text fontWeight="bold">{`${person.first_name} ${person.last_name}`}</Text>
+                      {person.availability ? (
+                        <Heading size="sm" color="green.500">
+                          Available
+                        </Heading>
+                      ) : (
+                        <Heading size="sm" color="red.500">
+                          Not Available
+                        </Heading>
+                      )}
                       <Text fontSize="sm" color="gray.500">
                         {person.admin && person.supervisor
                           ? 'Admin, Supervisor'

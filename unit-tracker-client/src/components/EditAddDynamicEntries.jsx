@@ -29,26 +29,24 @@ export const EditAddDynamicEntries = () => {
   const [newDynamicEntry, setNewDynamicEntry] = useState([]);
 
   const [dynamicEntries, setDynamicEntries] = useState([]);
-  const { my_unit_id, supervisor, id: userId } = useContext(UserContext);
+  const { supervisor, id: userId } = useContext(UserContext);
   const [staticEntries, setStaticEntries] = useState([]);
-  const [owners, setOwners] = useState([]);
+  const [users, setUsers] = useState([]);
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState('');
-  const [audiences, setAudiences] = useState([]);
-  const [newAudience, setNewAudience] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   useEffect(() => {
-    const fetchOwners = async () => {
+    const fetchUsers = async () => {
       const data = await getFetch('users');
-      setOwners(data);
+      setUsers(data);
     };
     const fetchTags = async () => {
       const data = await getFetch('tags');
       setTags(data);
     };
-    fetchOwners();
+    fetchUsers();
     fetchTags();
   }, []);
 
@@ -194,19 +192,12 @@ export const EditAddDynamicEntries = () => {
   const handleChange = (e, field) => {
     const { value } = e.target;
     setNewDynamicEntry((prev) => {
-      if (field === 'tag_id' || field === 'static_id' || field === 'audience_id') {
+      if (field === 'tag_id' || field === 'static_id') {
         return { ...prev, [field]: parseInt(value) || 0 };
       }
       return { ...prev, [field]: value };
     });
   };
-
-  // const addAudience = () => {
-  //   if (newAudience) {
-  //     setAudiences((prev) => [...prev, newAudience]);
-  //     setNewAudience('');
-  //   }
-  // };
 
   return (
     <Box p={4}>
@@ -226,12 +217,12 @@ export const EditAddDynamicEntries = () => {
               ) : (
                 <>
                   <div className="p-field">
-                    <label htmlFor="titleSelect">Select an Entry</label>
+                    <label htmlFor="titleSelect">Select an Existing Entry</label>
                     <Select
                       id="titleSelect"
                       value={newDynamicEntry.id || ''}
                       onChange={handleSelectChange}
-                      placeholder="Existing Entries"
+                      placeholder=" "
                     >
                       {dynamicEntries && dynamicEntries.length > 0 ? (
                         dynamicEntries.map((dynamicEntry) => (
@@ -258,12 +249,12 @@ export const EditAddDynamicEntries = () => {
                     />
                   </div>
                   <div className="p-field">
-                    <label htmlFor="static_id">Static ID</label>
+                    <label htmlFor="static_id">Parent Static Entry</label>
                     <Select
                       id="static_id"
                       value={newDynamicEntry.static_id}
                       onChange={(e) => handleChange(e, 'static_id')}
-                      placeholder="Select a Static Entry Parent"
+                      placeholder=" "
                     >
                       {staticEntries && staticEntries.length > 0 ? (
                         staticEntries.map((staticEntry) => (
@@ -282,13 +273,19 @@ export const EditAddDynamicEntries = () => {
                   </div>
 
                   <div className="p-field">
-                    <label htmlFor="audience_id">Audience</label>
-                    <Input
-                      id="audience_id"
-                      value={newDynamicEntry.audience_id}
-                      onChange={(e) => handleChange(e, 'audience_id')}
-                      placeholder="Audience"
-                    ></Input>
+                    <label htmlFor="completed_by_id">Task Assignment</label>
+                    <Select
+                      id="completed_by_id"
+                      value={newDynamicEntry.completed_by_id}
+                      onChange={(e) => handleChange(e, 'completed_by_id')}
+                      placeholder=" "
+                    >
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id} className="dropdown-option">
+                          {user.username}
+                        </option>
+                      ))}
+                    </Select>
                   </div>
 
                   <div className="p-field">
@@ -317,21 +314,21 @@ export const EditAddDynamicEntries = () => {
                       id="recurrence"
                       value={newDynamicEntry.recurrence}
                       onChange={(e) => handleChange(e, 'recurrence')}
-                      placeholder="Frequency of Event."
+                      placeholder="Frequency of Event"
                     />
                   </div>
 
                   <div className="p-field">
-                    <label htmlFor="event_owner_id">Owner</label>
+                    <label htmlFor="event_owner_id">Entry Owner</label>
                     <Select
                       id="event_owner_id"
                       value={newDynamicEntry.input_owner_id}
                       onChange={(e) => handleChange(e, 'event_owner_id')}
-                      placeholder="Owner"
+                      placeholder=" "
                     >
-                      {owners.map((owners) => (
-                        <option key={owners.uuid} value={owners.uuid} className="dropdown-option">
-                          {owners.username}
+                      {users.map((users) => (
+                        <option key={users.id} value={users.id} className="dropdown-option">
+                          {users.username}
                         </option>
                       ))}
                     </Select>
@@ -387,12 +384,12 @@ export const EditAddDynamicEntries = () => {
               />
             </div>
             <div className="p-field">
-              <label htmlFor="static_id">Static ID</label>
+              <label htmlFor="static_id">Parent Static Entry</label>
               <Select
                 id="static_id"
                 value={newDynamicEntry.static_id}
                 onChange={(e) => handleChange(e, 'static_id')}
-                placeholder="Select a Static Entry Parent"
+                placeholder=" "
               >
                 {staticEntries && staticEntries.length > 0 ? (
                   staticEntries.map((staticEntry) => (
@@ -406,13 +403,19 @@ export const EditAddDynamicEntries = () => {
               </Select>
             </div>
             <div className="p-field">
-              <label htmlFor="audience_id">Audience</label>
-              <Input
-                id="audience_id"
-                value={newDynamicEntry.audience_id} /*fetch for existing users*/
-                onChange={(e) => handleChange(e, 'audience_id')}
-                placeholder="Audience"
-              ></Input>
+              <label htmlFor="completed_by_id">Task Assignment</label>
+              <Select
+                id="completed_by_id"
+                value={newDynamicEntry.completed_by_id}
+                onChange={(e) => handleChange(e, 'completed_by_id')}
+                placeholder=" "
+              >
+                {users.map((user) => (
+                  <option key={user.id} value={user.id} className="dropdown-option">
+                    {user.username}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div className="p-field">
               <label htmlFor="start_date">Start Date</label>
@@ -434,26 +437,26 @@ export const EditAddDynamicEntries = () => {
               />
             </div>
             <div className="p-field">
-              <label htmlFor="recurrence">recurrence</label>
+              <label htmlFor="recurrence">Recurrence</label>
               <Input
                 id="recurrence"
                 value={newDynamicEntry.recurrence} /*fetch for existing users*/
                 onChange={(e) => handleChange(e, 'recurrence')}
-                placeholder="recurrence"
+                placeholder="Frequency of Event"
               ></Input>
             </div>
 
             <div className="p-field">
-              <label htmlFor="event_owner_id">Owner</label>
+              <label htmlFor="event_owner_id">Entry Owner</label>
               <Select
                 id="event_owner_id"
                 value={newDynamicEntry.event_owner_id}
                 onChange={(e) => handleChange(e, 'event_owner_id')}
-                placeholder="Owner"
+                placeholder=" "
               >
-                {owners.map((owner) => (
-                  <option key={owner.uuid} value={owner.uuid} className="dropdown-option">
-                    {owner.username}
+                {users.map((users) => (
+                  <option key={users.id} value={users.id} className="dropdown-option">
+                    {users.username}
                   </option>
                 ))}
               </Select>

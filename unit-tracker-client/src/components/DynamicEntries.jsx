@@ -38,7 +38,8 @@ export const DynamicEntries = () => {
         const enrichedEntries = fetchedDynamicEntries.map((entry) => ({
           ...entry,
           owner:
-            fetchedOwners.find((owner) => owner.id === entry.owner_id)?.username || 'Not inputed',
+            fetchedOwners.find((owner) => owner.id === entry.event_owner_id)?.username ||
+            'Not inputed',
           tag: fetchedTags.find((tag) => tag.id === entry.tag_id)?.tag_name || 'Not inputed',
           audience:
             fetchedAudience.find((aud) => aud.id === entry.audience_id)?.audience_name ||

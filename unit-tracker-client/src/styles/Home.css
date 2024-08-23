@@ -43,7 +43,7 @@
 }
 .currentTab {
   background-color: #46006e;
-  padding: 15px;
+  padding: 6px;
   color: #ffffff;
   font-weight: bold;
   text-align: center;
@@ -147,7 +147,7 @@
   justify-content: flex-start;
   width: 100%;
 
-  margin: 0;
+  margin: 5px;
 }
 
 .dynamicEntries {
